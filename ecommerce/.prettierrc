@@ -6,5 +6,5 @@
     "printWidth": 120,
     "fileInfoOptions": {
         "withNodeModules": true
-  }
+    }
 }
