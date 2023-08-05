@@ -1,4 +1,4 @@
-{
+{ "eslintConfig": {
     plugins: ['prettier', 'import', '@typescript-eslint'],
     extends: [
         'react-app',
@@ -39,4 +39,4 @@
         tsconfigRootDir: __dirname,
     },
 }
-
+}
