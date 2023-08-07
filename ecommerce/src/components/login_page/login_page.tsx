@@ -1,7 +1,7 @@
-import React from "react";
+import React from 'react';
 
 const LogInPage = () => {
-  return <h2>Log In Page</h2>;
-}
+    return <h2>Log In Page</h2>;
+};
 
 export default LogInPage;

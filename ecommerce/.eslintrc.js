@@ -14,6 +14,7 @@ module.exports= {
         'class-methods-use-this': 'off',
         '@typescript-eslint/no-explicit-any': 'error',
         '@typescript-eslint/no-inferrable-types': 'off',
+        'import/extensions': 'off',
     },
     env: {
         browser: true,
