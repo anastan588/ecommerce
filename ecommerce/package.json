@@ -27,11 +27,12 @@
         "lint": "eslint . --ext .ts",
         "jest": "jest --verbose --runInBand --forceExit",
         "format": "npx prettier --write .",
-        "prepare": "husky install"
+        "prepare": "cd .. && husky install ecommerce/.husky"
     },
     "husky": {
         "hooks": {
-            "pre-commit": "pretty-quick --staged"
+            "pre-commit": "npm run lint-fix && npm run format",
+            "pre-push": "npm run lint"
         }
     },
     "lint-staged": {
