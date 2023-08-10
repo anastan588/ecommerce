@@ -1,4 +1,4 @@
-module.exports= {
+module.exports = {
     plugins: ['prettier', 'import', '@typescript-eslint'],
     extends: [
         'react-app',
@@ -29,4 +29,4 @@ module.exports= {
         project: './tsconfig.json',
         tsconfigRootDir: __dirname,
     },
-}
+};
