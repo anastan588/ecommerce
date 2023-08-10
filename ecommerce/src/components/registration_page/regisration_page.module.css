@@ -1,0 +1,98 @@
+.registration_page {
+}
+
+.registration__container {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px solid gray;
+}
+
+.title_registration_main {
+    align-self: center;
+    line-height: 100%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+.title_registration_login {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    align-self: center;
+}
+
+.registration_login_title {
+    line-height: 100%;
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.registration_login_link {
+}
+
+.input_block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.input_block {
+
+}
+.input { 
+    margin-bottom: 0em;
+}
+
+.input_name {
+   
+}
+
+.input_surname {
+}
+
+.input_email {
+}
+.input_street{
+
+}
+.input_postcode {
+
+}
+.input_city {
+
+}
+.input_country {
+
+}
+.input_birth {
+}
+
+.submit {
+}
+
+.sumbmit_button {
+}
+
+.error_message {
+ align-self: center;
+}
+
+.error_name {
+    padding-left: 21%;
+    color:#ff4d4f;
+    height: 25px;
+}
+.error_surname {
+    padding-left: 21%;
+    color:#ff4d4f;
+    height: 25px;
+}
+
+.error_border {
+   
+}
