@@ -42,14 +42,12 @@
 }
 
 .input_block {
-
 }
-.input { 
+.input {
     margin-bottom: 0em;
 }
 
 .input_name {
-   
 }
 
 .input_surname {
@@ -57,17 +55,13 @@
 
 .input_email {
 }
-.input_street{
-
+.input_street {
 }
 .input_postcode {
-
 }
 .input_city {
-
 }
 .input_country {
-
 }
 .input_birth {
 }
@@ -79,20 +73,19 @@
 }
 
 .error_message {
- align-self: center;
+    align-self: center;
 }
 
 .error_name {
     padding-left: 21%;
-    color:#ff4d4f;
+    color: #ff4d4f;
     height: 25px;
 }
 .error_surname {
     padding-left: 21%;
-    color:#ff4d4f;
+    color: #ff4d4f;
     height: 25px;
 }
 
 .error_border {
-   
 }
