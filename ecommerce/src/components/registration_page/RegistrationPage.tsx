@@ -184,6 +184,36 @@ function valiDateStreet() {
         currentInput.style.border = '1px solid #1fffb7';
     }
 }
+
+function valiDateCity() {
+    const currentInput = document.querySelector(`.${registyles.input_city}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_town}`) as HTMLParagraphElement;
+    console.log(currentInput);
+    console.log(currentErrorMessage);
+    const validationValue = currentInput.value.trim();
+    const numberTemplate = /\d/;
+    const specialCharactersTemplate = /[\\^$.[\]|?*+()]/;
+    if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
+        currentErrorMessage.innerHTML = "Name  shouldn't contain special characters and numbers";
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else if (numberTemplate.test(validationValue)) {
+        currentErrorMessage.innerHTML = "City  shouldn't contain numbers";
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else if (specialCharactersTemplate.test(validationValue)) {
+        currentErrorMessage.innerHTML = "City  shouldn't contain special characters";
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else if (validationValue.length < 1) {
+        currentErrorMessage.innerHTML = 'City  should have at least one character';
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else if (validationValue.length === 0) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #d9d9d9';
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+    }
+}
+
 const RegistrationPage = () => {
     return (
         <div className={registyles.registration__page}>
@@ -323,14 +353,17 @@ const RegistrationPage = () => {
                             />
                         </Form.Item>
                     </div>
-                    <Form.Item className={registyles.input} name="city" label="City" rules={[{ required: true }]}>
-                        <Input
-                            className={registyles.input_city}
-                            type="text"
-                            status="error"
-                            placeholder="Enter your city"
-                        />
-                    </Form.Item>
+                    <div className={registyles.input_block}>
+                        <p className={(registyles.error_message, registyles.error_town)}></p>
+                        <Form.Item className={registyles.input} name="city" label="City" rules={[{ required: true }]}>
+                            <Input
+                                onInput={valiDateCity}
+                                className={registyles.input_city}
+                                type="text"
+                                placeholder="Enter your city"
+                            />
+                        </Form.Item>
+                    </div>
                     <Form.Item
                         className={registyles.input}
                         name="postcode"

@@ -87,9 +87,7 @@
     height: 25px;
 }
 .error_surname {
-    padding-left: 21%;
-    color: #ff4d4f;
-    height: 25px;
+    
 }
 
 .error_email {
@@ -123,6 +121,12 @@
 }
 
 .error_street {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 25px;
+}
+
+.error_town {
     padding-left: 21%;
     color: #ff4d4f;
     height: 25px;
