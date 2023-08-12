@@ -1,5 +1,5 @@
 import React from 'react';
-import { Typography, Button, Input, Form, DatePicker } from 'antd';
+import { Typography, Button, Input, Form } from 'antd';
 import { Link } from 'react-router-dom';
 import registyles from './regisration_page.module.css';
 
@@ -135,6 +135,40 @@ function valiDatePasswordRepeat() {
         currentInput.style.border = '1px solid #ff4d4f';
     }
 }
+function valiDateBirth() {
+    const currentInput = document.querySelector(`.${registyles.input_birth}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_birth}`) as HTMLParagraphElement;
+    const validationValue = currentInput.value.trim();
+    console.log(validationValue);
+    const todayDate = new Date();
+    console.log(todayDate);
+    const dateForValidation = new Date(validationValue);
+    // dateForValidation.setFullYear(Number(validationValue.slice(0, 4)));
+    // dateForValidation.setMonth(Number(validationValue.slice(5, 7)) - 1);
+    // dateForValidation.setDate(Number(validationValue.slice(8)));
+    console.log(dateForValidation);
+    const todayDateMiliseconds = todayDate.getTime();
+    const dateForValidationMiliseconds = dateForValidation.getTime();
+    console.log(todayDateMiliseconds);
+    console.log(dateForValidationMiliseconds);
+    const yearForValidation = Math.floor(
+        (todayDateMiliseconds - dateForValidationMiliseconds) / (1000 * 60 * 60 * 24 * 30 * 12)
+    );
+    console.log(yearForValidation);
+    if (yearForValidation >= 13 && yearForValidation <= 110) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+    } else if (yearForValidation < 13 && yearForValidation >= 0) {
+        currentErrorMessage.innerHTML = 'You must be at least 13 years old';
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else if (yearForValidation < 0 || yearForValidation > 110) {
+        currentErrorMessage.innerHTML = 'Invalid date of birth';
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #d9d9d9';
+    }
+}
 
 const RegistrationPage = () => {
     return (
@@ -240,6 +274,17 @@ const RegistrationPage = () => {
                             />
                         </Form.Item>
                     </div>
+                    <div className={registyles.input_block}>
+                        <p className={(registyles.error_message, registyles.error_birth)}></p>
+                        <Form.Item
+                            className={registyles.input}
+                            name="birth"
+                            label="Date of birth"
+                            rules={[{ required: true }]}
+                        >
+                            <Input onInput={valiDateBirth} type="date" className={registyles.input_birth} />
+                        </Form.Item>
+                    </div>
                     <Form.Item
                         className={registyles.input}
                         label="Enter your adress"
@@ -281,14 +326,6 @@ const RegistrationPage = () => {
                             status="error"
                             placeholder="Enter your country"
                         />
-                    </Form.Item>
-                    <Form.Item
-                        className={registyles.input}
-                        name="birth"
-                        label="Date of birth"
-                        rules={[{ required: true }]}
-                    >
-                        <DatePicker className={registyles.input_birth} />
                     </Form.Item>
                     <Form.Item className={registyles.submit} wrapperCol={{ offset: 11, span: 16 }}>
                         <Button className={registyles.submit_button} type="primary" htmlType="submit">
