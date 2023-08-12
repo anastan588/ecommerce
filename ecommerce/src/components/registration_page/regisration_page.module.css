@@ -57,6 +57,9 @@
 }
 .input_password {
 }
+.input_password_repeat {
+
+}
 
 .input_street {
 }
@@ -102,6 +105,11 @@
     height: 25px;
 }
 
-.error_border {
+.error_password_repeat {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 25px;
 }
 
+.error_border {
+}

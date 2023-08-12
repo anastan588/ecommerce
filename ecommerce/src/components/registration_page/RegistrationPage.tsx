@@ -116,6 +116,26 @@ function valiDatePassword() {
     }
 }
 
+function valiDatePasswordRepeat() {
+    const currentInput = document.querySelector(`.${registyles.input_password_repeat}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_password_repeat}`) as HTMLParagraphElement;
+    const passwordInput = document.querySelector(`.${registyles.input_password}`) as HTMLInputElement;
+    const validationValue = currentInput.value.trim();
+    const passwordValue = passwordInput.value.trim();
+    console.log(passwordValue);
+    console.log(validationValue);
+    if (validationValue === passwordValue) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+    } else if (validationValue.length === 0) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #d9d9d9';
+    } else {
+        currentErrorMessage.innerHTML = "Password d'not match with first passrwod";
+        currentInput.style.border = '1px solid #ff4d4f';
+    }
+}
+
 const RegistrationPage = () => {
     return (
         <div className={registyles.registration__page}>
@@ -141,7 +161,12 @@ const RegistrationPage = () => {
                     {' '}
                     <div className={registyles.input_block}>
                         <p className={(registyles.error_message, registyles.error_name)}></p>
-                        <Form.Item className={registyles.input} label="First name">
+                        <Form.Item
+                            className={registyles.input}
+                            name="firstname"
+                            label="First name"
+                            rules={[{ required: true }]}
+                        >
                             <Input
                                 onInput={valiDateFirstName}
                                 className={registyles.input_name}
@@ -153,7 +178,12 @@ const RegistrationPage = () => {
                     </div>
                     <div className={registyles.input_block}>
                         <p className={(registyles.error_message, registyles.error_surname)}></p>
-                        <Form.Item className={registyles.input} label="Last name">
+                        <Form.Item
+                            className={registyles.input}
+                            name="surname"
+                            label="Last name"
+                            rules={[{ required: true }]}
+                        >
                             <Input
                                 onInput={valiDateSecondName}
                                 className={registyles.input_surname}
@@ -164,7 +194,12 @@ const RegistrationPage = () => {
                     </div>
                     <div className={registyles.input_block}>
                         <p className={(registyles.error_message, registyles.error_email)}></p>
-                        <Form.Item className={registyles.input} label="E-mail">
+                        <Form.Item
+                            className={registyles.input}
+                            name="email"
+                            label="E-mail"
+                            rules={[{ required: true }]}
+                        >
                             <Input
                                 onInput={valiDateEmail}
                                 className={registyles.input_mail}
@@ -175,7 +210,12 @@ const RegistrationPage = () => {
                     </div>
                     <div className={registyles.input_block}>
                         <p className={(registyles.error_message, registyles.error_password)}></p>
-                        <Form.Item className={registyles.input} label="Password">
+                        <Form.Item
+                            className={registyles.input}
+                            name="password"
+                            label="Password"
+                            rules={[{ required: true }]}
+                        >
                             <Input
                                 onInput={valiDatePassword}
                                 className={registyles.input_password}
@@ -184,14 +224,22 @@ const RegistrationPage = () => {
                             />
                         </Form.Item>
                     </div>
-                    <Form.Item className={registyles.input} label="Repeat Password" rules={[{ required: true }]}>
-                        <Input
-                            className={registyles.input_password}
-                            type="password"
-                            status="error"
-                            placeholder="Repeate your password"
-                        />
-                    </Form.Item>
+                    <div className={registyles.input_block}>
+                        <p className={(registyles.error_message, registyles.error_password_repeat)}></p>{' '}
+                        <Form.Item
+                            className={registyles.input}
+                            name="repeat"
+                            label="Repeat Password"
+                            rules={[{ required: true }]}
+                        >
+                            <Input
+                                onInput={valiDatePasswordRepeat}
+                                className={registyles.input_password_repeat}
+                                type="password"
+                                placeholder="Repeate your password"
+                            />
+                        </Form.Item>
+                    </div>
                     <Form.Item
                         className={registyles.input}
                         label="Enter your adress"
@@ -205,7 +253,7 @@ const RegistrationPage = () => {
                             placeholder="Enter yout street"
                         />
                     </Form.Item>
-                    <Form.Item className={registyles.input} label="City" rules={[{ required: true }]}>
+                    <Form.Item className={registyles.input} name="city" label="City" rules={[{ required: true }]}>
                         <Input
                             className={registyles.input_city}
                             type="text"
