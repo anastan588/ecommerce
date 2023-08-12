@@ -214,6 +214,42 @@ function valiDateCity() {
     }
 }
 
+function valiDatePostCode() {
+    const currentInput = document.querySelector(`.${registyles.input_postcode}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_postcode}`) as HTMLParagraphElement;
+    console.log(currentInput);
+    console.log(currentErrorMessage);
+    const validationValue = currentInput.value.trim();
+    const postcodeTemplateAll = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
+    const postcodeTemplateCanadian = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
+
+    if (
+        postcodeTemplateAll.test(validationValue) === false &&
+        postcodeTemplateCanadian.test(validationValue) === false
+    ) {
+        currentErrorMessage.innerHTML = 'You entered an invalid postcode!';
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else if (
+        postcodeTemplateAll.test(validationValue) === false &&
+        postcodeTemplateCanadian.test(validationValue) === true
+    ) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+    } else if (
+        postcodeTemplateAll.test(validationValue) === true &&
+        postcodeTemplateCanadian.test(validationValue) === false
+    ) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+    } else if (validationValue.length === 0) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #d9d9d9';
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+    }
+}
+
 const RegistrationPage = () => {
     return (
         <div className={registyles.registration__page}>
@@ -364,19 +400,22 @@ const RegistrationPage = () => {
                             />
                         </Form.Item>
                     </div>
-                    <Form.Item
-                        className={registyles.input}
-                        name="postcode"
-                        label="Postal Code"
-                        rules={[{ required: true }]}
-                    >
-                        <Input
-                            className={registyles.input_postcode}
-                            type="text"
-                            status="error"
-                            placeholder="Enter your postal code"
-                        />
-                    </Form.Item>
+                    <div className={registyles.input_block}>
+                        <p className={(registyles.error_message, registyles.error_postcode)}></p>
+                        <Form.Item
+                            className={registyles.input}
+                            name="postcode"
+                            label="Postal Code"
+                            rules={[{ required: true }]}
+                        >
+                            <Input
+                                onInput={valiDatePostCode}
+                                className={registyles.input_postcode}
+                                type="text"
+                                placeholder="Enter your postal code"
+                            />
+                        </Form.Item>
+                    </div>
                     <Form.Item className={registyles.input} label="Country" rules={[{ required: true }]}>
                         <Input
                             className={registyles.input_country}
