@@ -27,9 +27,12 @@ function valiDateFirstName() {
     } else if (validationValue.length < 1) {
         currentErrorMessage.innerHTML = 'Name  should have at least one character';
         currentInput.style.border = '1px solid #ff4d4f';
-    } else {
+    } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
     }
 }
 function valiDateSecondName() {
@@ -52,9 +55,64 @@ function valiDateSecondName() {
     } else if (validationValue.length < 1) {
         currentErrorMessage.innerHTML = 'Last name  should have at least one character';
         currentInput.style.border = '1px solid #ff4d4f';
-    } else {
+    } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+    }
+}
+
+function valiDateEmail() {
+    const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_email}`) as HTMLParagraphElement;
+    console.log(currentInput);
+    console.log(currentErrorMessage);
+    const validationValue = currentInput.value.toLocaleLowerCase().trim();
+    const emailTemplate =
+        /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
+    if (emailTemplate.test(validationValue) === false) {
+        currentErrorMessage.innerHTML = 'You entered an invalid email address!';
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else if (validationValue.length === 0) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #d9d9d9';
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+    }
+}
+
+function valiDatePassword() {
+    const currentInput = document.querySelector(`.${registyles.input_password}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_password}`) as HTMLParagraphElement;
+    const validationValue = currentInput.value.trim();
+    console.log(validationValue);
+    const digitTemplate = /(?=.*[0-9])/;
+    const lowerCaseTemplate = /(?=.*[a-z])/;
+    const upperCaseTemplate = /(?=.*[A-Z])/;
+    const passwordTemplate = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g;
+    if (validationValue.length < 8) {
+        currentErrorMessage.innerHTML = 'Password length must be at least eight characters';
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else if (validationValue.length === 0) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #d9d9d9';
+    } else if (validationValue.length >= 8) {
+        if (passwordTemplate.test(validationValue)) {
+            currentErrorMessage.innerHTML = '';
+            currentInput.style.border = '1px solid #1fffb7';
+        } else if (digitTemplate.test(validationValue) === false) {
+            currentErrorMessage.innerHTML = 'Password must contain at least one digit';
+            currentInput.style.border = '1px solid #ff4d4f';
+        } else if (lowerCaseTemplate.test(validationValue) === false) {
+            currentErrorMessage.innerHTML = 'Password must contain at least one lowercase letter';
+            currentInput.style.border = '1px solid #ff4d4f';
+        } else if (upperCaseTemplate.test(validationValue) === false) {
+            currentErrorMessage.innerHTML = 'Password must contain at least one uppercase letter';
+            currentInput.style.border = '1px solid #ff4d4f';
+        }
     }
 }
 
@@ -83,7 +141,7 @@ const RegistrationPage = () => {
                     {' '}
                     <div className={registyles.input_block}>
                         <p className={(registyles.error_message, registyles.error_name)}></p>
-                        <Form.Item className={registyles.input} name="First_name" label="First name">
+                        <Form.Item className={registyles.input} label="First name">
                             <Input
                                 onInput={valiDateFirstName}
                                 className={registyles.input_name}
@@ -95,7 +153,7 @@ const RegistrationPage = () => {
                     </div>
                     <div className={registyles.input_block}>
                         <p className={(registyles.error_message, registyles.error_surname)}></p>
-                        <Form.Item className={registyles.input} name="surname" label="Last name">
+                        <Form.Item className={registyles.input} label="Last name">
                             <Input
                                 onInput={valiDateSecondName}
                                 className={registyles.input_surname}
@@ -104,33 +162,29 @@ const RegistrationPage = () => {
                             />
                         </Form.Item>
                     </div>
-                    <Form.Item className={registyles.input} name="email" label="E-mail" rules={[{ required: true }]}>
-                        <Input
-                            className={registyles.input_email}
-                            type="email"
-                            status="error"
-                            placeholder="Enter your e-mail"
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        className={registyles.input}
-                        name="password"
-                        label="Password"
-                        rules={[{ required: true }]}
-                    >
-                        <Input
-                            className={registyles.input_password}
-                            type="password"
-                            status="error"
-                            placeholder="Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number"
-                        />
-                    </Form.Item>
-                    <Form.Item
-                        className={registyles.input}
-                        name="passwordRepeat"
-                        label="Repeat Password"
-                        rules={[{ required: true }]}
-                    >
+                    <div className={registyles.input_block}>
+                        <p className={(registyles.error_message, registyles.error_email)}></p>
+                        <Form.Item className={registyles.input} label="E-mail">
+                            <Input
+                                onInput={valiDateEmail}
+                                className={registyles.input_mail}
+                                type="email"
+                                placeholder="Enter your e-mail"
+                            />
+                        </Form.Item>
+                    </div>
+                    <div className={registyles.input_block}>
+                        <p className={(registyles.error_message, registyles.error_password)}></p>
+                        <Form.Item className={registyles.input} label="Password">
+                            <Input
+                                onInput={valiDatePassword}
+                                className={registyles.input_password}
+                                type="password"
+                                placeholder="Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number"
+                            />
+                        </Form.Item>
+                    </div>
+                    <Form.Item className={registyles.input} label="Repeat Password" rules={[{ required: true }]}>
                         <Input
                             className={registyles.input_password}
                             type="password"
@@ -140,11 +194,10 @@ const RegistrationPage = () => {
                     </Form.Item>
                     <Form.Item
                         className={registyles.input}
-                        name="adress"
                         label="Enter your adress"
                         rules={[{ required: true }]}
                     ></Form.Item>
-                    <Form.Item className={registyles.input} name="street" label="Street" rules={[{ required: true }]}>
+                    <Form.Item className={registyles.input} label="Street" rules={[{ required: true }]}>
                         <Input
                             className={registyles.input_street}
                             type="text"
@@ -152,7 +205,7 @@ const RegistrationPage = () => {
                             placeholder="Enter yout street"
                         />
                     </Form.Item>
-                    <Form.Item className={registyles.input} name="city" label="City" rules={[{ required: true }]}>
+                    <Form.Item className={registyles.input} label="City" rules={[{ required: true }]}>
                         <Input
                             className={registyles.input_city}
                             type="text"
@@ -173,7 +226,7 @@ const RegistrationPage = () => {
                             placeholder="Enter your postal code"
                         />
                     </Form.Item>
-                    <Form.Item className={registyles.input} name="country" label="Country" rules={[{ required: true }]}>
+                    <Form.Item className={registyles.input} label="Country" rules={[{ required: true }]}>
                         <Input
                             className={registyles.input_country}
                             type="text"

@@ -53,8 +53,11 @@
 .input_surname {
 }
 
-.input_email {
+.input_mail {
 }
+.input_password {
+}
+
 .input_street {
 }
 .input_postcode {
@@ -87,5 +90,18 @@
     height: 25px;
 }
 
+.error_email {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 25px;
+}
+
+.error_password {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 25px;
+}
+
 .error_border {
 }
+
