@@ -124,14 +124,14 @@ function valiDatePasswordRepeat() {
     const passwordValue = passwordInput.value.trim();
     console.log(passwordValue);
     console.log(validationValue);
-    if (validationValue === passwordValue) {
+    if (validationValue === passwordValue && validationValue.length !== 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
     } else {
-        currentErrorMessage.innerHTML = "Password d'not match with first passrwod";
+        currentErrorMessage.innerHTML = "Password don't match with first passrwod";
         currentInput.style.border = '1px solid #ff4d4f';
     }
 }
@@ -170,6 +170,20 @@ function valiDateBirth() {
     }
 }
 
+function valiDateStreet() {
+    const currentInput = document.querySelector(`.${registyles.input_street}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_street}`) as HTMLParagraphElement;
+    console.log(currentInput);
+    console.log(currentErrorMessage);
+    const validationValue = currentInput.value.trim();
+    if (validationValue.length < 1) {
+        currentErrorMessage.innerHTML = 'Street  should have at least one character';
+        currentInput.style.border = '1px solid #ff4d4f';
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+    }
+}
 const RegistrationPage = () => {
     return (
         <div className={registyles.registration__page}>
@@ -285,19 +299,30 @@ const RegistrationPage = () => {
                             <Input onInput={valiDateBirth} type="date" className={registyles.input_birth} />
                         </Form.Item>
                     </div>
-                    <Form.Item
-                        className={registyles.input}
-                        label="Enter your adress"
-                        rules={[{ required: true }]}
-                    ></Form.Item>
-                    <Form.Item className={registyles.input} label="Street" rules={[{ required: true }]}>
-                        <Input
-                            className={registyles.input_street}
-                            type="text"
-                            status="error"
-                            placeholder="Enter yout street"
-                        />
-                    </Form.Item>
+                    <div className={registyles.input_block}>
+                        <p className={(registyles.error_message, registyles.error_adress)}></p>
+                        <Form.Item
+                            className={registyles.input}
+                            label="Enter your adress"
+                            rules={[{ required: true }]}
+                        ></Form.Item>
+                    </div>
+                    <div className={registyles.input_block}>
+                        <p className={(registyles.error_message, registyles.error_street)}></p>
+                        <Form.Item
+                            className={registyles.input}
+                            name="street"
+                            label="Street"
+                            rules={[{ required: true }]}
+                        >
+                            <Input
+                                onInput={valiDateStreet}
+                                className={registyles.input_street}
+                                type="text"
+                                placeholder="Enter yout street"
+                            />
+                        </Form.Item>
+                    </div>
                     <Form.Item className={registyles.input} name="city" label="City" rules={[{ required: true }]}>
                         <Input
                             className={registyles.input_city}
@@ -328,7 +353,7 @@ const RegistrationPage = () => {
                         />
                     </Form.Item>
                     <Form.Item className={registyles.submit} wrapperCol={{ offset: 11, span: 16 }}>
-                        <Button className={registyles.submit_button} type="primary" htmlType="submit">
+                        <Button className={registyles.submit_button} type="primary" htmlType="submit" disabled>
                             Register
                         </Button>
                     </Form.Item>

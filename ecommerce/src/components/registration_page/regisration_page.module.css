@@ -115,5 +115,17 @@
     color: #ff4d4f;
     height: 25px;
 }
+
+.error_adress {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 25px;
+}
+
+.error_street {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 25px;
+}
 .error_border {
 }
