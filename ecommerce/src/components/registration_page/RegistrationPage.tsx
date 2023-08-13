@@ -1,6 +1,7 @@
-import React from 'react';
-import { Typography, Button, Input, Form } from 'antd';
+import React, { Children } from 'react';
+import { Typography, Button, Input, Form, Select } from 'antd';
 import { Link } from 'react-router-dom';
+import { Option } from 'antd/es/mentions';
 import registyles from './regisration_page.module.css';
 
 // console.log(registyles);
@@ -250,6 +251,59 @@ function valiDatePostCode() {
     }
 }
 
+function valiDateCountryChange(option: string) {
+    console.log(option);
+    setTimeout(() => {
+        const currentInput = document.querySelector(`.${registyles.input_country}`) as HTMLElement;
+        const selectCountryInput = currentInput.children[0].innerHTML;
+        const currentErrorMessage = document.querySelector(`.${registyles.error_country}`) as HTMLParagraphElement;
+        const input = currentInput.children[1].children[0].children[0] as HTMLInputElement;
+        console.log(currentInput);
+        console.log(selectCountryInput);
+        console.log(currentErrorMessage);
+        console.log(input);
+        if (selectCountryInput === 'Select your country' && input.value.length === 0) {
+            currentErrorMessage.innerHTML = 'Your need to choose country';
+            currentInput.style.border = '1px solid #ff4d4f';
+        } else {
+            currentErrorMessage.innerHTML = '';
+            currentInput.style.border = '1px solid #1fffb7';
+        }
+    }, 500);
+}
+
+function valiDateCountryClick(event: React.MouseEvent<HTMLDivElement>) {
+    const iventType = event.type;
+    const targetElement = event.target as HTMLDivElement;
+    // event.stopPropagation();
+    // const propagationstopped = event.isPropagationStopped();
+    // console.log(propagationstopped);
+    console.log(iventType);
+    console.log(targetElement);
+    if (
+        !targetElement.classList.contains('ant-select-item-option-content') &&
+        !targetElement.classList.contains('ant-select-selection-item')
+    ) {
+        setTimeout(() => {
+            const currentInput = document.querySelector(`.${registyles.input_country}`) as HTMLElement;
+            const selectCountryInput = currentInput.children[0].children[1].innerHTML;
+            const currentErrorMessage = document.querySelector(`.${registyles.error_country}`) as HTMLParagraphElement;
+            const input = currentInput.children[0].children[0].children[0] as HTMLInputElement;
+            console.log(currentInput);
+            console.log(selectCountryInput);
+            console.log(currentErrorMessage);
+            console.log(input);
+            if (selectCountryInput === 'Select your country' && input.value.length === 0) {
+                currentErrorMessage.innerHTML = 'Your need to choose country';
+                currentInput.style.border = '1px solid #ff4d4f';
+            } else {
+                currentErrorMessage.innerHTML = '';
+                currentInput.style.border = '1px solid #1fffb7';
+            }
+        }, 500);
+    }
+}
+
 const RegistrationPage = () => {
     return (
         <div className={registyles.registration__page}>
@@ -416,14 +470,65 @@ const RegistrationPage = () => {
                             />
                         </Form.Item>
                     </div>
-                    <Form.Item className={registyles.input} label="Country" rules={[{ required: true }]}>
-                        <Input
-                            className={registyles.input_country}
-                            type="text"
-                            status="error"
-                            placeholder="Enter your country"
-                        />
-                    </Form.Item>
+                    <div className={registyles.input_block}>
+                        <p className={(registyles.error_message, registyles.error_country)}></p>
+                        <Form.Item
+                            className={registyles.input}
+                            name="country"
+                            label="Country"
+                            rules={[{ required: true }]}
+                        >
+                            <Select
+                                onChange={(option: string) => valiDateCountryChange(option)}
+                                onClick={(event) => valiDateCountryClick(event)}
+                                className={registyles.input_country}
+                                showSearch
+                                style={{ width: 200 }}
+                                placeholder="Select your country"
+                                optionFilterProp="children"
+                                filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                filterSort={(optionA, optionB) =>
+                                    (optionA?.label ?? '')
+                                        .toLowerCase()
+                                        .localeCompare((optionB?.label ?? '').toLowerCase())
+                                }
+                                options={[
+                                    {
+                                        value: '0',
+                                        label: 'Belarus (BL)',
+                                    },
+                                    {
+                                        value: '1',
+                                        label: 'Kazakhstan (KZ)',
+                                    },
+                                    {
+                                        value: '2',
+                                        label: 'Lithuania (LT)',
+                                    },
+                                    {
+                                        value: '3',
+                                        label: 'Latvia (LV)',
+                                    },
+                                    {
+                                        value: '4',
+                                        label: 'United Kingdom (UK)',
+                                    },
+                                    {
+                                        value: '5',
+                                        label: 'Poland (PL)',
+                                    },
+                                    {
+                                        value: '6',
+                                        label: 'Russia (RU)',
+                                    },
+                                    {
+                                        value: '7',
+                                        label: 'Ukraine (UA)',
+                                    },
+                                ]}
+                            />
+                        </Form.Item>
+                    </div>
                     <Form.Item className={registyles.submit} wrapperCol={{ offset: 11, span: 16 }}>
                         <Button className={registyles.submit_button} type="primary" htmlType="submit" disabled>
                             Register
