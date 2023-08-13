@@ -8,66 +8,105 @@ import registyles from './regisration_page.module.css';
 
 const { Title } = Typography;
 
+function validateFormToSubmit() {
+    const formsCollection = document.querySelectorAll(`.${registyles.input}`) as NodeListOf<Element>;
+    console.log(formsCollection);
+    const submitTrueArray = [];
+    for (let i = 0; i < formsCollection.length; i += 1) {
+        if (formsCollection[i].hasAttribute('submit')) {
+            const submit = formsCollection[i].getAttribute('submit');
+            submitTrueArray.push(submit);
+        }
+    }
+    console.log(submitTrueArray);
+    const submitButton = document.querySelector(`.${registyles.submit_button}`) as HTMLButtonElement;
+    console.log(submitButton);
+    if (submitTrueArray.length === formsCollection.length) {
+        submitButton.disabled = false;
+    } else {
+        submitButton.disabled = true;
+    }
+}
+
 function valiDateFirstName() {
     const currentInput = document.querySelector(`.${registyles.input_name}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_name}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_name}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
+    console.log(currentFormInput);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
     const specialCharactersTemplate = /[\\^$.[\]|?*+()]/;
     if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Name  shouldn't contain special characters and numbers";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Name  shouldn't contain numbers";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (specialCharactersTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Name  shouldn't contain special characters";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (validationValue.length < 1) {
         currentErrorMessage.innerHTML = 'Name  should have at least one character';
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
     } else {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     }
 }
 function valiDateSecondName() {
     const currentInput = document.querySelector(`.${registyles.input_surname}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_surname}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_secondname}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
+    console.log(currentFormInput);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
     const specialCharactersTemplate = /[\\^$.[\]|?*+()]/;
     if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Last name  shouldn't contain special characters and numbers";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Last name  shouldn't contain numbers";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (specialCharactersTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Last name  shouldn't contain special characters";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (validationValue.length < 1) {
         currentErrorMessage.innerHTML = 'Last name  should have at least one character';
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
     } else {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     }
 }
 
 function valiDateEmail() {
     const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_email}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_mail}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
     const validationValue = currentInput.value.toLocaleLowerCase().trim();
@@ -76,18 +115,23 @@ function valiDateEmail() {
     if (emailTemplate.test(validationValue) === false) {
         currentErrorMessage.innerHTML = 'You entered an invalid email address!';
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
     } else {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     }
 }
 
 function valiDatePassword() {
     const currentInput = document.querySelector(`.${registyles.input_password}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_password}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_password}`) as HTMLDivElement;
     const validationValue = currentInput.value.trim();
     console.log(validationValue);
     const digitTemplate = /(?=.*[0-9])/;
@@ -97,22 +141,29 @@ function valiDatePassword() {
     if (validationValue.length < 8) {
         currentErrorMessage.innerHTML = 'Password length must be at least eight characters';
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
     } else if (validationValue.length >= 8) {
         if (passwordTemplate.test(validationValue)) {
             currentErrorMessage.innerHTML = '';
             currentInput.style.border = '1px solid #1fffb7';
+            currentFormInput.setAttribute('submit', 'true');
+            validateFormToSubmit();
         } else if (digitTemplate.test(validationValue) === false) {
             currentErrorMessage.innerHTML = 'Password must contain at least one digit';
             currentInput.style.border = '1px solid #ff4d4f';
+            currentFormInput.removeAttribute('submit');
         } else if (lowerCaseTemplate.test(validationValue) === false) {
             currentErrorMessage.innerHTML = 'Password must contain at least one lowercase letter';
             currentInput.style.border = '1px solid #ff4d4f';
+            currentFormInput.removeAttribute('submit');
         } else if (upperCaseTemplate.test(validationValue) === false) {
             currentErrorMessage.innerHTML = 'Password must contain at least one uppercase letter';
             currentInput.style.border = '1px solid #ff4d4f';
+            currentFormInput.removeAttribute('submit');
         }
     }
 }
@@ -121,6 +172,7 @@ function valiDatePasswordRepeat() {
     const currentInput = document.querySelector(`.${registyles.input_password_repeat}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_password_repeat}`) as HTMLParagraphElement;
     const passwordInput = document.querySelector(`.${registyles.input_password}`) as HTMLInputElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_password_repeat}`) as HTMLDivElement;
     const validationValue = currentInput.value.trim();
     const passwordValue = passwordInput.value.trim();
     console.log(passwordValue);
@@ -128,17 +180,22 @@ function valiDatePasswordRepeat() {
     if (validationValue === passwordValue && validationValue.length !== 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
     } else {
         currentErrorMessage.innerHTML = "Password don't match with first passrwod";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     }
 }
 function valiDateBirth() {
     const currentInput = document.querySelector(`.${registyles.input_birth}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_birth}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_birth}`) as HTMLDivElement;
     const validationValue = currentInput.value.trim();
     console.log(validationValue);
     const todayDate = new Date();
@@ -159,36 +216,46 @@ function valiDateBirth() {
     if (yearForValidation >= 13 && yearForValidation <= 110) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     } else if (yearForValidation < 13 && yearForValidation >= 0) {
         currentErrorMessage.innerHTML = 'You must be at least 13 years old';
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (yearForValidation < 0 || yearForValidation > 110) {
         currentErrorMessage.innerHTML = 'Invalid date of birth';
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
     }
 }
 
 function valiDateStreet() {
     const currentInput = document.querySelector(`.${registyles.input_street}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_street}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_street}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
     if (validationValue.length < 1) {
         currentErrorMessage.innerHTML = 'Street  should have at least one character';
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     }
 }
 
 function valiDateCity() {
     const currentInput = document.querySelector(`.${registyles.input_city}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_town}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_city}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
@@ -197,27 +264,35 @@ function valiDateCity() {
     if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Name  shouldn't contain special characters and numbers";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "City  shouldn't contain numbers";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (specialCharactersTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "City  shouldn't contain special characters";
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (validationValue.length < 1) {
         currentErrorMessage.innerHTML = 'City  should have at least one character';
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
     } else {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     }
 }
 
 function valiDatePostCode() {
     const currentInput = document.querySelector(`.${registyles.input_postcode}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_postcode}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_code}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
@@ -230,24 +305,32 @@ function valiDatePostCode() {
     ) {
         currentErrorMessage.innerHTML = 'You entered an invalid postcode!';
         currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
     } else if (
         postcodeTemplateAll.test(validationValue) === false &&
         postcodeTemplateCanadian.test(validationValue) === true
     ) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     } else if (
         postcodeTemplateAll.test(validationValue) === true &&
         postcodeTemplateCanadian.test(validationValue) === false
     ) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
     } else {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
     }
 }
 
@@ -258,6 +341,7 @@ function valiDateCountryChange(option: string) {
         const selectCountryInput = currentInput.children[0].innerHTML;
         const currentErrorMessage = document.querySelector(`.${registyles.error_country}`) as HTMLParagraphElement;
         const input = currentInput.children[1].children[0].children[0] as HTMLInputElement;
+        const currentFormInput = document.querySelector(`.${registyles.form_country}`) as HTMLDivElement;
         console.log(currentInput);
         console.log(selectCountryInput);
         console.log(currentErrorMessage);
@@ -265,9 +349,12 @@ function valiDateCountryChange(option: string) {
         if (selectCountryInput === 'Select your country' && input.value.length === 0) {
             currentErrorMessage.innerHTML = 'Your need to choose country';
             currentInput.style.border = '1px solid #ff4d4f';
+            currentFormInput.removeAttribute('submit');
         } else {
             currentErrorMessage.innerHTML = '';
             currentInput.style.border = '1px solid #1fffb7';
+            currentFormInput.setAttribute('submit', 'true');
+            validateFormToSubmit();
         }
     }, 500);
 }
@@ -289,6 +376,7 @@ function valiDateCountryClick(event: React.MouseEvent<HTMLDivElement>) {
             const selectCountryInput = currentInput.children[0].children[1].innerHTML;
             const currentErrorMessage = document.querySelector(`.${registyles.error_country}`) as HTMLParagraphElement;
             const input = currentInput.children[0].children[0].children[0] as HTMLInputElement;
+            const currentFormInput = document.querySelector(`.${registyles.form_country}`) as HTMLDivElement;
             console.log(currentInput);
             console.log(selectCountryInput);
             console.log(currentErrorMessage);
@@ -296,9 +384,12 @@ function valiDateCountryClick(event: React.MouseEvent<HTMLDivElement>) {
             if (selectCountryInput === 'Select your country' && input.value.length === 0) {
                 currentErrorMessage.innerHTML = 'Your need to choose country';
                 currentInput.style.border = '1px solid #ff4d4f';
+                currentFormInput.removeAttribute('submit');
             } else {
                 currentErrorMessage.innerHTML = '';
                 currentInput.style.border = '1px solid #1fffb7';
+                currentFormInput.setAttribute('submit', 'true');
+                validateFormToSubmit();
             }
         }, 500);
     }
@@ -326,11 +417,10 @@ const RegistrationPage = () => {
                     wrapperCol={{ span: 16 }}
                     style={{ maxWidth: 800 }}
                 >
-                    {' '}
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_name)}></p>
+                        <p className={`${registyles.error_message} ${registyles.error_name}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.input} ${registyles.form_name}`}
                             name="firstname"
                             label="First name"
                             rules={[{ required: true }]}
@@ -345,9 +435,9 @@ const RegistrationPage = () => {
                         </Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_surname)}></p>
+                        <p className={`${registyles.error_message} ${registyles.error_surname}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.input} ${registyles.form_secondname}`}
                             name="surname"
                             label="Last name"
                             rules={[{ required: true }]}
@@ -361,9 +451,9 @@ const RegistrationPage = () => {
                         </Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_email)}></p>
+                        <p className={`${registyles.error_message} ${registyles.error_email}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.input} ${registyles.form_mail}`}
                             name="email"
                             label="E-mail"
                             rules={[{ required: true }]}
@@ -377,9 +467,9 @@ const RegistrationPage = () => {
                         </Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_password)}></p>
+                        <p className={`${registyles.error_message} ${registyles.error_password}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.input} ${registyles.form_password}`}
                             name="password"
                             label="Password"
                             rules={[{ required: true }]}
@@ -393,9 +483,9 @@ const RegistrationPage = () => {
                         </Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_password_repeat)}></p>{' '}
+                        <p className={`${registyles.error_message} ${registyles.error_password_repeat}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.input} ${registyles.form_password_repeat}`}
                             name="repeat"
                             label="Repeat Password"
                             rules={[{ required: true }]}
@@ -409,9 +499,9 @@ const RegistrationPage = () => {
                         </Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_birth)}></p>
+                        <p className={`${registyles.error_message} ${registyles.error_birth}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.input} ${registyles.form_birth}`}
                             name="birth"
                             label="Date of birth"
                             rules={[{ required: true }]}
@@ -420,17 +510,17 @@ const RegistrationPage = () => {
                         </Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_adress)}></p>
+                        <p className={`${registyles.error_message} ${registyles.error_adress}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.form_adress}`}
                             label="Enter your adress"
                             rules={[{ required: true }]}
                         ></Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_street)}></p>
+                        <p className={`${registyles.error_message} ${registyles.error_street}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.input} ${registyles.form_street}`}
                             name="street"
                             label="Street"
                             rules={[{ required: true }]}
@@ -444,8 +534,13 @@ const RegistrationPage = () => {
                         </Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_town)}></p>
-                        <Form.Item className={registyles.input} name="city" label="City" rules={[{ required: true }]}>
+                        <p className={`${registyles.error_message} ${registyles.error_town}`}></p>
+                        <Form.Item
+                            className={`${registyles.input} ${registyles.form_city}`}
+                            name="city"
+                            label="City"
+                            rules={[{ required: true }]}
+                        >
                             <Input
                                 onInput={valiDateCity}
                                 className={registyles.input_city}
@@ -455,9 +550,9 @@ const RegistrationPage = () => {
                         </Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_postcode)}></p>
+                        <p className={`${registyles.error_message} ${registyles.error_postcode}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.input} ${registyles.form_code}`}
                             name="postcode"
                             label="Postal Code"
                             rules={[{ required: true }]}
@@ -471,9 +566,9 @@ const RegistrationPage = () => {
                         </Form.Item>
                     </div>
                     <div className={registyles.input_block}>
-                        <p className={(registyles.error_message, registyles.error_country)}></p>
+                        <p className={`${registyles.error_message} ${registyles.error_country}`}></p>
                         <Form.Item
-                            className={registyles.input}
+                            className={`${registyles.input} ${registyles.form_country}`}
                             name="country"
                             label="Country"
                             rules={[{ required: true }]}
@@ -529,7 +624,11 @@ const RegistrationPage = () => {
                             />
                         </Form.Item>
                     </div>
-                    <Form.Item className={registyles.submit} wrapperCol={{ offset: 11, span: 16 }}>
+                    <Form.Item
+                        className={registyles.submit}
+                        wrapperCol={{ offset: 11, span: 16 }}
+                        style={{ marginTop: 25 }}
+                    >
                         <Button className={registyles.submit_button} type="primary" htmlType="submit" disabled>
                             Register
                         </Button>

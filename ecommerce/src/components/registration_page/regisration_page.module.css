@@ -47,26 +47,54 @@
     margin-bottom: 0em;
 }
 
+.form_name {
+}
+
 .input_name {
 }
 
+.form_secondname {
+}
 .input_surname {
 }
 
 .input_mail {
 }
+
+.form_mail {
+}
 .input_password {
+}
+
+
+.form_password {
+}
+
+.form_password_repeat {
 }
 .input_password_repeat {
 }
-
+.form_adress {
+    margin-bottom: 0em;
+}
+.form_street {
+}
 .input_street {
+}
+.form_code {
 }
 .input_postcode {
 }
+.form_city {
+}
 .input_city {
 }
+.form_country {
+}
 .input_country {
+}
+
+.form_birth {
 }
 .input_birth {
 }
@@ -74,11 +102,10 @@
 .submit {
 }
 
-.sumbmit_button {
+.submit_button {
 }
 
 .error_message {
-    align-self: center;
 }
 
 .error_name {
