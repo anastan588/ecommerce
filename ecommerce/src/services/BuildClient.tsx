@@ -7,16 +7,20 @@ import {
     type HttpMiddlewareOptions, // Required for sending HTTP requests
 } from '@commercetools/sdk-client-v2';
 
-const projectKey = '{projectKey}';
-const scopes = ['{scope}'];
+import API_CLIENT_SETTINGS from './apiClientSettings';
+
+console.log(API_CLIENT_SETTINGS);
+
+const projectKey = `${API_CLIENT_SETTINGS.projectKey}`;
+const scopes = [`${API_CLIENT_SETTINGS.scope}`];
 
 // Configure authMiddlewareOptions
 const authMiddlewareOptions: AuthMiddlewareOptions = {
-    host: 'https://auth.{region}.commercetools.com',
+    host: `https://auth.${API_CLIENT_SETTINGS.region}.commercetools.com`,
     projectKey,
     credentials: {
-        clientId: '{clientID}',
-        clientSecret: '{clientSecret}',
+        clientId: `${API_CLIENT_SETTINGS.clientId}`,
+        clientSecret: `${API_CLIENT_SETTINGS.clientSecret}`,
     },
     scopes,
     fetch,
@@ -24,7 +28,7 @@ const authMiddlewareOptions: AuthMiddlewareOptions = {
 
 // Configure httpMiddlewareOptions
 const httpMiddlewareOptions: HttpMiddlewareOptions = {
-    host: 'https://api.{region}.commercetools.com',
+    host: `https://api.${API_CLIENT_SETTINGS.region}.commercetools.com`,
     fetch,
 };
 
