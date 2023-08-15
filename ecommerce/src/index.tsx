@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import API_CLIENT_SETTINGS from './services/apiClientSettings';
+import { createCustomer } from './services/clientCreator';
+import { Customer } from './types';
+
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
-import API_CLIENT_SETTINGS from './services/apiClientSettings';
-import { createCustomer, clientDraft } from './services/clientCreator';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
@@ -15,6 +16,11 @@ root.render(
 );
 
 console.log(API_CLIENT_SETTINGS);
+
+const clientDraft: Customer = {
+    email: 'getting-started@example.com',
+    password: 'examplePassword',
+};
 
 createCustomer(clientDraft);
 // If you want to start measuring performance in your app, pass a function
