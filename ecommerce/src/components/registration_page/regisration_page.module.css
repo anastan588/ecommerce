@@ -134,7 +134,6 @@
     font-weight: 700;
 }
 .input_birth {
-   
 }
 
 .submit {
@@ -255,7 +254,6 @@
     align-items: center;
 }
 
-
 .error_border {
 }
 
@@ -272,13 +270,23 @@
     border: 1px solid gray;
 }
 
-.input_checkbox_ship {
+.input_checkbox_ship_def {
+    display: flex;
+}
+.input_checkbox_ship_bill {
     display: flex;
 }
 .input_checkbox_bill {
     display: flex;
 }
 
+.input_checkbox_bill_def {
+    display: flex;
+}
+
+.input_checkbox_bill_ship {
+    display: flex;
+}
 .checkbox_block {
     padding-top: 10px;
     display: flex;

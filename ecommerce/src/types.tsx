@@ -11,7 +11,7 @@ export type Customer = {
     billingAddressIds: number[];
 };
 
-type Address = {
+export type Address = {
     streetName: string;
     city: string;
     postcode: string;
