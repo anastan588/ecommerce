@@ -1,12 +1,24 @@
 import React, { Children } from 'react';
-import { Typography, Button, Input, Form, Select } from 'antd';
+import { Typography, Button, Input, Form, Select, Checkbox } from 'antd';
 import { Link } from 'react-router-dom';
 import { Option } from 'antd/es/mentions';
 import registyles from './regisration_page.module.css';
-
-// console.log(registyles);
+import { Customer } from '../../types';
 
 const { Title } = Typography;
+
+const newCustomer: Customer = {
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: '',
+    dateOfBirth: '',
+    addresses: [],
+    defaultShippingAddress: 0,
+    shippingAddressIds: [],
+    defaultBillingAddressId: 0,
+    billingAddressIds: [],
+};
 
 function validateFormToSubmit() {
     const formsCollection = document.querySelectorAll(`.${registyles.input}`) as NodeListOf<Element>;
@@ -25,13 +37,14 @@ function validateFormToSubmit() {
         submitButton.disabled = false;
     } else {
         submitButton.disabled = true;
+        console.log(newCustomer);
     }
 }
 
 function valiDateFirstName() {
     const currentInput = document.querySelector(`.${registyles.input_name}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_name}`) as HTMLParagraphElement;
-    const currentFormInput = document.querySelector(`.${registyles.form_name}`) as HTMLDivElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_firstname}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
     console.log(currentFormInput);
@@ -233,10 +246,10 @@ function valiDateBirth() {
     }
 }
 
-function valiDateStreet() {
-    const currentInput = document.querySelector(`.${registyles.input_street}`) as HTMLInputElement;
-    const currentErrorMessage = document.querySelector(`.${registyles.error_street}`) as HTMLParagraphElement;
-    const currentFormInput = document.querySelector(`.${registyles.form_street}`) as HTMLDivElement;
+function valiDateStreetShip() {
+    const currentInput = document.querySelector(`.${registyles.input_street_ship}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_street_ship}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_street_ship}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
@@ -252,10 +265,10 @@ function valiDateStreet() {
     }
 }
 
-function valiDateCity() {
-    const currentInput = document.querySelector(`.${registyles.input_city}`) as HTMLInputElement;
-    const currentErrorMessage = document.querySelector(`.${registyles.error_town}`) as HTMLParagraphElement;
-    const currentFormInput = document.querySelector(`.${registyles.form_city}`) as HTMLDivElement;
+function valiDateCityShip() {
+    const currentInput = document.querySelector(`.${registyles.input_city_ship}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_town_ship}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_city_ship}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
@@ -289,10 +302,10 @@ function valiDateCity() {
     }
 }
 
-function valiDatePostCode() {
-    const currentInput = document.querySelector(`.${registyles.input_postcode}`) as HTMLInputElement;
-    const currentErrorMessage = document.querySelector(`.${registyles.error_postcode}`) as HTMLParagraphElement;
-    const currentFormInput = document.querySelector(`.${registyles.form_code}`) as HTMLDivElement;
+function valiDatePostCodeShip() {
+    const currentInput = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_postcode_ship}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_code_ship}`) as HTMLDivElement;
     console.log(currentInput);
     console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
@@ -334,14 +347,14 @@ function valiDatePostCode() {
     }
 }
 
-function valiDateCountryChange(option: string) {
+function valiDateCountryChangeShip(option: string) {
     console.log(option);
     setTimeout(() => {
-        const currentInput = document.querySelector(`.${registyles.input_country}`) as HTMLElement;
+        const currentInput = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
         const selectCountryInput = currentInput.children[0].innerHTML;
-        const currentErrorMessage = document.querySelector(`.${registyles.error_country}`) as HTMLParagraphElement;
+        const currentErrorMessage = document.querySelector(`.${registyles.error_country_ship}`) as HTMLParagraphElement;
         const input = currentInput.children[1].children[0].children[0] as HTMLInputElement;
-        const currentFormInput = document.querySelector(`.${registyles.form_country}`) as HTMLDivElement;
+        const currentFormInput = document.querySelector(`.${registyles.form_country_ship}`) as HTMLDivElement;
         console.log(currentInput);
         console.log(selectCountryInput);
         console.log(currentErrorMessage);
@@ -359,7 +372,7 @@ function valiDateCountryChange(option: string) {
     }, 500);
 }
 
-function valiDateCountryClick(event: React.MouseEvent<HTMLDivElement>) {
+function valiDateCountryClickShip(event: React.MouseEvent<HTMLDivElement>) {
     const iventType = event.type;
     const targetElement = event.target as HTMLDivElement;
     // event.stopPropagation();
@@ -372,11 +385,15 @@ function valiDateCountryClick(event: React.MouseEvent<HTMLDivElement>) {
         !targetElement.classList.contains('ant-select-selection-item')
     ) {
         setTimeout(() => {
-            const currentInput = document.querySelector(`.${registyles.input_country}`) as HTMLElement;
+            const currentInput = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
+            console.log(currentInput);
+
             const selectCountryInput = currentInput.children[0].children[1].innerHTML;
-            const currentErrorMessage = document.querySelector(`.${registyles.error_country}`) as HTMLParagraphElement;
+            const currentErrorMessage = document.querySelector(
+                `.${registyles.error_country_ship}`
+            ) as HTMLParagraphElement;
             const input = currentInput.children[0].children[0].children[0] as HTMLInputElement;
-            const currentFormInput = document.querySelector(`.${registyles.form_country}`) as HTMLDivElement;
+            const currentFormInput = document.querySelector(`.${registyles.form_country_ship}`) as HTMLDivElement;
             console.log(currentInput);
             console.log(selectCountryInput);
             console.log(currentErrorMessage);
@@ -391,7 +408,171 @@ function valiDateCountryClick(event: React.MouseEvent<HTMLDivElement>) {
                 currentFormInput.setAttribute('submit', 'true');
                 validateFormToSubmit();
             }
-        }, 500);
+        }, 1500);
+    }
+}
+
+function valiDateStreetBill() {
+    const currentInput = document.querySelector(`.${registyles.input_street_bill}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_street_bill}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_street_bil}`) as HTMLDivElement;
+    console.log(currentInput);
+    console.log(currentErrorMessage);
+    const validationValue = currentInput.value.trim();
+    if (validationValue.length < 1) {
+        currentErrorMessage.innerHTML = 'Street  should have at least one character';
+        currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
+    }
+}
+
+function valiDateCityBill() {
+    const currentInput = document.querySelector(`.${registyles.input_city_bill}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_town_bill}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_city_bill}`) as HTMLDivElement;
+    console.log(currentInput);
+    console.log(currentErrorMessage);
+    const validationValue = currentInput.value.trim();
+    const numberTemplate = /\d/;
+    const specialCharactersTemplate = /[\\^$.[\]|?*+()]/;
+    if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
+        currentErrorMessage.innerHTML = "Name  shouldn't contain special characters and numbers";
+        currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
+    } else if (numberTemplate.test(validationValue)) {
+        currentErrorMessage.innerHTML = "City  shouldn't contain numbers";
+        currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
+    } else if (specialCharactersTemplate.test(validationValue)) {
+        currentErrorMessage.innerHTML = "City  shouldn't contain special characters";
+        currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
+    } else if (validationValue.length < 1) {
+        currentErrorMessage.innerHTML = 'City  should have at least one character';
+        currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
+    } else if (validationValue.length === 0) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
+    }
+}
+
+function valiDatePostCodeBill() {
+    const currentInput = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
+    const currentErrorMessage = document.querySelector(`.${registyles.error_postcode_bill}`) as HTMLParagraphElement;
+    const currentFormInput = document.querySelector(`.${registyles.form_code_bill}`) as HTMLDivElement;
+    console.log(currentInput);
+    console.log(currentErrorMessage);
+    const validationValue = currentInput.value.trim();
+    const postcodeTemplateAll = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
+    const postcodeTemplateCanadian = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
+
+    if (
+        postcodeTemplateAll.test(validationValue) === false &&
+        postcodeTemplateCanadian.test(validationValue) === false
+    ) {
+        currentErrorMessage.innerHTML = 'You entered an invalid postcode!';
+        currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
+    } else if (
+        postcodeTemplateAll.test(validationValue) === false &&
+        postcodeTemplateCanadian.test(validationValue) === true
+    ) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
+    } else if (
+        postcodeTemplateAll.test(validationValue) === true &&
+        postcodeTemplateCanadian.test(validationValue) === false
+    ) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
+    } else if (validationValue.length === 0) {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
+    } else {
+        currentErrorMessage.innerHTML = '';
+        currentInput.style.border = '1px solid #1fffb7';
+        currentFormInput.setAttribute('submit', 'true');
+        validateFormToSubmit();
+    }
+}
+
+function valiDateCountryChangeBill(option: string) {
+    console.log(option);
+    setTimeout(() => {
+        const currentInput = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
+        const selectCountryInput = currentInput.children[0].innerHTML;
+        const currentErrorMessage = document.querySelector(`.${registyles.error_country_bill}`) as HTMLParagraphElement;
+        const input = currentInput.children[1].children[0].children[0] as HTMLInputElement;
+        const currentFormInput = document.querySelector(`.${registyles.form_country_bill}`) as HTMLDivElement;
+        console.log(currentInput);
+        console.log(selectCountryInput);
+        console.log(currentErrorMessage);
+        console.log(input);
+        if (selectCountryInput === 'Select your country' && input.value.length === 0) {
+            currentErrorMessage.innerHTML = 'Your need to choose country';
+            currentInput.style.border = '1px solid #ff4d4f';
+            currentFormInput.removeAttribute('submit');
+        } else {
+            currentErrorMessage.innerHTML = '';
+            currentInput.style.border = '1px solid #1fffb7';
+            currentFormInput.setAttribute('submit', 'true');
+            validateFormToSubmit();
+        }
+    }, 500);
+}
+
+function valiDateCountryClickBill(event: React.MouseEvent<HTMLDivElement>) {
+    const iventType = event.type;
+    const targetElement = event.target as HTMLDivElement;
+    // event.stopPropagation();
+    // const propagationstopped = event.isPropagationStopped();
+    // console.log(propagationstopped);
+    console.log(iventType);
+    console.log(targetElement);
+    if (
+        !targetElement.classList.contains('ant-select-item-option-content') &&
+        !targetElement.classList.contains('ant-select-selection-item')
+    ) {
+        setTimeout(() => {
+            const currentInput = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
+            const selectCountryInput = currentInput.children[0].children[1].innerHTML;
+            const currentErrorMessage = document.querySelector(
+                `.${registyles.error_country_bill}`
+            ) as HTMLParagraphElement;
+            const input = currentInput.children[0].children[0].children[0] as HTMLInputElement;
+            const currentFormInput = document.querySelector(`.${registyles.form_country_bill}`) as HTMLDivElement;
+            console.log(currentInput);
+            console.log(selectCountryInput);
+            console.log(currentErrorMessage);
+            console.log(input);
+            if (selectCountryInput === 'Select your country' && input.value.length === 0) {
+                currentErrorMessage.innerHTML = 'Your need to choose country';
+                currentInput.style.border = '1px solid #ff4d4f';
+                currentFormInput.removeAttribute('submit');
+            } else {
+                currentErrorMessage.innerHTML = '';
+                currentInput.style.border = '1px solid #1fffb7';
+                currentFormInput.setAttribute('submit', 'true');
+                validateFormToSubmit();
+            }
+        }, 1500);
     }
 }
 
@@ -414,13 +595,13 @@ const RegistrationPage = () => {
                     className="input_block"
                     name="basic"
                     labelCol={{ span: 5 }}
-                    wrapperCol={{ span: 16 }}
+                    wrapperCol={{ span: 18 }}
                     style={{ maxWidth: 800 }}
                 >
                     <div className={registyles.input_block}>
                         <p className={`${registyles.error_message} ${registyles.error_name}`}></p>
                         <Form.Item
-                            className={`${registyles.input} ${registyles.form_name}`}
+                            className={`${registyles.input} ${registyles.form_firstname}`}
                             name="firstname"
                             label="First name"
                             rules={[{ required: true }]}
@@ -509,125 +690,256 @@ const RegistrationPage = () => {
                             <Input onInput={valiDateBirth} type="date" className={registyles.input_birth} />
                         </Form.Item>
                     </div>
-                    <div className={registyles.input_block}>
-                        <p className={`${registyles.error_message} ${registyles.error_adress}`}></p>
-                        <Form.Item
-                            className={`${registyles.form_adress}`}
-                            label="Enter your adress"
-                            rules={[{ required: true }]}
-                        ></Form.Item>
+                </Form>
+                <div className={registyles.address_container}>
+                    <div className={registyles.address_block}>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_address_ship}`}></p>
+                            <Form.Item
+                                className={`${registyles.form_address_ship}`}
+                                label="Enter your shipping address"
+                                rules={[{ required: true }]}
+                            ></Form.Item>
+                        </div>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_street_ship}`}></p>
+                            <Form.Item
+                                className={`${registyles.input} ${registyles.form_street_ship}`}
+                                name="street"
+                                label="Street"
+                                rules={[{ required: true }]}
+                            >
+                                <Input
+                                    onInput={valiDateStreetShip}
+                                    className={registyles.input_street_ship}
+                                    type="text"
+                                    placeholder="Enter yout street"
+                                />
+                            </Form.Item>
+                        </div>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_town_ship}`}></p>
+                            <Form.Item
+                                className={`${registyles.input} ${registyles.form_city_ship}`}
+                                name="city"
+                                label="City"
+                                rules={[{ required: true }]}
+                            >
+                                <Input
+                                    onInput={valiDateCityShip}
+                                    className={registyles.input_city_ship}
+                                    type="text"
+                                    placeholder="Enter your city"
+                                />
+                            </Form.Item>
+                        </div>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_postcode_ship}`}></p>
+                            <Form.Item
+                                className={`${registyles.input} ${registyles.form_code_ship}`}
+                                name="postcode"
+                                label="Postal Code"
+                                rules={[{ required: true }]}
+                            >
+                                <Input
+                                    onInput={valiDatePostCodeShip}
+                                    className={registyles.input_postcode_ship}
+                                    type="text"
+                                    placeholder="Enter your postal code"
+                                />
+                            </Form.Item>
+                        </div>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_country_ship}`}></p>
+                            <Form.Item
+                                className={`${registyles.input} ${registyles.form_country_ship}`}
+                                name="country"
+                                label="Country"
+                                rules={[{ required: true }]}
+                            >
+                                <Select
+                                    onChange={(option: string) => valiDateCountryChangeShip(option)}
+                                    onClick={(event) => valiDateCountryClickShip(event)}
+                                    className={registyles.input_country_ship}
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    placeholder="Select your country"
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                    filterSort={(optionA, optionB) =>
+                                        (optionA?.label ?? '')
+                                            .toLowerCase()
+                                            .localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={[
+                                        {
+                                            value: '0',
+                                            label: 'Belarus (BL)',
+                                        },
+                                        {
+                                            value: '1',
+                                            label: 'Kazakhstan (KZ)',
+                                        },
+                                        {
+                                            value: '2',
+                                            label: 'Lithuania (LT)',
+                                        },
+                                        {
+                                            value: '3',
+                                            label: 'Latvia (LV)',
+                                        },
+                                        {
+                                            value: '4',
+                                            label: 'United Kingdom (UK)',
+                                        },
+                                        {
+                                            value: '5',
+                                            label: 'Poland (PL)',
+                                        },
+                                        {
+                                            value: '6',
+                                            label: 'Russia (RU)',
+                                        },
+                                        {
+                                            value: '7',
+                                            label: 'Ukraine (UA)',
+                                        },
+                                    ]}
+                                />
+                            </Form.Item>
+                        </div>
+                        <div className={registyles.checkbox_block}>
+                            <Checkbox className={registyles.input_checkbox_ship}>Use for billing</Checkbox>
+                            <Checkbox className={registyles.input_checkbox_ship}>Use as default</Checkbox>
+                        </div>
                     </div>
-                    <div className={registyles.input_block}>
-                        <p className={`${registyles.error_message} ${registyles.error_street}`}></p>
-                        <Form.Item
-                            className={`${registyles.input} ${registyles.form_street}`}
-                            name="street"
-                            label="Street"
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                onInput={valiDateStreet}
-                                className={registyles.input_street}
-                                type="text"
-                                placeholder="Enter yout street"
-                            />
-                        </Form.Item>
+                    <div className={registyles.address_block}>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_address_bill}`}></p>
+                            <Form.Item
+                                className={`${registyles.form_address_bill}`}
+                                label="Enter your billing address"
+                                rules={[{ required: true }]}
+                            ></Form.Item>
+                        </div>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_street_bill}`}></p>
+                            <Form.Item
+                                className={`${registyles.input} ${registyles.form_street_bil}`}
+                                name="street"
+                                label="Street"
+                                rules={[{ required: true }]}
+                            >
+                                <Input
+                                    onInput={valiDateStreetBill}
+                                    className={registyles.input_street_bill}
+                                    type="text"
+                                    placeholder="Enter yout street"
+                                />
+                            </Form.Item>
+                        </div>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_town_bill}`}></p>
+                            <Form.Item
+                                className={`${registyles.input} ${registyles.form_city_bill}`}
+                                name="city"
+                                label="City"
+                                rules={[{ required: true }]}
+                            >
+                                <Input
+                                    onInput={valiDateCityBill}
+                                    className={registyles.input_city_bill}
+                                    type="text"
+                                    placeholder="Enter your city"
+                                />
+                            </Form.Item>
+                        </div>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_postcode_bill}`}></p>
+                            <Form.Item
+                                className={`${registyles.input} ${registyles.form_code_bill}`}
+                                name="postcode"
+                                label="Postal Code"
+                                rules={[{ required: true }]}
+                            >
+                                <Input
+                                    onInput={valiDatePostCodeBill}
+                                    className={registyles.input_postcode_bill}
+                                    type="text"
+                                    placeholder="Enter your postal code"
+                                />
+                            </Form.Item>
+                        </div>
+                        <div className={registyles.input_block}>
+                            <p className={`${registyles.error_message} ${registyles.error_country_bill}`}></p>
+                            <Form.Item
+                                className={`${registyles.input} ${registyles.form_country_bill}`}
+                                name="country"
+                                label="Country"
+                                rules={[{ required: true }]}
+                            >
+                                <Select
+                                    onChange={(option: string) => valiDateCountryChangeBill(option)}
+                                    onClick={(event) => valiDateCountryClickBill(event)}
+                                    className={registyles.input_country_bill}
+                                    showSearch
+                                    style={{ width: 200 }}
+                                    placeholder="Select your country"
+                                    optionFilterProp="children"
+                                    filterOption={(input, option) => (option?.label ?? '').includes(input)}
+                                    filterSort={(optionA, optionB) =>
+                                        (optionA?.label ?? '')
+                                            .toLowerCase()
+                                            .localeCompare((optionB?.label ?? '').toLowerCase())
+                                    }
+                                    options={[
+                                        {
+                                            value: '0',
+                                            label: 'Belarus (BL)',
+                                        },
+                                        {
+                                            value: '1',
+                                            label: 'Kazakhstan (KZ)',
+                                        },
+                                        {
+                                            value: '2',
+                                            label: 'Lithuania (LT)',
+                                        },
+                                        {
+                                            value: '3',
+                                            label: 'Latvia (LV)',
+                                        },
+                                        {
+                                            value: '4',
+                                            label: 'United Kingdom (UK)',
+                                        },
+                                        {
+                                            value: '5',
+                                            label: 'Poland (PL)',
+                                        },
+                                        {
+                                            value: '6',
+                                            label: 'Russia (RU)',
+                                        },
+                                        {
+                                            value: '7',
+                                            label: 'Ukraine (UA)',
+                                        },
+                                    ]}
+                                />
+                            </Form.Item>
+                        </div>
+                        <div className={registyles.checkbox_block}>
+                            <Checkbox className={registyles.input_checkbox_bill}>Use for shipping</Checkbox>
+                            <Checkbox className={registyles.input_checkbox_bill}>Use as default</Checkbox>
+                        </div>
                     </div>
-                    <div className={registyles.input_block}>
-                        <p className={`${registyles.error_message} ${registyles.error_town}`}></p>
-                        <Form.Item
-                            className={`${registyles.input} ${registyles.form_city}`}
-                            name="city"
-                            label="City"
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                onInput={valiDateCity}
-                                className={registyles.input_city}
-                                type="text"
-                                placeholder="Enter your city"
-                            />
-                        </Form.Item>
-                    </div>
-                    <div className={registyles.input_block}>
-                        <p className={`${registyles.error_message} ${registyles.error_postcode}`}></p>
-                        <Form.Item
-                            className={`${registyles.input} ${registyles.form_code}`}
-                            name="postcode"
-                            label="Postal Code"
-                            rules={[{ required: true }]}
-                        >
-                            <Input
-                                onInput={valiDatePostCode}
-                                className={registyles.input_postcode}
-                                type="text"
-                                placeholder="Enter your postal code"
-                            />
-                        </Form.Item>
-                    </div>
-                    <div className={registyles.input_block}>
-                        <p className={`${registyles.error_message} ${registyles.error_country}`}></p>
-                        <Form.Item
-                            className={`${registyles.input} ${registyles.form_country}`}
-                            name="country"
-                            label="Country"
-                            rules={[{ required: true }]}
-                        >
-                            <Select
-                                onChange={(option: string) => valiDateCountryChange(option)}
-                                onClick={(event) => valiDateCountryClick(event)}
-                                className={registyles.input_country}
-                                showSearch
-                                style={{ width: 200 }}
-                                placeholder="Select your country"
-                                optionFilterProp="children"
-                                filterOption={(input, option) => (option?.label ?? '').includes(input)}
-                                filterSort={(optionA, optionB) =>
-                                    (optionA?.label ?? '')
-                                        .toLowerCase()
-                                        .localeCompare((optionB?.label ?? '').toLowerCase())
-                                }
-                                options={[
-                                    {
-                                        value: '0',
-                                        label: 'Belarus (BL)',
-                                    },
-                                    {
-                                        value: '1',
-                                        label: 'Kazakhstan (KZ)',
-                                    },
-                                    {
-                                        value: '2',
-                                        label: 'Lithuania (LT)',
-                                    },
-                                    {
-                                        value: '3',
-                                        label: 'Latvia (LV)',
-                                    },
-                                    {
-                                        value: '4',
-                                        label: 'United Kingdom (UK)',
-                                    },
-                                    {
-                                        value: '5',
-                                        label: 'Poland (PL)',
-                                    },
-                                    {
-                                        value: '6',
-                                        label: 'Russia (RU)',
-                                    },
-                                    {
-                                        value: '7',
-                                        label: 'Ukraine (UA)',
-                                    },
-                                ]}
-                            />
-                        </Form.Item>
-                    </div>
+                </div>
+                <Form className="input_block" name="register">
                     <Form.Item
                         className={registyles.submit}
                         wrapperCol={{ offset: 11, span: 16 }}
-                        style={{ marginTop: 25 }}
+                        style={{ marginTop: 0 }}
                     >
                         <Button className={registyles.submit_button} type="primary" htmlType="submit" disabled>
                             Register

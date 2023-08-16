@@ -17,12 +17,12 @@ root.render(
 
 console.log(API_CLIENT_SETTINGS);
 
-const clientDraft: Customer = {
-    email: 'getting-started@example.com',
-    password: 'examplePassword',
-};
+// const clientDraft: Customer = {
+//     email: 'getting-started@example.com',
+//     password: 'examplePassword',
+// };
 
-createCustomer(clientDraft);
+// createCustomer(clientDraft);
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

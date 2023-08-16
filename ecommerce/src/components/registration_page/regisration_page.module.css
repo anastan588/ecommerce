@@ -6,7 +6,7 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 20px;
     padding: 10px;
     border-radius: 30px;
     border: 1px solid gray;
@@ -47,13 +47,15 @@
     margin-bottom: 0em;
 }
 
-.form_name {
+.form_firstname {
+    font-weight: 700;
 }
 
 .input_name {
 }
 
 .form_secondname {
+    font-weight: 700;
 }
 .input_surname {
 }
@@ -62,46 +64,85 @@
 }
 
 .form_mail {
+    font-weight: 700;
+    display: grid;
 }
 .input_password {
 }
 
 .form_password {
+    font-weight: 700;
 }
 
 .form_password_repeat {
+    font-weight: 700;
 }
 .input_password_repeat {
 }
-.form_adress {
+
+.form_address_ship {
     margin-bottom: 0em;
+    font-weight: 700;
 }
-.form_street {
+
+.form_street_ship {
+    font-weight: 700;
 }
-.input_street {
+.input_street_ship {
 }
-.form_code {
+.form_code_ship {
+    font-weight: 700;
 }
-.input_postcode {
+.input_postcode_ship {
 }
-.form_city {
+.form_city_ship {
+    font-weight: 700;
 }
-.input_city {
+.input_city_ship {
 }
-.form_country {
+.form_country_ship {
+    font-weight: 700;
 }
-.input_country {
+.input_country_ship {
+}
+.form_address_bill {
+    margin-bottom: 0em;
+    font-weight: 700;
+}
+.form_street_bil {
+    font-weight: 700;
+}
+.input_street_bill {
+}
+.form_code_bill {
+    font-weight: 700;
+}
+.input_postcode_bill {
+}
+.form_city_bill {
+    font-weight: 700;
+}
+.input_city_bill {
+}
+.form_country_bill {
+    font-weight: 700;
+}
+.input_country_bill {
 }
 
 .form_birth {
+    font-weight: 700;
 }
 .input_birth {
+   
 }
 
 .submit {
 }
 
 .submit_button {
+    margin-top: 0em;
+    margin-bottom: 0em;
 }
 
 .error_message {
@@ -142,33 +183,105 @@
     height: 25px;
 }
 
-.error_adress {
+.error_address_ship {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
 }
 
-.error_street {
+.error_street_ship {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 35px;
+    display: flex;
+    align-items: center;
 }
 
-.error_town {
+.error_town_ship {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 35px;
+    display: flex;
+    align-items: center;
 }
-.error_postcode {
+.error_postcode_ship {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 35px;
+    display: flex;
+    align-items: center;
 }
-.error_country {
+.error_country_ship {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 35px;
+    display: flex;
+    align-items: center;
 }
+
+.error_address_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    display: flex;
+    align-items: center;
+}
+
+.error_street_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 35px;
+    display: flex;
+    align-items: center;
+}
+
+.error_town_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 35px;
+    display: flex;
+    align-items: center;
+}
+.error_postcode_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 35px;
+    display: flex;
+    align-items: center;
+}
+.error_country_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 35px;
+    display: flex;
+    align-items: center;
+}
+
 
 .error_border {
+}
+
+.address_container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.address_block {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px solid gray;
+}
+
+.input_checkbox_ship {
+    display: flex;
+}
+.input_checkbox_bill {
+    display: flex;
+}
+
+.checkbox_block {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
 }
