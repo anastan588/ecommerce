@@ -1,6 +1,7 @@
 import { Button, Col, Row } from 'antd';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import RegistrationPage from '../registration_page/RegistrationPage';
 
 const Header = () => {
     return (

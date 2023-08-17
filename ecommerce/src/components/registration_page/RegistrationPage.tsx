@@ -16,7 +16,7 @@ const newCustomer: Customer = {
     addresses: [],
     defaultShippingAddress: 0,
     shippingAddressIds: [],
-    defaultBillingAddressId: 0,
+    defaultBillingAddress: 0,
     billingAddressIds: [],
 };
 
@@ -51,12 +51,6 @@ function validateFormToSubmit() {
     const checkBillAddressDefault = document.querySelector(
         `.${registyles.input_checkbox_bill_def}`
     ) as HTMLInputElement;
-    const checkShipAddressAsBilling = document.querySelector(
-        `.${registyles.input_checkbox_ship_bill}`
-    ) as HTMLInputElement;
-    const checkBillAddressAsShipping = document.querySelector(
-        `.${registyles.input_checkbox_bill_ship}`
-    ) as HTMLInputElement;
     // console.log(submitButton);
     if (submitTrueArray.length === formsCollection.length) {
         submitButton.disabled = false;
@@ -68,6 +62,31 @@ function validateFormToSubmit() {
     }
 }
 
+function checkShippingAddress() {
+    const checkShipAddressAsBilling = document.querySelector(
+        `.${registyles.input_checkbox_ship_bill}`
+    ) as HTMLInputElement;
+    const checkBillAddressAsShipping = document.querySelector(
+        `.${registyles.input_checkbox_bill_ship}`
+    ) as HTMLInputElement;
+    console.log(checkShipAddressAsBilling);
+    console.log(checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked'));
+    if (!checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
+        checkBillAddressAsShipping.children[0].classList.remove('ant-checkbox-checked');
+    }
+}
+
+function checkBilligAddress() {
+    const checkShipAddressAsBilling = document.querySelector(
+        `.${registyles.input_checkbox_ship_bill}`
+    ) as HTMLInputElement;
+    const checkBillAddressAsShipping = document.querySelector(
+        `.${registyles.input_checkbox_bill_ship}`
+    ) as HTMLInputElement;
+    if (!checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
+        checkShipAddressAsBilling.children[0].classList.remove('ant-checkbox-checked');
+    }
+}
 function valiDateFirstName() {
     const currentInput = document.querySelector(`.${registyles.input_name}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_name}`) as HTMLParagraphElement;
@@ -261,7 +280,8 @@ function valiDateBirth() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        newCustomer.dateOfBirth = currentInput.value;
+        const date = new Date(currentInput.value).toISOString().split('T')[0];
+        newCustomer.dateOfBirth = date;
         validateFormToSubmit();
     } else if (yearForValidation < 13 && yearForValidation >= 0) {
         currentErrorMessage.innerHTML = 'You must be at least 13 years old';
@@ -638,7 +658,7 @@ const RegistrationPage = () => {
                         Already have an account?
                     </Title>
                     <Button type="primary" className={registyles.registration_login_link}>
-                        <Link to="../login_page/login_page.tsx">Log In</Link>
+                        <Link to="/login">Log In</Link>
                     </Button>
                 </div>
                 <Form
@@ -859,7 +879,9 @@ const RegistrationPage = () => {
                             </Form.Item>
                         </div>
                         <div className={registyles.checkbox_block}>
-                            <Checkbox className={registyles.input_checkbox_ship_bill}>Use for billing</Checkbox>
+                            <Checkbox className={registyles.input_checkbox_ship_bill} onChange={checkShippingAddress}>
+                                Use for billing
+                            </Checkbox>
                             <Checkbox className={registyles.input_checkbox_ship_def}>Use as default</Checkbox>
                         </div>
                     </div>
@@ -980,7 +1002,9 @@ const RegistrationPage = () => {
                             </Form.Item>
                         </div>
                         <div className={registyles.checkbox_block}>
-                            <Checkbox className={registyles.input_checkbox_bill_ship}>Use for shipping</Checkbox>
+                            <Checkbox className={registyles.input_checkbox_bill_ship} onChange={checkBilligAddress}>
+                                Use for shipping
+                            </Checkbox>
                             <Checkbox className={registyles.input_checkbox_bill_def}>Use as default</Checkbox>
                         </div>
                     </div>

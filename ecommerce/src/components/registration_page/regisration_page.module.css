@@ -1,4 +1,9 @@
 .registration_page {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
 }
 
 .registration__container {
@@ -6,7 +11,7 @@
     margin: 0 auto;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 10px;
     padding: 10px;
     border-radius: 30px;
     border: 1px solid gray;
@@ -17,6 +22,7 @@
     line-height: 100%;
     margin-top: 0px;
     margin-bottom: 0px;
+    font-size: 120%;
 }
 
 .title_registration_login {

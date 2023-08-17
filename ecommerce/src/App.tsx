@@ -9,7 +9,6 @@ const App: React.FC = () => (
     <div>
         <BrowserRouter>
             <Header />
-            <RegistrationPage />
             <RouterComponent />
         </BrowserRouter>
     </div>

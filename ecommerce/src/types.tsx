@@ -7,7 +7,7 @@ export type Customer = {
     addresses: Address[];
     defaultShippingAddress: number;
     shippingAddressIds: number[];
-    defaultBillingAddressId: number;
+    defaultBillingAddress: number;
     billingAddressIds: number[];
 };
 
