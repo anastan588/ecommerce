@@ -14,22 +14,22 @@ const newCustomer: Customer = {
     lastName: '',
     dateOfBirth: '',
     addresses: [],
-    defaultShippingAddress: 0,
-    shippingAddressIds: [],
-    defaultBillingAddress: 0,
-    billingAddressIds: [],
+    defaultShippingAddress: undefined,
+    shippingAddresses: [],
+    defaultBillingAddress: undefined,
+    billingAddresses: [],
 };
 
 const addressShip: Address = {
     streetName: '',
     city: '',
-    postcode: '',
+    postalCode: '',
     country: '',
 };
 const addressBill: Address = {
     streetName: '',
     city: '',
-    postcode: '',
+    postalCode: '',
     country: '',
 };
 
@@ -51,14 +51,145 @@ function validateFormToSubmit() {
     const checkBillAddressDefault = document.querySelector(
         `.${registyles.input_checkbox_bill_def}`
     ) as HTMLInputElement;
+    const checkShipAddressAsBilling = document.querySelector(
+        `.${registyles.input_checkbox_ship_bill}`
+    ) as HTMLInputElement;
+    const checkBillAddressAsShipping = document.querySelector(
+        `.${registyles.input_checkbox_bill_ship}`
+    ) as HTMLInputElement;
     // console.log(submitButton);
-    if (submitTrueArray.length === formsCollection.length) {
+    const currentInputStreetShip = document.querySelector(`.${registyles.input_street_ship}`) as HTMLInputElement;
+    const currentInputCitySheep = document.querySelector(`.${registyles.input_city_ship}`) as HTMLInputElement;
+    const currentInputPostcodeShip = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
+    const currentInputCountryShip = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
+
+    const currentInputStreetBill = document.querySelector(`.${registyles.input_street_bill}`) as HTMLInputElement;
+    const currentInputCityBill = document.querySelector(`.${registyles.input_city_bill}`) as HTMLInputElement;
+    const currentInputPostcodeBill = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
+    const currentInputCountryBill = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
+    const currentInputName = document.querySelector(`.${registyles.input_name}`) as HTMLInputElement;
+    const currentInputSecondName = document.querySelector(`.${registyles.input_surname}`) as HTMLInputElement;
+    const currentInputMail = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
+    const currentInputPassword = document.querySelector(`.${registyles.input_password}`) as HTMLInputElement;
+    const currentInputRasswordRepeat = document.querySelector(
+        `.${registyles.input_password_repeat}`
+    ) as HTMLInputElement;
+    const currentInputBithDay = document.querySelector(`.${registyles.input_birth}`) as HTMLInputElement;
+    console.log(currentInputName.getAttribute('style'));
+    console.log(currentInputSecondName.getAttribute('style'));
+    console.log(currentInputMail.getAttribute('style'));
+    console.log(currentInputPassword.getAttribute('style'));
+    console.log(currentInputRasswordRepeat.getAttribute('style'));
+    console.log(currentInputBithDay.getAttribute('style'));
+    if (
+        submitTrueArray.length === formsCollection.length ||
+        (currentInputStreetShip.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputCitySheep.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputPostcodeShip.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputCountryShip.getAttribute('style') === 'width: 200px; border: 1px solid rgb(31, 255, 183);' &&
+            currentInputStreetBill.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputCityBill.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputPostcodeBill.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputCountryBill.getAttribute('style') === 'width: 200px; border: 1px solid rgb(31, 255, 183);' &&
+            currentInputName.getAttribute('style') === 'margin-bottom: 0px; border: 1px solid rgb(31, 255, 183);' &&
+            currentInputSecondName.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputMail.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputPassword.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputRasswordRepeat.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputBithDay.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);')
+    ) {
         submitButton.disabled = false;
-        newCustomer.addresses.push(addressShip);
-        newCustomer.addresses.push(addressBill);
+        if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
+            newCustomer.addresses.push(addressShip);
+            newCustomer.shippingAddresses.push(0);
+            newCustomer.billingAddresses.push(0);
+        } else if (checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
+            newCustomer.addresses.push(addressBill);
+            newCustomer.shippingAddresses.push(1);
+            newCustomer.billingAddresses.push(1);
+        } else {
+            newCustomer.addresses.push(addressShip);
+            newCustomer.addresses.push(addressBill);
+        }
+        if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+            newCustomer.defaultShippingAddress = 0;
+        } else if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+            newCustomer.defaultBillingAddress = 0;
+        }
         console.log(newCustomer);
     } else {
         submitButton.disabled = true;
+    }
+}
+
+function filladdressForBill() {
+    const checkShipAddressAsBilling = document.querySelector(
+        `.${registyles.input_checkbox_ship_bill}`
+    ) as HTMLInputElement;
+    console.log('popkainput');
+    const currentInputStreetShip = document.querySelector(`.${registyles.input_street_ship}`) as HTMLInputElement;
+    const currentInputCitySheep = document.querySelector(`.${registyles.input_city_ship}`) as HTMLInputElement;
+    const currentInputPostcodeShip = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
+    const currentInputCountryShip = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
+
+    const currentInputStreetBill = document.querySelector(`.${registyles.input_street_bill}`) as HTMLInputElement;
+    const currentInputCityBill = document.querySelector(`.${registyles.input_city_bill}`) as HTMLInputElement;
+    const currentInputPostcodeBill = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
+    const currentInputCountryBill = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
+    console.log(checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked'));
+    if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
+        if (
+            currentInputStreetShip.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputCitySheep.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputPostcodeShip.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputCountryShip.getAttribute('style') === 'width: 200px; border: 1px solid rgb(31, 255, 183);'
+        ) {
+            currentInputStreetBill.value = currentInputStreetShip.value;
+            currentInputStreetBill.style.border = '1px solid #1fffb7';
+            console.log(currentInputStreetShip.value);
+            currentInputCityBill.value = currentInputCitySheep.value;
+            currentInputCityBill.style.border = '1px solid #1fffb7';
+            currentInputPostcodeBill.value = currentInputPostcodeShip.value;
+            currentInputPostcodeBill.style.border = '1px solid #1fffb7';
+            currentInputCountryBill.innerHTML = currentInputCountryShip.innerHTML;
+            currentInputCountryBill.style.border = '1px solid #1fffb7';
+        }
+    }
+}
+
+function filladdressForShip() {
+    const checkBillAddressAsShipping = document.querySelector(
+        `.${registyles.input_checkbox_bill_ship}`
+    ) as HTMLInputElement;
+    console.log('popkainput');
+    const currentInputStreetShip = document.querySelector(`.${registyles.input_street_ship}`) as HTMLInputElement;
+    const currentInputCitySheep = document.querySelector(`.${registyles.input_city_ship}`) as HTMLInputElement;
+    const currentInputPostcodeShip = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
+    const currentInputCountryShip = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
+
+    const currentInputStreetBill = document.querySelector(`.${registyles.input_street_bill}`) as HTMLInputElement;
+    const currentInputCityBill = document.querySelector(`.${registyles.input_city_bill}`) as HTMLInputElement;
+    const currentInputPostcodeBill = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
+    const currentInputCountryBill = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
+
+    console.log(checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked'));
+    if (checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
+        if (
+            currentInputStreetBill.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputCityBill.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputPostcodeBill.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            currentInputCountryBill.getAttribute('style') === 'width: 200px; border: 1px solid rgb(31, 255, 183);'
+        ) {
+            currentInputStreetShip.value = currentInputStreetBill.value;
+            currentInputStreetShip.style.border = '1px solid #1fffb7';
+            console.log(currentInputStreetBill.value);
+            currentInputCitySheep.value = currentInputCityBill.value;
+            currentInputCitySheep.style.border = '1px solid #1fffb7';
+            currentInputPostcodeShip.value = currentInputPostcodeBill.value;
+            currentInputPostcodeShip.style.border = '1px solid #1fffb7';
+            currentInputCountryShip.innerHTML = currentInputCountryBill.innerHTML;
+            currentInputCountryShip.style.border = '1px solid #1fffb7';
+        }
     }
 }
 
@@ -69,11 +200,31 @@ function checkShippingAddress() {
     const checkBillAddressAsShipping = document.querySelector(
         `.${registyles.input_checkbox_bill_ship}`
     ) as HTMLInputElement;
-    console.log(checkShipAddressAsBilling);
-    console.log(checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked'));
-    if (!checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
-        checkBillAddressAsShipping.children[0].classList.remove('ant-checkbox-checked');
+
+    if (checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
+        if (
+            !checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked') &&
+            checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')
+        ) {
+            console.log('popka');
+            checkBillAddressAsShipping.children[0].classList.remove('ant-checkbox-checked');
+
+            setTimeout(() => {
+                checkShipAddressAsBilling.children[0].classList.add('ant-checkbox-checked');
+            }, 500);
+
+            // const checkedInput = checkBillAddressAsShipping.children[0].children[0] as HTMLInputElement;
+            // checkedInput.checked = false;
+        }
     }
+    setTimeout(() => {
+        console.log('hello');
+        console.log(checkShipAddressAsBilling.children[0]);
+        if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
+            filladdressForBill();
+            validateFormToSubmit();
+        }
+    }, 800);
 }
 
 function checkBilligAddress() {
@@ -83,9 +234,27 @@ function checkBilligAddress() {
     const checkBillAddressAsShipping = document.querySelector(
         `.${registyles.input_checkbox_bill_ship}`
     ) as HTMLInputElement;
-    if (!checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
-        checkShipAddressAsBilling.children[0].classList.remove('ant-checkbox-checked');
+    if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
+        if (
+            !checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked') &&
+            checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')
+        ) {
+            console.log('popk2');
+            checkShipAddressAsBilling.children[0].classList.remove('ant-checkbox-checked');
+
+            setTimeout(() => {
+                checkBillAddressAsShipping.children[0].classList.add('ant-checkbox-checked');
+            }, 500);
+        }
     }
+    setTimeout(() => {
+        console.log('hello');
+        console.log(checkBillAddressAsShipping.children[0]);
+        if (checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
+            filladdressForShip();
+            validateFormToSubmit();
+        }
+    }, 800);
 }
 function valiDateFirstName() {
     const currentInput = document.querySelector(`.${registyles.input_name}`) as HTMLInputElement;
@@ -380,7 +549,7 @@ function valiDatePostCodeShip() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        addressShip.postcode = currentInput.value;
+        addressShip.postalCode = currentInput.value;
         validateFormToSubmit();
     } else if (
         postcodeTemplateAll.test(validationValue) === true &&
@@ -389,7 +558,7 @@ function valiDatePostCodeShip() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        addressShip.postcode = currentInput.value;
+        addressShip.postalCode = currentInput.value;
         validateFormToSubmit();
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
@@ -399,7 +568,7 @@ function valiDatePostCodeShip() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        addressShip.postcode = currentInput.value;
+        addressShip.postalCode = currentInput.value;
         validateFormToSubmit();
     }
 }
@@ -555,7 +724,7 @@ function valiDatePostCodeBill() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        addressBill.postcode = currentInput.value;
+        addressBill.postalCode = currentInput.value;
         validateFormToSubmit();
     } else if (
         postcodeTemplateAll.test(validationValue) === true &&
@@ -564,7 +733,7 @@ function valiDatePostCodeBill() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        addressBill.postcode = currentInput.value;
+        addressBill.postalCode = currentInput.value;
         validateFormToSubmit();
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
@@ -574,7 +743,7 @@ function valiDatePostCodeBill() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        addressBill.postcode = currentInput.value;
+        addressBill.postalCode = currentInput.value;
         validateFormToSubmit();
     }
 }
@@ -882,7 +1051,9 @@ const RegistrationPage = () => {
                             <Checkbox className={registyles.input_checkbox_ship_bill} onChange={checkShippingAddress}>
                                 Use for billing
                             </Checkbox>
-                            <Checkbox className={registyles.input_checkbox_ship_def}>Use as default</Checkbox>
+                            <Checkbox className={registyles.input_checkbox_ship_def} onChange={validateFormToSubmit}>
+                                Use as default
+                            </Checkbox>
                         </div>
                     </div>
                     <div className={registyles.address_block}>
@@ -1002,10 +1173,16 @@ const RegistrationPage = () => {
                             </Form.Item>
                         </div>
                         <div className={registyles.checkbox_block}>
-                            <Checkbox className={registyles.input_checkbox_bill_ship} onChange={checkBilligAddress}>
+                            <Checkbox
+                                type="checkbox"
+                                className={registyles.input_checkbox_bill_ship}
+                                onChange={checkBilligAddress}
+                            >
                                 Use for shipping
                             </Checkbox>
-                            <Checkbox className={registyles.input_checkbox_bill_def}>Use as default</Checkbox>
+                            <Checkbox className={registyles.input_checkbox_bill_def} onChange={validateFormToSubmit}>
+                                Use as default
+                            </Checkbox>
                         </div>
                     </div>
                 </div>

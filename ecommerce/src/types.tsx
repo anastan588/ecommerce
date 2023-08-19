@@ -5,15 +5,15 @@ export type Customer = {
     lastName: string;
     dateOfBirth: string;
     addresses: Address[];
-    defaultShippingAddress: number;
-    shippingAddressIds: number[];
-    defaultBillingAddress: number;
-    billingAddressIds: number[];
+    defaultShippingAddress?: number | undefined;
+    shippingAddresses: number[];
+    defaultBillingAddress?: number | undefined;
+    billingAddresses: number[];
 };
 
 export type Address = {
     streetName: string;
     city: string;
-    postcode: string;
+    postalCode: string;
     country: string;
 };

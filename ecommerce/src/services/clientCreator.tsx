@@ -12,10 +12,19 @@ const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
 const apiRootPasswordFlow = createApiBuilderFromCtpClient(ctpClientPasswordFlow).withProjectKey({
     projectKey: `${API_CLIENT_SETTINGS.projectKey}`,
 });
-// const clientDraft: Customer = {
-//     email: 'getting-started@example.com',
-//     password: 'examplePassword',
-// };
+
+export const clientDraft: Customer = {
+    addresses: [{ streetName: 'fgf', city: 'gfgfgfg', postalCode: 'fgfgfg', country: 'LT)' }],
+    billingAddresses: [0],
+    dateOfBirth: '1984-02-02',
+    defaultBillingAddress: 0,
+    defaultShippingAddress: 0,
+    email: 'anas@mail.ru',
+    firstName: 'vghghg',
+    lastName: 'fgfgf',
+    password: '5952473Ui',
+    shippingAddresses: [0],
+};
 
 export async function createCustomer(client: Customer) {
     const answer = await apiRoot
