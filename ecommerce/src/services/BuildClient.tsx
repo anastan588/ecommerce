@@ -11,7 +11,7 @@ import {
 
 import API_CLIENT_SETTINGS from './apiClientSettings';
 
-console.log(API_CLIENT_SETTINGS);
+// console.log(API_CLIENT_SETTINGS);
 
 const projectKey = `${API_CLIENT_SETTINGS.projectKey}`;
 const scopes = [`${API_CLIENT_SETTINGS.scope}`];

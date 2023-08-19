@@ -5,9 +5,9 @@ export type Customer = {
     lastName: string;
     dateOfBirth: string;
     addresses: Address[];
-    defaultShippingAddress?: number | undefined;
+    defaultShippingAddress: number | undefined;
     shippingAddresses: number[];
-    defaultBillingAddress?: number | undefined;
+    defaultBillingAddress: number | undefined;
     billingAddresses: number[];
 };
 

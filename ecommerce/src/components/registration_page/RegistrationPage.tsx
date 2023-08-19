@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { Option } from 'antd/es/mentions';
 import registyles from './regisration_page.module.css';
 import { Customer, Address } from '../../types';
+import createCustomer from '../../services/clientCreator';
 
 const { Title } = Typography;
 
@@ -110,11 +111,13 @@ function validateFormToSubmit() {
         } else {
             newCustomer.addresses.push(addressShip);
             newCustomer.addresses.push(addressBill);
+            newCustomer.shippingAddresses.push(0);
+            newCustomer.billingAddresses.push(1);
         }
         if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
             newCustomer.defaultShippingAddress = 0;
         } else if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
-            newCustomer.defaultBillingAddress = 0;
+            newCustomer.defaultBillingAddress = 1;
         }
         console.log(newCustomer);
     } else {
@@ -1051,7 +1054,12 @@ const RegistrationPage = () => {
                             <Checkbox className={registyles.input_checkbox_ship_bill} onChange={checkShippingAddress}>
                                 Use for billing
                             </Checkbox>
-                            <Checkbox className={registyles.input_checkbox_ship_def} onChange={validateFormToSubmit}>
+                            <Checkbox
+                                className={registyles.input_checkbox_ship_def}
+                                onChange={() => {
+                                    newCustomer.defaultShippingAddress = 0;
+                                }}
+                            >
                                 Use as default
                             </Checkbox>
                         </div>
@@ -1180,7 +1188,12 @@ const RegistrationPage = () => {
                             >
                                 Use for shipping
                             </Checkbox>
-                            <Checkbox className={registyles.input_checkbox_bill_def} onChange={validateFormToSubmit}>
+                            <Checkbox
+                                className={registyles.input_checkbox_bill_def}
+                                onChange={() => {
+                                    newCustomer.defaultBillingAddress = 1;
+                                }}
+                            >
                                 Use as default
                             </Checkbox>
                         </div>
@@ -1193,6 +1206,13 @@ const RegistrationPage = () => {
                         style={{ marginTop: 0 }}
                     >
                         <Button className={registyles.submit_button} type="primary" htmlType="submit" disabled>
+                            <Link
+                                to="/"
+                                onClick={() => {
+                                    console.log('hellocustomer');
+                                    createCustomer(newCustomer);
+                                }}
+                            ></Link>
                             Register
                         </Button>
                     </Form.Item>

@@ -85,5 +85,5 @@
     },
     "compilerOptions": {
         "moduleResolution": "node"
-        }
+    }
 }
