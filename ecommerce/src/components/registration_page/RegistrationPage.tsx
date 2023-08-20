@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { Option } from 'antd/es/mentions';
 import registyles from './regisration_page.module.css';
 import { Customer, Address } from '../../types';
-import createCustomer from '../../services/clientCreator';
+import { CreateCustomer, UseRedirecttOkMessage } from '../../services/clientCreator';
 
 const { Title } = Typography;
 
@@ -875,7 +875,7 @@ function valiDateCountryClickBill(event: React.MouseEvent<HTMLDivElement>) {
     }
 }
 
-const RegistrationPage = () => {
+const RegistrationPage: React.FC = () => {
     return (
         <div className={registyles.registration__page}>
             <div className={registyles.registration__container}>
@@ -1268,7 +1268,9 @@ const RegistrationPage = () => {
                     className="input_block"
                     name="register"
                     onClick={() => {
-                        createCustomer(newCustomer);
+                        const navigate = UseRedirecttOkMessage();
+                        console.log(navigate);
+                        // CreateCustomer(newCustomer).then(navigate('/message-create'));
                     }}
                 >
                     <Form.Item

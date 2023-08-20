@@ -12,7 +12,15 @@ const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
     projectKey: `${API_CLIENT_SETTINGS.projectKey}`,
 });
 
-export async function createCustomer(client: Customer) {
+export function UseRedirecttOkMessage() {
+    const navigate = useNavigate();
+    const redirect = () => {
+        navigate(`/message-create`);
+    };
+    return navigate;
+}
+
+export async function CreateCustomer(client: Customer) {
     const answer = await apiRoot
         .customers()
         .post({
@@ -22,11 +30,6 @@ export async function createCustomer(client: Customer) {
         .then((body) => {
             console.log(body.statusCode);
             console.log(body.statusCode === 201);
-            const navigate = useNavigate();
-            console.log(navigate);
-
-            console.log(body.statusCode);
-            navigate('/message-create');
         })
         .catch((err) => {
             if (err.name === 'BadRequest') {
@@ -41,7 +44,7 @@ export async function createCustomer(client: Customer) {
     return answer;
 }
 
-export default createCustomer;
+export default CreateCustomer;
 // export async function createCustomerPasswordflow(client: Customer) {
 //     const answer = await apiRootPasswordFlow
 //         .customers()
