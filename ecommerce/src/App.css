@@ -99,21 +99,44 @@ h6 {
 
 /*Normalize*/
 
+.main_container {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    gap: 10px;
+    background-image: url(/src/images/backgrounds/mainBackGround.jpg);
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-height: 100vh;
+}
+
 .header__container {
     padding: 20px;
-    background: yellowgreen;
+    background: rgba(0, 0, 0, 0.5);
     align-items: center;
 }
 
 .header__item {
-    font-size: 18px;
-    cursor: pointer;
-    color: black;
-    text-decoration: none;
+    transition: all 0.5s ease;
 }
 
 .header__item:hover {
+    transform: scale(1.1);
+
+}
+
+.header__item_link {
+    font-size: 18px;
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    transition: all 0.5s ease;
+}
+
+.header__item_link:hover {
     color: red;
+    transform: scale(1.1);
+
 }
 
 .header__buttons-block {
@@ -158,4 +181,17 @@ h6 {
     to {
         transform: rotate(360deg);
     }
+}
+
+.page_title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 150%;
+    color:rgba(0, 0, 0, 0.8);
+    justify-content: center;
+}
+
+.main {
+    flex: 1 1 auto;
 }

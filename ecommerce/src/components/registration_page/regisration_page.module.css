@@ -15,7 +15,7 @@
     padding: 10px;
     border-radius: 30px;
     border: 1px solid gray;
-    font-size: 80%;
+    
 }
 
 .title_registration_main {
@@ -24,6 +24,7 @@
     margin-top: 0px;
     margin-bottom: 0px;
     font-size: 120%;
+    color: #2e2ed2;
 }
 
 .title_registration_login {
@@ -49,6 +50,7 @@
 }
 
 .input_block {
+    font-size: 90%;
 }
 .input {
     margin-bottom: 0em;
@@ -157,36 +159,36 @@
 .error_name {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 20px;
 }
 .error_surname {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 20px;
 }
 
 .error_email {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 20px;
 }
 
 .error_password {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 20px;
 }
 
 .error_password_repeat {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 20px;
 }
 
 .error_birth {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 25px;
+    height: 20px;
 }
 
 .error_address_ship {
@@ -197,7 +199,7 @@
 .error_street_ship {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 35px;
+    height: 30px;
     display: flex;
     align-items: center;
 }
@@ -205,21 +207,21 @@
 .error_town_ship {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 35px;
+    height: 30px;
     display: flex;
     align-items: center;
 }
 .error_postcode_ship {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 35px;
+    height: 30px;
     display: flex;
     align-items: center;
 }
 .error_country_ship {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 35px;
+    height: 30px;
     display: flex;
     align-items: center;
 }
@@ -234,7 +236,7 @@
 .error_street_bill {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 35px;
+    height: 30px;
     display: flex;
     align-items: center;
 }
@@ -242,21 +244,21 @@
 .error_town_bill {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 35px;
+    height: 30px;
     display: flex;
     align-items: center;
 }
 .error_postcode_bill {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 35px;
+    height: 30px;
     display: flex;
     align-items: center;
 }
 .error_country_bill {
     padding-left: 21%;
     color: #ff4d4f;
-    height: 35px;
+    height: 30px;
     display: flex;
     align-items: center;
 }
@@ -267,6 +269,7 @@
 .address_container {
     display: flex;
     justify-content: space-around;
+    font-size: 90%;
 }
 
 .address_block {

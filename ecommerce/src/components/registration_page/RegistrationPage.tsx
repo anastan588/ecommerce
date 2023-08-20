@@ -76,12 +76,6 @@ function validateFormToSubmit() {
         `.${registyles.input_password_repeat}`
     ) as HTMLInputElement;
     const currentInputBithDay = document.querySelector(`.${registyles.input_birth}`) as HTMLInputElement;
-    console.log(currentInputName.getAttribute('style'));
-    console.log(currentInputSecondName.getAttribute('style'));
-    console.log(currentInputMail.getAttribute('style'));
-    console.log(currentInputPassword.getAttribute('style'));
-    console.log(currentInputRasswordRepeat.getAttribute('style'));
-    console.log(currentInputBithDay.getAttribute('style'));
     if (
         submitTrueArray.length === formsCollection.length ||
         (currentInputStreetShip.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
@@ -101,18 +95,81 @@ function validateFormToSubmit() {
     ) {
         submitButton.disabled = false;
         if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
-            newCustomer.addresses.push(addressShip);
-            newCustomer.shippingAddresses.push(0);
-            newCustomer.billingAddresses.push(0);
+            if (newCustomer.addresses.length === 0) {
+                newCustomer.addresses.push(addressShip);
+            } else if (newCustomer.addresses.length === 1) {
+                newCustomer.addresses.pop();
+                newCustomer.addresses.push(addressShip);
+            }
+            if (newCustomer.shippingAddresses.length === 0) {
+                newCustomer.shippingAddresses.push(0);
+            } else if (newCustomer.addresses.length === 1) {
+                newCustomer.shippingAddresses.pop();
+                newCustomer.shippingAddresses.push(0);
+            }
+
+            if (newCustomer.billingAddresses.length === 0) {
+                newCustomer.billingAddresses.push(0);
+            } else if (newCustomer.billingAddresses.length === 1) {
+                newCustomer.billingAddresses.pop();
+                newCustomer.billingAddresses.push(0);
+            }
         } else if (checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
-            newCustomer.addresses.push(addressBill);
-            newCustomer.shippingAddresses.push(1);
-            newCustomer.billingAddresses.push(1);
+            if (newCustomer.addresses.length === 0) {
+                newCustomer.addresses.push(addressBill);
+            } else if (newCustomer.addresses.length === 1) {
+                newCustomer.addresses.pop();
+                newCustomer.addresses.push(addressBill);
+            }
+            if (newCustomer.shippingAddresses.length === 0) {
+                newCustomer.shippingAddresses.push(1);
+            } else if (newCustomer.shippingAddresses.length === 1) {
+                newCustomer.shippingAddresses.pop();
+                newCustomer.shippingAddresses.push(1);
+            } else if (newCustomer.shippingAddresses.length === 2) {
+                newCustomer.shippingAddresses.pop();
+                newCustomer.shippingAddresses.pop();
+                newCustomer.shippingAddresses.push(1);
+            }
+
+            if (newCustomer.billingAddresses.length === 0) {
+                newCustomer.billingAddresses.push(1);
+            } else if (newCustomer.billingAddresses.length === 1) {
+                newCustomer.billingAddresses.pop();
+                newCustomer.billingAddresses.push(1);
+            } else if (newCustomer.billingAddresses.length === 2) {
+                newCustomer.billingAddresses.pop();
+                newCustomer.billingAddresses.pop();
+                newCustomer.billingAddresses.push(1);
+            }
         } else {
-            newCustomer.addresses.push(addressShip);
-            newCustomer.addresses.push(addressBill);
-            newCustomer.shippingAddresses.push(0);
-            newCustomer.billingAddresses.push(1);
+            if (newCustomer.addresses.length === 0) {
+                newCustomer.addresses.push(addressShip);
+                newCustomer.addresses.push(addressBill);
+            } else if (newCustomer.addresses.length === 1) {
+                newCustomer.addresses.pop();
+                newCustomer.addresses.push(addressShip);
+                newCustomer.addresses.push(addressBill);
+            } else if (newCustomer.addresses.length === 2) {
+                newCustomer.addresses.pop();
+                newCustomer.addresses.pop();
+                newCustomer.addresses.push(addressShip);
+                newCustomer.addresses.push(addressBill);
+            }
+
+            if (newCustomer.shippingAddresses.length === 0) {
+                newCustomer.shippingAddresses.push(0);
+            } else if (newCustomer.addresses.length === 1) {
+                newCustomer.shippingAddresses.pop();
+                newCustomer.shippingAddresses.push(0);
+            }
+
+            if (newCustomer.billingAddresses.length === 0) {
+                newCustomer.billingAddresses.push(1);
+            } else if (newCustomer.billingAddresses.length === 1) {
+                newCustomer.billingAddresses.pop();
+                newCustomer.billingAddresses.push(1);
+            }
         }
         if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
             newCustomer.defaultShippingAddress = 0;
@@ -597,7 +654,7 @@ function valiDateCountryChangeShip(option: string) {
             currentInput.style.border = '1px solid #1fffb7';
             currentFormInput.setAttribute('submit', 'true');
             const countryArray = currentInput.children[0].innerHTML.split(' ');
-            addressShip.country = countryArray[1].slice(1, 4);
+            addressShip.country = countryArray[1].slice(1, 3);
             console.log(countryArray[1].slice(1, 3));
             validateFormToSubmit();
         }
@@ -772,7 +829,7 @@ function valiDateCountryChangeBill(option: string) {
             currentInput.style.border = '1px solid #1fffb7';
             currentFormInput.setAttribute('submit', 'true');
             const countryArray = currentInput.children[0].innerHTML.split(' ');
-            addressBill.country = countryArray[1].slice(1, 4);
+            addressBill.country = countryArray[1].slice(1, 3);
             console.log(countryArray[1].slice(1, 3));
             validateFormToSubmit();
         }
@@ -822,11 +879,19 @@ const RegistrationPage = () => {
     return (
         <div className={registyles.registration__page}>
             <div className={registyles.registration__container}>
-                <Title className={registyles.title_registration_main} level={2} style={{ marginBottom: 0 }}>
+                <Title
+                    className={registyles.title_registration_main}
+                    level={2}
+                    style={{ marginBottom: 0, color: '#2e2ed2' }}
+                >
                     Welcome to our store
                 </Title>
                 <div className={registyles.title_registration_login}>
-                    <Title className={registyles.registration_login_title} level={3} style={{ marginBottom: 0 }}>
+                    <Title
+                        className={registyles.registration_login_title}
+                        level={3}
+                        style={{ marginBottom: 0, color: '#2e2ed2' }}
+                    >
                         Already have an account?
                     </Title>
                     <Button type="primary" className={registyles.registration_login_link}>
@@ -1199,20 +1264,19 @@ const RegistrationPage = () => {
                         </div>
                     </div>
                 </div>
-                <Form className="input_block" name="register">
+                <Form
+                    className="input_block"
+                    name="register"
+                    onClick={() => {
+                        createCustomer(newCustomer);
+                    }}
+                >
                     <Form.Item
                         className={registyles.submit}
                         wrapperCol={{ offset: 11, span: 16 }}
-                        style={{ marginTop: 0 }}
+                        style={{ margin: 0 }}
                     >
                         <Button className={registyles.submit_button} type="primary" htmlType="submit" disabled>
-                            <Link
-                                to="/"
-                                onClick={() => {
-                                    console.log('hellocustomer');
-                                    createCustomer(newCustomer);
-                                }}
-                            ></Link>
                             Register
                         </Button>
                     </Form.Item>
