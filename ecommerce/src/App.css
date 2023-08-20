@@ -122,7 +122,6 @@ h6 {
 
 .header__item:hover {
     transform: scale(1.1);
-
 }
 
 .header__item_link {
@@ -136,7 +135,6 @@ h6 {
 .header__item_link:hover {
     color: red;
     transform: scale(1.1);
-
 }
 
 .header__buttons-block {
@@ -188,7 +186,7 @@ h6 {
     flex-direction: column;
     align-items: center;
     font-size: 150%;
-    color:rgba(0, 0, 0, 0.8);
+    color: rgba(0, 0, 0, 0.8);
     justify-content: center;
 }
 
