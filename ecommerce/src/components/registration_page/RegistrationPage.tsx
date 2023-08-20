@@ -1270,7 +1270,7 @@ const RegistrationPage: React.FC = () => {
                     onClick={() => {
                         const navigate = UseRedirecttOkMessage();
                         console.log(navigate);
-                        // CreateCustomer(newCustomer).then(navigate('/message-create'));
+                        CreateCustomer(newCustomer);
                     }}
                 >
                     <Form.Item
