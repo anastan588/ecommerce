@@ -46,7 +46,6 @@ class Store {
     checkAuth() {
         const tokenStore = getLocalStorage();
         const { refreshToken } = tokenStore;
-        console.log(refreshToken);
         const client = getClientWithToken(refreshToken);
         const apiRootToken = createApiBuilderFromCtpClient(client);
         const endPointToken = () => {

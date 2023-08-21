@@ -78,9 +78,6 @@ const Login: React.FC = () => {
 
     const navigate = useNavigate();
     const onFinish = (values: Values) => {
-        console.log(values.email);
-        console.log(values.password);
-        console.log('Success:', values);
         const login = store.login(values.email, values.password);
         login.then(() => {
             console.log('sucsess');
@@ -145,12 +142,9 @@ const Login: React.FC = () => {
             .catch(console.error); */
     };
     const onFinishFailed = (errorInfo: ValidateErrorEntity<Values>) => {
-        console.log(errorInfo.errorFields);
-        console.log(errorInfo.errorFields[1].errors[1]);
         const str1 = errorInfo.errorFields[0].errors.join(', ');
-        console.log(`${str1}`);
         alert(`${str1}`);
-        console.log('Failed:', errorInfo);
+        // console.log('Failed:', errorInfo);
     };
     /* getProject().then(console.log).catch(console.error);
 
@@ -198,7 +192,8 @@ const Login: React.FC = () => {
                     { pattern: /^\S?\S/, message: 'Email address must not contain leading or trailing whitespace' },
                     {
                         pattern: /[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
-                        message: 'Email address must contain a domain name (e.g., example.com)',
+                        message:
+                            'Email address must contain a domain name (e.g., example.com) and must contain an "@" symbol separating local part and domain name',
                     },
                 ]}
             >
@@ -212,7 +207,8 @@ const Login: React.FC = () => {
                     { pattern: /.{8}/, message: 'Password must be at least 8 characters long' },
                     { pattern: /[A-Z]/, message: 'Password must contain at least one uppercase letter (A-Z)' },
                     { pattern: /[a-z]/, message: 'Password must contain at least one lowercase letter (a-z)' },
-                    { pattern: /\d/, message: 'Password must not contain leading or trailing whitespace' },
+                    { pattern: /\d/, message: 'Password must contain at least one digit (0-9)' },
+                    { pattern: /^\S?\S/, message: 'Password must not contain leading or trailing whitespace' },
                 ]}
             >
                 <Input.Password value={password} />
