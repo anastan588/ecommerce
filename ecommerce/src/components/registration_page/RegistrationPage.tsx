@@ -1,10 +1,15 @@
-import React, { Children } from 'react';
+import React, { Children, useContext } from 'react';
 import { Typography, Button, Input, Form, Select, Checkbox } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Option } from 'antd/es/mentions';
+import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import registyles from './regisration_page.module.css';
 import { Customer, Address } from '../../types';
 import CreateCustomer from '../../services/clientCreator';
+import Store from '../login_page/store';
+import { Context } from '../..';
+import { getPasswordFlowClient } from '../login_page/createClient';
+import API_CLIENT_SETTINGS from '../../services/apiClientSettings';
 
 const { Title } = Typography;
 
@@ -870,7 +875,33 @@ function valiDateCountryClickBill(event: React.MouseEvent<HTMLDivElement>) {
     }
 }
 
+const projectKey = `${API_CLIENT_SETTINGS.projectKey}`;
+
 const RegistrationPage: React.FC = () => {
+    const navigate = useNavigate();
+    const { store } = useContext(Context);
+    function clickCustomer() {
+        const registration = store.registration(newCustomer);
+        registration.then(() => {
+            console.log('sucsess');
+            navigate('/');
+            const customer = getPasswordFlowClient(newCustomer.email, newCustomer.password);
+            const apiRootClient = createApiBuilderFromCtpClient(customer);
+            const endPointPassword = () => {
+                return apiRootClient.withProjectKey({ projectKey }).me().get().execute();
+            };
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            endPointPassword()
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+                .then(({ body }) => {
+                    console.log(body);
+                })
+                .catch(({ error }) => {
+                    console.log(error);
+                });
+        });
+    }
+
     return (
         <div className={registyles.registration__page}>
             <div className={registyles.registration__container}>
@@ -1263,7 +1294,7 @@ const RegistrationPage: React.FC = () => {
                     className="input_block"
                     name="register"
                     onClick={() => {
-                        CreateCustomer(newCustomer);
+                        clickCustomer();
                     }}
                 >
                     <Form.Item

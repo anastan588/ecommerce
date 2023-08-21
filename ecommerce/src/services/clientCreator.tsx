@@ -8,11 +8,15 @@ import { Customer } from '../types';
 import CreateCustomerMessage from '../components/message_create_customer/message_create_customer';
 import registyles from '../components/registration_page/regisration_page.module.css';
 import { newCustomer } from '../components/registration_page/RegistrationPage';
-
+import { getPasswordFlowClient } from '../components/login_page/createClient';
+import Store from '../components/login_page/store';
+import { Context } from '..';
 // Create apiRoot from the imported ClientBuilder and include your Project key
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
     projectKey: `${API_CLIENT_SETTINGS.projectKey}`,
 });
+
+const projectKey = `${API_CLIENT_SETTINGS.projectKey}`;
 
 async function CreateCustomer(client: Customer) {
     const answer = await apiRoot
@@ -25,12 +29,28 @@ async function CreateCustomer(client: Customer) {
             console.log(body.statusCode);
             console.log(body.statusCode === 201);
             alert('Customer has been created');
+            const customer = getPasswordFlowClient(client.email, client.password);
+            const apiRootClient = createApiBuilderFromCtpClient(customer);
+
+            const endPointPassword = () => {
+                return apiRootClient.withProjectKey({ projectKey }).me().get().execute();
+            };
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            endPointPassword()
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+                .then(({ body }) => {
+                    console.log(body);
+                })
+                .catch(({ err }) => {
+                    console.log(err);
+                });
         })
         .catch((err) => {
             if (err.name === 'BadRequest') {
                 const currentErrorMessage = document.querySelector(
                     `.${registyles.error_email}`
                 ) as HTMLParagraphElement;
+                alert('There is already an existing customer with the provided email.');
                 currentErrorMessage.innerHTML = 'There is already an existing customer with the provided email.';
                 const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
                 currentInput.style.border = '1px solid #ff4d4f';
@@ -38,6 +58,12 @@ async function CreateCustomer(client: Customer) {
         });
     return answer;
 }
+
+// function clickCustomer() {
+//     const navigate = useNavigate();
+//     const { store } = useContext(Context);
+//     const login = store.registratin(newCustomer.email, newCustomer.password);
+// }
 
 export default CreateCustomer;
 // export async function createCustomerPasswordflow(client: Customer) {
