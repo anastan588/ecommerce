@@ -14,7 +14,7 @@ window.matchMedia = (query) => ({
 });
 
 test('renders learn react link', () => {
-    render(<App />)
+    render(<App />);
     const linkElement = screen.getByText('Log In');
     expect(linkElement).toBeInTheDocument();
 });
