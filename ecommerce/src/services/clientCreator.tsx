@@ -1,26 +1,20 @@
 import { error } from 'console';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { Body } from 'node-fetch';
-import { useNavigate } from 'react-router-dom';
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 import { ctpClient, ctpClientPasswordFlow } from './BuildClient';
 import API_CLIENT_SETTINGS from './apiClientSettings';
 import { Customer } from '../types';
 import CreateCustomerMessage from '../components/message_create_customer/message_create_customer';
 import registyles from '../components/registration_page/regisration_page.module.css';
+import { newCustomer } from '../components/registration_page/RegistrationPage';
+
 // Create apiRoot from the imported ClientBuilder and include your Project key
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
     projectKey: `${API_CLIENT_SETTINGS.projectKey}`,
 });
 
-export function UseRedirecttOkMessage() {
-    const navigate = useNavigate();
-    const redirect = () => {
-        navigate(`/message-create`);
-    };
-    return navigate;
-}
-
-export async function CreateCustomer(client: Customer) {
+async function CreateCustomer(client: Customer) {
     const answer = await apiRoot
         .customers()
         .post({
@@ -30,6 +24,7 @@ export async function CreateCustomer(client: Customer) {
         .then((body) => {
             console.log(body.statusCode);
             console.log(body.statusCode === 201);
+            alert('Customer has been created');
         })
         .catch((err) => {
             if (err.name === 'BadRequest') {

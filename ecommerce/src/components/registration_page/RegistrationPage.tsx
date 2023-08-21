@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom';
 import { Option } from 'antd/es/mentions';
 import registyles from './regisration_page.module.css';
 import { Customer, Address } from '../../types';
-import { CreateCustomer, UseRedirecttOkMessage } from '../../services/clientCreator';
+import CreateCustomer from '../../services/clientCreator';
 
 const { Title } = Typography;
 
-const newCustomer: Customer = {
+export const newCustomer: Customer = {
     email: '',
     password: '',
     firstName: '',
@@ -489,18 +489,13 @@ function valiDateBirth() {
     const currentErrorMessage = document.querySelector(`.${registyles.error_birth}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_birth}`) as HTMLDivElement;
     const validationValue = currentInput.value.trim();
-    console.log(validationValue);
     const todayDate = new Date();
-    console.log(todayDate);
     const dateForValidation = new Date(validationValue);
     // dateForValidation.setFullYear(Number(validationValue.slice(0, 4)));
     // dateForValidation.setMonth(Number(validationValue.slice(5, 7)) - 1);
     // dateForValidation.setDate(Number(validationValue.slice(8)));
-    console.log(dateForValidation);
     const todayDateMiliseconds = todayDate.getTime();
     const dateForValidationMiliseconds = dateForValidation.getTime();
-    console.log(todayDateMiliseconds);
-    console.log(dateForValidationMiliseconds);
     const yearForValidation = Math.floor(
         (todayDateMiliseconds - dateForValidationMiliseconds) / (1000 * 60 * 60 * 24 * 30 * 12)
     );
@@ -1268,8 +1263,6 @@ const RegistrationPage: React.FC = () => {
                     className="input_block"
                     name="register"
                     onClick={() => {
-                        const navigate = UseRedirecttOkMessage();
-                        console.log(navigate);
                         CreateCustomer(newCustomer);
                     }}
                 >
