@@ -1,9 +1,20 @@
 import { Button, Col, Row } from 'antd';
-import React from 'react';
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { observer } from 'mobx-react-lite';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import RegistrationPage from '../registration_page/RegistrationPage';
+import { Context } from '../..';
 
 const Header = () => {
+    const { store } = useContext(Context);
+    useEffect(() => {
+        if (localStorage.getItem('token')) {
+            store.checkAuth();
+        }
+    }, []);
+
+    // const { authed, logout } = UserAuth();
     return (
         <Row className="header__container" justify="space-evenly" wrap={false}>
             <Col className="header__item" onClick={() => console.log('main page')}>
@@ -29,7 +40,17 @@ const Header = () => {
 
             <Col className="header__buttons-block">
                 <Button type="primary">
-                    <Link to="/login">Log In</Link>
+                    {store.isAuth && (
+                        <Link
+                            to="/"
+                            onClick={() => {
+                                store.logout();
+                            }}
+                        >
+                            Log Out
+                        </Link>
+                    )}
+                    {!store.isAuth && <Link to="/login">Log In</Link>}
                 </Button>
                 <Button>
                     <Link to="/registration">Registration</Link>
@@ -42,4 +63,4 @@ const Header = () => {
     );
 };
 
-export default Header;
+export default observer(Header);
