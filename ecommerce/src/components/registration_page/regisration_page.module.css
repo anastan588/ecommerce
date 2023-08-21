@@ -1,0 +1,304 @@
+.registration_page {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+.registration__container {
+    max-width: 700px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px solid gray;
+}
+
+.title_registration_main {
+    align-self: center;
+    line-height: 100%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    font-size: 120%;
+    color: #2e2ed2;
+}
+
+.title_registration_login {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    align-self: center;
+}
+
+.registration_login_title {
+    line-height: 100%;
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.registration_login_link {
+}
+
+.input_block {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.input_block {
+    font-size: 90%;
+}
+.input {
+    margin-bottom: 0em;
+}
+
+.form_firstname {
+    font-weight: 700;
+}
+
+.input_name {
+}
+
+.form_secondname {
+    font-weight: 700;
+}
+.input_surname {
+}
+
+.input_mail {
+}
+
+.form_mail {
+    font-weight: 700;
+    display: grid;
+}
+.input_password {
+}
+
+.form_password {
+    font-weight: 700;
+}
+
+.form_password_repeat {
+    font-weight: 700;
+}
+.input_password_repeat {
+}
+
+.form_address_ship {
+    margin-bottom: 0em;
+    font-weight: 700;
+}
+
+.form_street_ship {
+    font-weight: 700;
+}
+.input_street_ship {
+}
+.form_code_ship {
+    font-weight: 700;
+}
+.input_postcode_ship {
+}
+.form_city_ship {
+    font-weight: 700;
+}
+.input_city_ship {
+}
+.form_country_ship {
+    font-weight: 700;
+}
+.input_country_ship {
+}
+.form_address_bill {
+    margin-bottom: 0em;
+    font-weight: 700;
+}
+.form_street_bil {
+    font-weight: 700;
+}
+.input_street_bill {
+}
+.form_code_bill {
+    font-weight: 700;
+}
+.input_postcode_bill {
+}
+.form_city_bill {
+    font-weight: 700;
+}
+.input_city_bill {
+}
+.form_country_bill {
+    font-weight: 700;
+}
+.input_country_bill {
+}
+
+.form_birth {
+    font-weight: 700;
+}
+.input_birth {
+}
+
+.submit {
+}
+
+.submit_button {
+    margin-top: 0em;
+    margin-bottom: 0em;
+}
+
+.error_message {
+}
+
+.error_name {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 20px;
+}
+.error_surname {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 20px;
+}
+
+.error_email {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 20px;
+}
+
+.error_password {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 20px;
+}
+
+.error_password_repeat {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 20px;
+}
+
+.error_birth {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 20px;
+}
+
+.error_address_ship {
+    padding-left: 21%;
+    color: #ff4d4f;
+}
+
+.error_street_ship {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.error_town_ship {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+.error_postcode_ship {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+.error_country_ship {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.error_address_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    display: flex;
+    align-items: center;
+}
+
+.error_street_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.error_town_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+.error_postcode_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+.error_country_bill {
+    padding-left: 21%;
+    color: #ff4d4f;
+    height: 30px;
+    display: flex;
+    align-items: center;
+}
+
+.error_border {
+}
+
+.address_container {
+    display: flex;
+    justify-content: space-around;
+    font-size: 90%;
+}
+
+.address_block {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border-radius: 30px;
+    border: 1px solid gray;
+}
+
+.input_checkbox_ship_def {
+    display: flex;
+}
+.input_checkbox_ship_bill {
+    display: flex;
+}
+.input_checkbox_bill {
+    display: flex;
+}
+
+.input_checkbox_bill_def {
+    display: flex;
+}
+
+.input_checkbox_bill_ship {
+    display: flex;
+}
+.checkbox_block {
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+    font-weight: 700;
+}

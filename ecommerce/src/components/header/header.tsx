@@ -3,6 +3,7 @@ import { Button, Col, Row } from 'antd';
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import RegistrationPage from '../registration_page/RegistrationPage';
 import { Context } from '../..';
 
 const Header = () => {
@@ -16,23 +17,23 @@ const Header = () => {
     // const { authed, logout } = UserAuth();
     return (
         <Row className="header__container" justify="space-evenly" wrap={false}>
-            <Col onClick={() => console.log('main page')}>
-                <Link to="/" className="header__item">
+            <Col className="header__item" onClick={() => console.log('main page')}>
+                <Link to="/" className="header__item_link">
                     Main page
                 </Link>
             </Col>
-            <Col>
-                <Link className="header__item" to="/catalog">
+            <Col className="header__item">
+                <Link className="header__item_link" to="/catalog">
                     Catalog page
                 </Link>
             </Col>
-            <Col onClick={() => console.log('about us page')}>
-                <Link className="header__item" to="/about">
+            <Col className="header__item" onClick={() => console.log('about us page')}>
+                <Link className="header__item_link" to="/about">
                     About Us
                 </Link>
             </Col>
-            <Col onClick={() => console.log('basket page')}>
-                <Link className="header__item" to="/basket">
+            <Col className="header__item" onClick={() => console.log('basket page')}>
+                <Link className="header__item_link" to="/basket">
                     Basket page
                 </Link>
             </Col>
