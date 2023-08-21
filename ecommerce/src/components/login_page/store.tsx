@@ -3,8 +3,10 @@ import React, { useState } from 'react';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { makeAutoObservable } from 'mobx';
-import { apiRoot, getClientWithToken } from './createClient';
+import { apiRoot, getClientWithToken, getPasswordFlowClient } from './createClient';
 import { projectKey, getLocalStorage } from './BuildClient';
+import registyles from '../registration_page/regisration_page.module.css';
+import { Customer } from '../../types';
 
 class Store {
     isAuth = false;
@@ -41,6 +43,32 @@ class Store {
     logout() {
         localStorage.removeItem('token');
         this.setAuth(false);
+    }
+
+    registration(client: Customer) {
+        return apiRoot
+            .customers()
+            .post({
+                body: client,
+            })
+            .execute()
+            .then((body) => {
+                console.log(body.statusCode);
+                console.log(body.statusCode === 201);
+                alert('Customer has been created');
+                this.setAuth(true);
+            })
+            .catch((err) => {
+                if (err.name === 'BadRequest') {
+                    const currentErrorMessage = document.querySelector(
+                        `.${registyles.error_email}`
+                    ) as HTMLParagraphElement;
+                    alert('There is already an existing customer with the provided email.');
+                    currentErrorMessage.innerHTML = 'There is already an existing customer with the provided email.';
+                    const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
+                    currentInput.style.border = '1px solid #ff4d4f';
+                }
+            });
     }
 
     checkAuth() {
