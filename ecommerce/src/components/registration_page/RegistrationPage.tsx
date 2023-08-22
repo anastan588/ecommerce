@@ -885,20 +885,6 @@ const RegistrationPage: React.FC = () => {
         registration.then(() => {
             console.log('sucsess');
             navigate('/');
-            const customer = getPasswordFlowClient(newCustomer.email, newCustomer.password);
-            const apiRootClient = createApiBuilderFromCtpClient(customer);
-            const endPointPassword = () => {
-                return apiRootClient.withProjectKey({ projectKey }).me().get().execute();
-            };
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-            endPointPassword()
-                // eslint-disable-next-line @typescript-eslint/no-shadow
-                .then(({ body }) => {
-                    console.log(body);
-                })
-                .catch(({ error }) => {
-                    console.log(error);
-                });
         });
     }
 
