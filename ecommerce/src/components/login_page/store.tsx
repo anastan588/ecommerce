@@ -75,11 +75,11 @@ class Store {
                     });
             })
             .catch((err) => {
-                const currentErrorMessage = document.querySelector(
-                    `.${registyles.error_email}`
-                ) as HTMLParagraphElement;
-                alert('There is already an existing customer with the provided email.');
-                currentErrorMessage.innerHTML = 'There is already an existing customer with the provided email.';
+                // const currentErrorMessage = document.querySelector(
+                //     `.${registyles.error_email}`
+                // ) as HTMLParagraphElement;
+                alert(err.message);
+                // currentErrorMessage.innerHTML = 'There is already an existing customer with the provided email.';
                 const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
                 currentInput.style.border = '1px solid #ff4d4f';
             });
