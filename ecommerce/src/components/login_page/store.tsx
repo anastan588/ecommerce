@@ -80,8 +80,8 @@ class Store {
                 // ) as HTMLParagraphElement;
                 alert(err.message);
                 // currentErrorMessage.innerHTML = 'There is already an existing customer with the provided email.';
-                const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
-                currentInput.style.border = '1px solid #ff4d4f';
+                // const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
+                // currentInput.style.border = '1px solid #ff4d4f';
             });
     }
 
