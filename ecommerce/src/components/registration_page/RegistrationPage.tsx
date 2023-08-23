@@ -101,9 +101,14 @@ function validateFormToSubmit() {
     ) {
         submitButton.disabled = false;
         if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
+            console.log('hello');
             if (newCustomer.addresses.length === 0) {
                 newCustomer.addresses.push(addressShip);
             } else if (newCustomer.addresses.length === 1) {
+                newCustomer.addresses.pop();
+                newCustomer.addresses.push(addressShip);
+            } else if (newCustomer.addresses.length === 2) {
+                newCustomer.addresses.pop();
                 newCustomer.addresses.pop();
                 newCustomer.addresses.push(addressShip);
             }
@@ -119,6 +124,17 @@ function validateFormToSubmit() {
             } else if (newCustomer.billingAddresses.length === 1) {
                 newCustomer.billingAddresses.pop();
                 newCustomer.billingAddresses.push(0);
+            }
+            setTimeout(() => {}, 500);
+            if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                newCustomer.defaultBillingAddress = 0;
+            } else {
+                newCustomer.defaultBillingAddress = undefined;
+            }
+            if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                newCustomer.defaultShippingAddress = 0;
+            } else {
+                newCustomer.defaultShippingAddress = undefined;
             }
         } else if (checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
             if (newCustomer.addresses.length === 0) {
@@ -126,28 +142,43 @@ function validateFormToSubmit() {
             } else if (newCustomer.addresses.length === 1) {
                 newCustomer.addresses.pop();
                 newCustomer.addresses.push(addressBill);
+            } else if (newCustomer.addresses.length === 2) {
+                newCustomer.addresses.pop();
+                newCustomer.addresses.push(addressBill);
             }
             if (newCustomer.shippingAddresses.length === 0) {
-                newCustomer.shippingAddresses.push(1);
+                newCustomer.shippingAddresses.push(0);
             } else if (newCustomer.shippingAddresses.length === 1) {
                 newCustomer.shippingAddresses.pop();
-                newCustomer.shippingAddresses.push(1);
+                newCustomer.shippingAddresses.push(0);
             } else if (newCustomer.shippingAddresses.length === 2) {
                 newCustomer.shippingAddresses.pop();
                 newCustomer.shippingAddresses.pop();
-                newCustomer.shippingAddresses.push(1);
+                newCustomer.shippingAddresses.push(0);
             }
 
             if (newCustomer.billingAddresses.length === 0) {
-                newCustomer.billingAddresses.push(1);
+                newCustomer.billingAddresses.push(0);
             } else if (newCustomer.billingAddresses.length === 1) {
                 newCustomer.billingAddresses.pop();
-                newCustomer.billingAddresses.push(1);
+                newCustomer.billingAddresses.push(0);
             } else if (newCustomer.billingAddresses.length === 2) {
                 newCustomer.billingAddresses.pop();
                 newCustomer.billingAddresses.pop();
-                newCustomer.billingAddresses.push(1);
+                newCustomer.billingAddresses.push(0);
             }
+            setTimeout(() => {
+                if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                    newCustomer.defaultShippingAddress = 0;
+                } else {
+                    newCustomer.defaultShippingAddress = undefined;
+                }
+                if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                    newCustomer.defaultBillingAddress = 0;
+                } else {
+                    newCustomer.defaultBillingAddress = undefined;
+                }
+            }, 500);
         } else {
             if (newCustomer.addresses.length === 0) {
                 newCustomer.addresses.push(addressShip);
@@ -176,15 +207,27 @@ function validateFormToSubmit() {
                 newCustomer.billingAddresses.pop();
                 newCustomer.billingAddresses.push(1);
             }
-        }
-        if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
-            newCustomer.defaultShippingAddress = 0;
-        } else if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
-            newCustomer.defaultBillingAddress = 1;
+            setTimeout(() => {
+                if (
+                    checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked') &&
+                    checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')
+                ) {
+                    newCustomer.defaultShippingAddress = 0;
+                    newCustomer.defaultBillingAddress = 1;
+                } else if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                    newCustomer.defaultShippingAddress = 0;
+                } else if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                    newCustomer.defaultBillingAddress = 1;
+                } else {
+                    newCustomer.defaultShippingAddress = undefined;
+                    newCustomer.defaultBillingAddress = undefined;
+                }
+            }, 500);
         }
         console.log(newCustomer);
     } else {
         submitButton.disabled = true;
+        console.log(newCustomer);
     }
 }
 
@@ -219,6 +262,8 @@ function filladdressForBill() {
             currentInputPostcodeBill.style.border = '1px solid #1fffb7';
             currentInputCountryBill.innerHTML = currentInputCountryShip.innerHTML;
             currentInputCountryBill.style.border = '1px solid #1fffb7';
+            currentInputPostcodeBill.removeAttribute('disabled');
+            currentInputPostcodeBill.classList.remove('ant-input-disabled');
         }
     }
 }
@@ -255,6 +300,8 @@ function filladdressForShip() {
             currentInputPostcodeShip.style.border = '1px solid #1fffb7';
             currentInputCountryShip.innerHTML = currentInputCountryBill.innerHTML;
             currentInputCountryShip.style.border = '1px solid #1fffb7';
+            currentInputPostcodeShip.removeAttribute('disabled');
+            currentInputPostcodeShip.classList.remove('ant-input-disabled');
         }
     }
 }
@@ -272,7 +319,7 @@ function checkShippingAddress() {
             !checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked') &&
             checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')
         ) {
-            console.log('popka');
+            // console.log('popka');
             checkBillAddressAsShipping.children[0].classList.remove('ant-checkbox-checked');
 
             setTimeout(() => {
@@ -284,8 +331,8 @@ function checkShippingAddress() {
         }
     }
     setTimeout(() => {
-        console.log('hello');
-        console.log(checkShipAddressAsBilling.children[0]);
+        // console.log('hello');
+        // console.log(checkShipAddressAsBilling.children[0]);
         if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
             filladdressForBill();
             validateFormToSubmit();
@@ -458,7 +505,7 @@ function valiDatePassword() {
     }
     if (spaces > 0) {
         currentErrorMessage.innerHTML = 'Password must not contain leading or trailing whitespace';
-        currentInput.style.border = '1px solid #ff4d4f';
+        currentInput.style.border = '1px solid #d9d9d9';
         currentFormInput.removeAttribute('submit');
     } else if (validationValue.length < 8) {
         currentErrorMessage.innerHTML = 'Password length must be at least eight characters';
@@ -473,6 +520,7 @@ function valiDatePassword() {
             currentErrorMessage.innerHTML = '';
             currentInput.style.border = '1px solid #1fffb7';
             currentFormInput.setAttribute('submit', 'true');
+            newCustomer.password = currentInput.value;
             validateFormToSubmit();
         } else if (digitTemplate.test(validationValue) === false) {
             currentErrorMessage.innerHTML = 'Password must contain at least one digit';
@@ -499,7 +547,21 @@ function valiDatePasswordRepeat() {
     const passwordValue = passwordInput.value.trim();
     // console.log(passwordValue);
     // console.log(validationValue);
-    if (validationValue === passwordValue && validationValue.length !== 0) {
+    let spaces = 0;
+    for (let i = 0; i < validationValue.length; i += 1) {
+        if (validationValue[i] === ' ') {
+            spaces += 1;
+            console.log(validationValue);
+        }
+    }
+
+    if (spaces > 0) {
+        console.log(validationValue);
+        console.log('hello');
+        currentErrorMessage.innerHTML = 'Password must not contain leading or trailing whitespace';
+        currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
+    } else if (validationValue === passwordValue && validationValue.length !== 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
@@ -1137,7 +1199,7 @@ const RegistrationPage: React.FC = () => {
                             />
                         </Form.Item>
                     </div>
-                    <div className={registyles.input_block}>
+                    {/* <div className={registyles.input_block}>
                         <p className={`${registyles.error_message} ${registyles.error_password_repeat}`}></p>
                         <Form.Item
                             className={`${registyles.input} ${registyles.form_password_repeat}`}
@@ -1152,7 +1214,7 @@ const RegistrationPage: React.FC = () => {
                                 placeholder="Repeate your password"
                             />
                         </Form.Item>
-                    </div>
+                    </div> */}
                     <div className={registyles.input_block}>
                         <p className={`${registyles.error_message} ${registyles.error_birth}`}></p>
                         <Form.Item
@@ -1276,13 +1338,19 @@ const RegistrationPage: React.FC = () => {
                             </Form.Item>
                         </div>
                         <div className={registyles.checkbox_block}>
-                            <Checkbox className={registyles.input_checkbox_ship_bill} onChange={checkShippingAddress}>
+                            <Checkbox
+                                className={registyles.input_checkbox_ship_bill}
+                                onChange={() => {
+                                    checkShippingAddress();
+                                }}
+                            >
                                 Use for billing
                             </Checkbox>
                             <Checkbox
                                 className={registyles.input_checkbox_ship_def}
                                 onChange={() => {
-                                    newCustomer.defaultShippingAddress = 0;
+                                    // newCustomer.defaultShippingAddress = 0;
+                                    validateFormToSubmit();
                                 }}
                             >
                                 Use as default
@@ -1402,14 +1470,17 @@ const RegistrationPage: React.FC = () => {
                             <Checkbox
                                 type="checkbox"
                                 className={registyles.input_checkbox_bill_ship}
-                                onChange={checkBilligAddress}
+                                onChange={() => {
+                                    checkBilligAddress();
+                                }}
                             >
                                 Use for shipping
                             </Checkbox>
                             <Checkbox
                                 className={registyles.input_checkbox_bill_def}
                                 onChange={() => {
-                                    newCustomer.defaultBillingAddress = 1;
+                                    // newCustomer.defaultBillingAddress = 1;
+                                    validateFormToSubmit();
                                 }}
                             >
                                 Use as default
