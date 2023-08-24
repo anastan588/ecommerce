@@ -96,7 +96,7 @@ function validateFormToSubmit() {
             currentInputSecondName.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
             currentInputMail.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
             currentInputPassword.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
-            currentInputRasswordRepeat.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            // currentInputRasswordRepeat.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
             currentInputBithDay.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);')
     ) {
         submitButton.disabled = false;
