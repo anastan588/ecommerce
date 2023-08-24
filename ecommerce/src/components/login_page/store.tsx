@@ -7,6 +7,7 @@ import { apiRoot, getClientWithToken, getPasswordFlowClient } from './createClie
 import { projectKey, getLocalStorage } from './BuildClient';
 import registyles from '../registration_page/regisration_page.module.css';
 import { Customer } from '../../types';
+import { newCustomer } from '../registration_page/RegistrationPage';
 
 class Store {
     isAuth = false;
@@ -57,17 +58,30 @@ class Store {
                 console.log(body.statusCode === 201);
                 alert('Customer has been created');
                 this.setAuth(true);
+                localStorage.removeItem('token');
+                const customer = getPasswordFlowClient(newCustomer.email, newCustomer.password);
+                const apiRootClient = createApiBuilderFromCtpClient(customer);
+                const endPointPassword = () => {
+                    return apiRootClient.withProjectKey({ projectKey }).me().get().execute();
+                };
+                // eslint-disable-next-line @typescript-eslint/no-shadow
+                endPointPassword()
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
+                    .then(({ body }) => {
+                        console.log(body);
+                    })
+                    .catch(({ error }) => {
+                        console.log(error);
+                    });
             })
             .catch((err) => {
-                if (err.name === 'BadRequest') {
-                    const currentErrorMessage = document.querySelector(
-                        `.${registyles.error_email}`
-                    ) as HTMLParagraphElement;
-                    alert('There is already an existing customer with the provided email.');
-                    currentErrorMessage.innerHTML = 'There is already an existing customer with the provided email.';
-                    const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
-                    currentInput.style.border = '1px solid #ff4d4f';
-                }
+                // const currentErrorMessage = document.querySelector(
+                //     `.${registyles.error_email}`
+                // ) as HTMLParagraphElement;
+                alert(err.message);
+                // currentErrorMessage.innerHTML = 'There is already an existing customer with the provided email.';
+                // const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
+                // currentInput.style.border = '1px solid #ff4d4f';
             });
     }
 

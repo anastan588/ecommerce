@@ -271,6 +271,13 @@
     font-size: 90%;
 }
 
+@media screen and (max-width: 500px) {
+    .address_container {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
 .address_block {
     display: flex;
     flex-direction: column;

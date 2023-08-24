@@ -3,6 +3,7 @@ import { Typography, Button, Input, Form, Select, Checkbox } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { Option } from 'antd/es/mentions';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import Password from 'antd/es/input/Password';
 import registyles from './regisration_page.module.css';
 import { Customer, Address } from '../../types';
 import CreateCustomer from '../../services/clientCreator';
@@ -95,14 +96,19 @@ function validateFormToSubmit() {
             currentInputSecondName.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
             currentInputMail.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
             currentInputPassword.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
-            currentInputRasswordRepeat.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
+            // currentInputRasswordRepeat.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
             currentInputBithDay.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);')
     ) {
         submitButton.disabled = false;
         if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
+            console.log('hello');
             if (newCustomer.addresses.length === 0) {
                 newCustomer.addresses.push(addressShip);
             } else if (newCustomer.addresses.length === 1) {
+                newCustomer.addresses.pop();
+                newCustomer.addresses.push(addressShip);
+            } else if (newCustomer.addresses.length === 2) {
+                newCustomer.addresses.pop();
                 newCustomer.addresses.pop();
                 newCustomer.addresses.push(addressShip);
             }
@@ -118,6 +124,17 @@ function validateFormToSubmit() {
             } else if (newCustomer.billingAddresses.length === 1) {
                 newCustomer.billingAddresses.pop();
                 newCustomer.billingAddresses.push(0);
+            }
+            setTimeout(() => {}, 500);
+            if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                newCustomer.defaultBillingAddress = 0;
+            } else {
+                newCustomer.defaultBillingAddress = undefined;
+            }
+            if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                newCustomer.defaultShippingAddress = 0;
+            } else {
+                newCustomer.defaultShippingAddress = undefined;
             }
         } else if (checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
             if (newCustomer.addresses.length === 0) {
@@ -125,28 +142,43 @@ function validateFormToSubmit() {
             } else if (newCustomer.addresses.length === 1) {
                 newCustomer.addresses.pop();
                 newCustomer.addresses.push(addressBill);
+            } else if (newCustomer.addresses.length === 2) {
+                newCustomer.addresses.pop();
+                newCustomer.addresses.push(addressBill);
             }
             if (newCustomer.shippingAddresses.length === 0) {
-                newCustomer.shippingAddresses.push(1);
+                newCustomer.shippingAddresses.push(0);
             } else if (newCustomer.shippingAddresses.length === 1) {
                 newCustomer.shippingAddresses.pop();
-                newCustomer.shippingAddresses.push(1);
+                newCustomer.shippingAddresses.push(0);
             } else if (newCustomer.shippingAddresses.length === 2) {
                 newCustomer.shippingAddresses.pop();
                 newCustomer.shippingAddresses.pop();
-                newCustomer.shippingAddresses.push(1);
+                newCustomer.shippingAddresses.push(0);
             }
 
             if (newCustomer.billingAddresses.length === 0) {
-                newCustomer.billingAddresses.push(1);
+                newCustomer.billingAddresses.push(0);
             } else if (newCustomer.billingAddresses.length === 1) {
                 newCustomer.billingAddresses.pop();
-                newCustomer.billingAddresses.push(1);
+                newCustomer.billingAddresses.push(0);
             } else if (newCustomer.billingAddresses.length === 2) {
                 newCustomer.billingAddresses.pop();
                 newCustomer.billingAddresses.pop();
-                newCustomer.billingAddresses.push(1);
+                newCustomer.billingAddresses.push(0);
             }
+            setTimeout(() => {
+                if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                    newCustomer.defaultShippingAddress = 0;
+                } else {
+                    newCustomer.defaultShippingAddress = undefined;
+                }
+                if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                    newCustomer.defaultBillingAddress = 0;
+                } else {
+                    newCustomer.defaultBillingAddress = undefined;
+                }
+            }, 500);
         } else {
             if (newCustomer.addresses.length === 0) {
                 newCustomer.addresses.push(addressShip);
@@ -175,15 +207,27 @@ function validateFormToSubmit() {
                 newCustomer.billingAddresses.pop();
                 newCustomer.billingAddresses.push(1);
             }
-        }
-        if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
-            newCustomer.defaultShippingAddress = 0;
-        } else if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
-            newCustomer.defaultBillingAddress = 1;
+            setTimeout(() => {
+                if (
+                    checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked') &&
+                    checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')
+                ) {
+                    newCustomer.defaultShippingAddress = 0;
+                    newCustomer.defaultBillingAddress = 1;
+                } else if (checkShipAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                    newCustomer.defaultShippingAddress = 0;
+                } else if (checkBillAddressDefault.children[0].classList.contains('ant-checkbox-checked')) {
+                    newCustomer.defaultBillingAddress = 1;
+                } else {
+                    newCustomer.defaultShippingAddress = undefined;
+                    newCustomer.defaultBillingAddress = undefined;
+                }
+            }, 500);
         }
         console.log(newCustomer);
     } else {
         submitButton.disabled = true;
+        console.log(newCustomer);
     }
 }
 
@@ -218,6 +262,8 @@ function filladdressForBill() {
             currentInputPostcodeBill.style.border = '1px solid #1fffb7';
             currentInputCountryBill.innerHTML = currentInputCountryShip.innerHTML;
             currentInputCountryBill.style.border = '1px solid #1fffb7';
+            currentInputPostcodeBill.removeAttribute('disabled');
+            currentInputPostcodeBill.classList.remove('ant-input-disabled');
         }
     }
 }
@@ -254,6 +300,8 @@ function filladdressForShip() {
             currentInputPostcodeShip.style.border = '1px solid #1fffb7';
             currentInputCountryShip.innerHTML = currentInputCountryBill.innerHTML;
             currentInputCountryShip.style.border = '1px solid #1fffb7';
+            currentInputPostcodeShip.removeAttribute('disabled');
+            currentInputPostcodeShip.classList.remove('ant-input-disabled');
         }
     }
 }
@@ -271,7 +319,7 @@ function checkShippingAddress() {
             !checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked') &&
             checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')
         ) {
-            console.log('popka');
+            // console.log('popka');
             checkBillAddressAsShipping.children[0].classList.remove('ant-checkbox-checked');
 
             setTimeout(() => {
@@ -283,8 +331,8 @@ function checkShippingAddress() {
         }
     }
     setTimeout(() => {
-        console.log('hello');
-        console.log(checkShipAddressAsBilling.children[0]);
+        // console.log('hello');
+        // console.log(checkShipAddressAsBilling.children[0]);
         if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
             filladdressForBill();
             validateFormToSubmit();
@@ -330,7 +378,7 @@ function valiDateFirstName() {
     // console.log(currentFormInput);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
-    const specialCharactersTemplate = /[\\^$.[\]|?*+()]/;
+    const specialCharactersTemplate = /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/;
     if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Name  shouldn't contain special characters and numbers";
         currentInput.style.border = '1px solid #ff4d4f';
@@ -368,7 +416,7 @@ function valiDateSecondName() {
     // console.log(currentFormInput);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
-    const specialCharactersTemplate = /[\\^$.[\]|?*+()]/;
+    const specialCharactersTemplate = /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/;
     if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Last name  shouldn't contain special characters and numbers";
         currentInput.style.border = '1px solid #ff4d4f';
@@ -404,11 +452,26 @@ function valiDateEmail() {
     const currentFormInput = document.querySelector(`.${registyles.form_mail}`) as HTMLDivElement;
     // console.log(currentInput);
     // console.log(currentErrorMessage);
-    const validationValue = currentInput.value.toLocaleLowerCase().trim();
+    const validationValue = currentInput.value;
     const emailTemplate =
         /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
-    if (emailTemplate.test(validationValue) === false) {
+    const whitespacesStart = /^\S/;
+    const whitespacesEnd = /\S$/;
+    // console.log(whitespacesStart.test(validationValue));
+    // console.log(whitespacesEnd.test(validationValue));
+    let spaces = 0;
+    for (let i = 0; i < validationValue.length; i += 1) {
+        if (validationValue[i] === ' ') {
+            spaces += 1;
+        }
+    }
+    // console.log(spaces);
+    if (emailTemplate.test(validationValue) === false && spaces === 0) {
         currentErrorMessage.innerHTML = 'You entered an invalid email address!';
+        currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
+    } else if (spaces > 0) {
+        currentErrorMessage.innerHTML = 'Email address must not contain leading or trailing whitespace.';
         currentInput.style.border = '1px solid #ff4d4f';
         currentFormInput.removeAttribute('submit');
     } else if (validationValue.length === 0) {
@@ -419,7 +482,7 @@ function valiDateEmail() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        newCustomer.email = currentInput.value;
+        newCustomer.email = currentInput.value.toLocaleLowerCase().trim();
         validateFormToSubmit();
     }
 }
@@ -428,13 +491,23 @@ function valiDatePassword() {
     const currentInput = document.querySelector(`.${registyles.input_password}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_password}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_password}`) as HTMLDivElement;
-    const validationValue = currentInput.value.trim();
+    const validationValue = currentInput.value;
     // console.log(validationValue);
     const digitTemplate = /(?=.*[0-9])/;
     const lowerCaseTemplate = /(?=.*[a-z])/;
     const upperCaseTemplate = /(?=.*[A-Z])/;
     const passwordTemplate = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z!@#$%^&*]{8,}/g;
-    if (validationValue.length < 8) {
+    let spaces = 0;
+    for (let i = 0; i < validationValue.length; i += 1) {
+        if (validationValue[i] === ' ') {
+            spaces += 1;
+        }
+    }
+    if (spaces > 0) {
+        currentErrorMessage.innerHTML = 'Password must not contain leading or trailing whitespace';
+        currentInput.style.border = '1px solid #d9d9d9';
+        currentFormInput.removeAttribute('submit');
+    } else if (validationValue.length < 8) {
         currentErrorMessage.innerHTML = 'Password length must be at least eight characters';
         currentInput.style.border = '1px solid #ff4d4f';
         currentFormInput.removeAttribute('submit');
@@ -447,6 +520,7 @@ function valiDatePassword() {
             currentErrorMessage.innerHTML = '';
             currentInput.style.border = '1px solid #1fffb7';
             currentFormInput.setAttribute('submit', 'true');
+            newCustomer.password = currentInput.value;
             validateFormToSubmit();
         } else if (digitTemplate.test(validationValue) === false) {
             currentErrorMessage.innerHTML = 'Password must contain at least one digit';
@@ -473,7 +547,21 @@ function valiDatePasswordRepeat() {
     const passwordValue = passwordInput.value.trim();
     // console.log(passwordValue);
     // console.log(validationValue);
-    if (validationValue === passwordValue && validationValue.length !== 0) {
+    let spaces = 0;
+    for (let i = 0; i < validationValue.length; i += 1) {
+        if (validationValue[i] === ' ') {
+            spaces += 1;
+            console.log(validationValue);
+        }
+    }
+
+    if (spaces > 0) {
+        console.log(validationValue);
+        console.log('hello');
+        currentErrorMessage.innerHTML = 'Password must not contain leading or trailing whitespace';
+        currentInput.style.border = '1px solid #ff4d4f';
+        currentFormInput.removeAttribute('submit');
+    } else if (validationValue === passwordValue && validationValue.length !== 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
@@ -502,7 +590,7 @@ function valiDateBirth() {
     const todayDateMiliseconds = todayDate.getTime();
     const dateForValidationMiliseconds = dateForValidation.getTime();
     const yearForValidation = Math.floor(
-        (todayDateMiliseconds - dateForValidationMiliseconds) / (1000 * 60 * 60 * 24 * 30 * 12)
+        (todayDateMiliseconds - dateForValidationMiliseconds) / (1000 * 60 * 60 * 24 * 365.25)
     );
     console.log(yearForValidation);
     if (yearForValidation >= 13 && yearForValidation <= 110) {
@@ -555,7 +643,7 @@ function valiDateCityShip() {
     // console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
-    const specialCharactersTemplate = /[\\^$.[\]|?*+()]/;
+    const specialCharactersTemplate = /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/;
     if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Name  shouldn't contain special characters and numbers";
         currentInput.style.border = '1px solid #ff4d4f';
@@ -587,39 +675,40 @@ function valiDateCityShip() {
 
 function valiDatePostCodeShip() {
     const currentInput = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
+    currentInput.removeAttribute('disabled');
+    currentInput.classList.remove('ant-input-disabled');
     const currentErrorMessage = document.querySelector(`.${registyles.error_postcode_ship}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_code_ship}`) as HTMLDivElement;
+    const countryInput = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
+    const countryArray = countryInput.children[0].children[1].innerHTML.split(' ');
+    console.log(countryInput);
+    const country = countryArray[1].slice(1, 3);
     // console.log(currentInput);
     // console.log(currentErrorMessage);
+    let postcodeTemplateAll: RegExp = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
+    console.log(country);
+    if (country === 'BL') {
+        postcodeTemplateAll = /\b2\d\d\d\d\d\b/;
+    } else if (country === 'PL') {
+        postcodeTemplateAll = /\b\d\d-\d\d\d\b/;
+    } else if (country === 'RU') {
+        postcodeTemplateAll = /\b\d\d\d\d\d\d\b/;
+    } else if (country === 'KZ') {
+        postcodeTemplateAll = /\b\d\d\d\d\d\d\b/;
+    } else if (country === 'LT') {
+        postcodeTemplateAll = /\b\d\d\d\d\d\b/;
+    } else if (country === 'UA') {
+        postcodeTemplateAll = /\b\d\d\d\d\d\b/;
+    }
+    console.log(postcodeTemplateAll);
     const validationValue = currentInput.value.trim();
-    const postcodeTemplateAll = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
-    const postcodeTemplateCanadian = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
+    // const postcodeTemplateAll = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
+    // const postcodeTemplateCanadian = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
 
-    if (
-        postcodeTemplateAll.test(validationValue) === false &&
-        postcodeTemplateCanadian.test(validationValue) === false
-    ) {
+    if (postcodeTemplateAll.test(validationValue) === false) {
         currentErrorMessage.innerHTML = 'You entered an invalid postcode!';
         currentInput.style.border = '1px solid #ff4d4f';
         currentFormInput.removeAttribute('submit');
-    } else if (
-        postcodeTemplateAll.test(validationValue) === false &&
-        postcodeTemplateCanadian.test(validationValue) === true
-    ) {
-        currentErrorMessage.innerHTML = '';
-        currentInput.style.border = '1px solid #1fffb7';
-        currentFormInput.setAttribute('submit', 'true');
-        addressShip.postalCode = currentInput.value;
-        validateFormToSubmit();
-    } else if (
-        postcodeTemplateAll.test(validationValue) === true &&
-        postcodeTemplateCanadian.test(validationValue) === false
-    ) {
-        currentErrorMessage.innerHTML = '';
-        currentInput.style.border = '1px solid #1fffb7';
-        currentFormInput.setAttribute('submit', 'true');
-        addressShip.postalCode = currentInput.value;
-        validateFormToSubmit();
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
@@ -645,6 +734,12 @@ function valiDateCountryChangeShip(option: string) {
         // console.log(selectCountryInput);
         // console.log(currentErrorMessage);
         // console.log(input);
+        const inputPostCodeShip = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
+        const postErrorMessage = document.querySelector(`.${registyles.error_postcode_ship}`) as HTMLParagraphElement;
+        // console.log(inputPostCodeShip);
+        inputPostCodeShip.removeAttribute('disabled');
+        inputPostCodeShip.classList.remove('ant-input-disabled');
+        // console.log(inputPostCodeShip.disabled);
         if (selectCountryInput === 'Select your country' && input.value.length === 0) {
             currentErrorMessage.innerHTML = 'Your need to choose country';
             currentInput.style.border = '1px solid #ff4d4f';
@@ -657,6 +752,63 @@ function valiDateCountryChangeShip(option: string) {
             addressShip.country = countryArray[1].slice(1, 3);
             console.log(countryArray[1].slice(1, 3));
             validateFormToSubmit();
+            if (inputPostCodeShip.value.length > 0) {
+                if (addressShip.country === 'BL') {
+                    if (/\b2\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'PL') {
+                    if (/\b\d\d-\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'RU') {
+                    if (/\b\d\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'KZ') {
+                    if (/\b\d\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'LT') {
+                    if (/\b\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'UA') {
+                    if (/\b\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                }
+            }
         }
     }, 500);
 }
@@ -730,7 +882,7 @@ function valiDateCityBill() {
     // console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
-    const specialCharactersTemplate = /[\\^$.[\]|?*+()]/;
+    const specialCharactersTemplate = /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/;
     if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Name  shouldn't contain special characters and numbers";
         currentInput.style.border = '1px solid #ff4d4f';
@@ -762,39 +914,42 @@ function valiDateCityBill() {
 
 function valiDatePostCodeBill() {
     const currentInput = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
+    currentInput.removeAttribute('disabled');
+    currentInput.classList.remove('ant-input-disabled');
     const currentErrorMessage = document.querySelector(`.${registyles.error_postcode_bill}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_code_bill}`) as HTMLDivElement;
+    const countryInput = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
+    const countryArray = countryInput.children[0].children[1].innerHTML.split(' ');
+    console.log(countryInput);
+    const country = countryArray[1].slice(1, 3);
+    // console.log(currentInput);
     // console.log(currentInput);
     // console.log(currentErrorMessage);
-    const validationValue = currentInput.value.trim();
-    const postcodeTemplateAll = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
-    const postcodeTemplateCanadian = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
 
-    if (
-        postcodeTemplateAll.test(validationValue) === false &&
-        postcodeTemplateCanadian.test(validationValue) === false
-    ) {
+    let postcodeTemplateAll: RegExp = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
+    console.log(country);
+    if (country === 'BL') {
+        postcodeTemplateAll = /\b2\d\d\d\d\d\b/;
+    } else if (country === 'PL') {
+        postcodeTemplateAll = /\b\d\d-\d\d\d\b/;
+    } else if (country === 'RU') {
+        postcodeTemplateAll = /\b\d\d\d\d\d\d\b/;
+    } else if (country === 'KZ') {
+        postcodeTemplateAll = /\b\d\d\d\d\d\d\b/;
+    } else if (country === 'LT') {
+        postcodeTemplateAll = /\b\d\d\d\d\d\b/;
+    } else if (country === 'UA') {
+        postcodeTemplateAll = /\b\d\d\d\d\d\b/;
+    }
+    console.log(postcodeTemplateAll);
+    const validationValue = currentInput.value.trim();
+    // const postcodeTemplateAll = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
+    // const postcodeTemplateCanadian = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
+
+    if (postcodeTemplateAll.test(validationValue) === false) {
         currentErrorMessage.innerHTML = 'You entered an invalid postcode!';
         currentInput.style.border = '1px solid #ff4d4f';
         currentFormInput.removeAttribute('submit');
-    } else if (
-        postcodeTemplateAll.test(validationValue) === false &&
-        postcodeTemplateCanadian.test(validationValue) === true
-    ) {
-        currentErrorMessage.innerHTML = '';
-        currentInput.style.border = '1px solid #1fffb7';
-        currentFormInput.setAttribute('submit', 'true');
-        addressBill.postalCode = currentInput.value;
-        validateFormToSubmit();
-    } else if (
-        postcodeTemplateAll.test(validationValue) === true &&
-        postcodeTemplateCanadian.test(validationValue) === false
-    ) {
-        currentErrorMessage.innerHTML = '';
-        currentInput.style.border = '1px solid #1fffb7';
-        currentFormInput.setAttribute('submit', 'true');
-        addressBill.postalCode = currentInput.value;
-        validateFormToSubmit();
     } else if (validationValue.length === 0) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #d9d9d9';
@@ -803,7 +958,7 @@ function valiDatePostCodeBill() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        addressBill.postalCode = currentInput.value;
+        addressShip.postalCode = currentInput.value;
         validateFormToSubmit();
     }
 }
@@ -820,6 +975,12 @@ function valiDateCountryChangeBill(option: string) {
         // console.log(selectCountryInput);
         // console.log(currentErrorMessage);
         // console.log(input);
+        const inputPostCodeShip = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
+        const postErrorMessage = document.querySelector(`.${registyles.error_postcode_bill}`) as HTMLParagraphElement;
+        // console.log(inputPostCodeShip);
+        inputPostCodeShip.removeAttribute('disabled');
+        inputPostCodeShip.classList.remove('ant-input-disabled');
+
         if (selectCountryInput === 'Select your country' && input.value.length === 0) {
             currentErrorMessage.innerHTML = 'Your need to choose country';
             currentInput.style.border = '1px solid #ff4d4f';
@@ -832,6 +993,63 @@ function valiDateCountryChangeBill(option: string) {
             addressBill.country = countryArray[1].slice(1, 3);
             console.log(countryArray[1].slice(1, 3));
             validateFormToSubmit();
+            if (inputPostCodeShip.value.length > 0) {
+                if (addressShip.country === 'BL') {
+                    if (/\b2\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'PL') {
+                    if (/\b\d\d-\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'RU') {
+                    if (/\b\d\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'KZ') {
+                    if (/\b\d\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'LT') {
+                    if (/\b\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                } else if (addressShip.country === 'UA') {
+                    if (/\b\d\d\d\d\d\b/.test(inputPostCodeShip.value) === false) {
+                        postErrorMessage.innerHTML = 'You entered an invalid postcode!';
+                        inputPostCodeShip.style.border = '1px solid #ff4d4f';
+                        inputPostCodeShip.removeAttribute('submit');
+                    } else {
+                        inputPostCodeShip.style.border = '1px solid #1fffb7';
+                        inputPostCodeShip.setAttribute('submit', 'true');
+                    }
+                }
+            }
         }
     }, 500);
 }
@@ -885,20 +1103,6 @@ const RegistrationPage: React.FC = () => {
         registration.then(() => {
             console.log('sucsess');
             navigate('/');
-            const customer = getPasswordFlowClient(newCustomer.email, newCustomer.password);
-            const apiRootClient = createApiBuilderFromCtpClient(customer);
-            const endPointPassword = () => {
-                return apiRootClient.withProjectKey({ projectKey }).me().get().execute();
-            };
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-            endPointPassword()
-                // eslint-disable-next-line @typescript-eslint/no-shadow
-                .then(({ body }) => {
-                    console.log(body);
-                })
-                .catch(({ error }) => {
-                    console.log(error);
-                });
         });
     }
 
@@ -975,7 +1179,6 @@ const RegistrationPage: React.FC = () => {
                             <Input
                                 onInput={valiDateEmail}
                                 className={registyles.input_mail}
-                                type="email"
                                 placeholder="Enter your e-mail"
                             />
                         </Form.Item>
@@ -990,13 +1193,13 @@ const RegistrationPage: React.FC = () => {
                         >
                             <Input
                                 onInput={valiDatePassword}
-                                className={registyles.input_password}
                                 type="password"
+                                className={registyles.input_password}
                                 placeholder="Minimum 8 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number"
                             />
                         </Form.Item>
                     </div>
-                    <div className={registyles.input_block}>
+                    {/* <div className={registyles.input_block}>
                         <p className={`${registyles.error_message} ${registyles.error_password_repeat}`}></p>
                         <Form.Item
                             className={`${registyles.input} ${registyles.form_password_repeat}`}
@@ -1006,12 +1209,12 @@ const RegistrationPage: React.FC = () => {
                         >
                             <Input
                                 onInput={valiDatePasswordRepeat}
-                                className={registyles.input_password_repeat}
                                 type="password"
+                                className={registyles.input_password_repeat}
                                 placeholder="Repeate your password"
                             />
                         </Form.Item>
-                    </div>
+                    </div> */}
                     <div className={registyles.input_block}>
                         <p className={`${registyles.error_message} ${registyles.error_birth}`}></p>
                         <Form.Item
@@ -1079,6 +1282,7 @@ const RegistrationPage: React.FC = () => {
                                     className={registyles.input_postcode_ship}
                                     type="text"
                                     placeholder="Enter your postal code"
+                                    disabled
                                 />
                             </Form.Item>
                         </div>
@@ -1119,22 +1323,14 @@ const RegistrationPage: React.FC = () => {
                                         },
                                         {
                                             value: '3',
-                                            label: 'Latvia (LV)',
-                                        },
-                                        {
-                                            value: '4',
-                                            label: 'United Kingdom (UK)',
-                                        },
-                                        {
-                                            value: '5',
                                             label: 'Poland (PL)',
                                         },
                                         {
-                                            value: '6',
+                                            value: '4',
                                             label: 'Russia (RU)',
                                         },
                                         {
-                                            value: '7',
+                                            value: '5',
                                             label: 'Ukraine (UA)',
                                         },
                                     ]}
@@ -1142,13 +1338,19 @@ const RegistrationPage: React.FC = () => {
                             </Form.Item>
                         </div>
                         <div className={registyles.checkbox_block}>
-                            <Checkbox className={registyles.input_checkbox_ship_bill} onChange={checkShippingAddress}>
+                            <Checkbox
+                                className={registyles.input_checkbox_ship_bill}
+                                onChange={() => {
+                                    checkShippingAddress();
+                                }}
+                            >
                                 Use for billing
                             </Checkbox>
                             <Checkbox
                                 className={registyles.input_checkbox_ship_def}
                                 onChange={() => {
-                                    newCustomer.defaultShippingAddress = 0;
+                                    // newCustomer.defaultShippingAddress = 0;
+                                    validateFormToSubmit();
                                 }}
                             >
                                 Use as default
@@ -1209,6 +1411,7 @@ const RegistrationPage: React.FC = () => {
                                     className={registyles.input_postcode_bill}
                                     type="text"
                                     placeholder="Enter your postal code"
+                                    disabled
                                 />
                             </Form.Item>
                         </div>
@@ -1249,22 +1452,14 @@ const RegistrationPage: React.FC = () => {
                                         },
                                         {
                                             value: '3',
-                                            label: 'Latvia (LV)',
-                                        },
-                                        {
-                                            value: '4',
-                                            label: 'United Kingdom (UK)',
-                                        },
-                                        {
-                                            value: '5',
                                             label: 'Poland (PL)',
                                         },
                                         {
-                                            value: '6',
+                                            value: '4',
                                             label: 'Russia (RU)',
                                         },
                                         {
-                                            value: '7',
+                                            value: '5',
                                             label: 'Ukraine (UA)',
                                         },
                                     ]}
@@ -1275,14 +1470,17 @@ const RegistrationPage: React.FC = () => {
                             <Checkbox
                                 type="checkbox"
                                 className={registyles.input_checkbox_bill_ship}
-                                onChange={checkBilligAddress}
+                                onChange={() => {
+                                    checkBilligAddress();
+                                }}
                             >
                                 Use for shipping
                             </Checkbox>
                             <Checkbox
                                 className={registyles.input_checkbox_bill_def}
                                 onChange={() => {
-                                    newCustomer.defaultBillingAddress = 1;
+                                    // newCustomer.defaultBillingAddress = 1;
+                                    validateFormToSubmit();
                                 }}
                             >
                                 Use as default

@@ -189,7 +189,8 @@ const Login: React.FC = () => {
                 rules={[
                     { required: true, message: 'Please, input your email!' },
                     { type: 'email' },
-                    { pattern: /^\S?\S/, message: 'Email address must not contain leading or trailing whitespace' },
+                    { pattern: /\S$/, message: 'Email must not contain trailing whitespace' },
+                    { pattern: /^\S/, message: 'Email must not contain leading whitespace' },
                     {
                         pattern: /[-\w.]+@([A-z0-9][-A-z0-9]+\.)+[A-z]{2,4}$/,
                         message:
@@ -204,11 +205,12 @@ const Login: React.FC = () => {
                 name="password"
                 rules={[
                     { required: true, message: 'Please, input your password!' },
+                    { pattern: /\S$/, message: 'Password must not contain trailing whitespace' },
+                    { pattern: /^\S/, message: 'Password must not contain leading whitespace' },
                     { pattern: /.{8}/, message: 'Password must be at least 8 characters long' },
                     { pattern: /[A-Z]/, message: 'Password must contain at least one uppercase letter (A-Z)' },
                     { pattern: /[a-z]/, message: 'Password must contain at least one lowercase letter (a-z)' },
                     { pattern: /\d/, message: 'Password must contain at least one digit (0-9)' },
-                    { pattern: /^\S?\S/, message: 'Password must not contain leading or trailing whitespace' },
                 ]}
             >
                 <Input.Password value={password} />

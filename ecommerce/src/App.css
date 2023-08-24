@@ -108,9 +108,11 @@ h6 {
     background-repeat: no-repeat;
     background-size: 100% 100%;
     min-height: 100vh;
+    overflow: hidden;
 }
 
 .header__container {
+    display: flex;
     padding: 20px;
     background: rgba(0, 0, 0, 0.5);
     align-items: center;
@@ -122,6 +124,12 @@ h6 {
 
 .header__item:hover {
     transform: scale(1.1);
+}
+@media screen and (max-width: 700px) {
+    .header__container {
+        flex-direction: column;
+        gap: 20px;
+    }
 }
 
 .header__item_link {
