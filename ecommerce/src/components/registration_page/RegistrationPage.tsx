@@ -42,7 +42,6 @@ const addressBill: Address = {
 
 function validateFormToSubmit() {
     const formsCollection = document.querySelectorAll(`.${registyles.input}`) as NodeListOf<Element>;
-    // console.log(formsCollection);
     const submitTrueArray = [];
     for (let i = 0; i < formsCollection.length; i += 1) {
         if (formsCollection[i].hasAttribute('submit')) {
@@ -50,7 +49,6 @@ function validateFormToSubmit() {
             submitTrueArray.push(submit);
         }
     }
-    // console.log(submitTrueArray);
     const submitButton = document.querySelector(`.${registyles.submit_button}`) as HTMLButtonElement;
     const checkShipAddressDefault = document.querySelector(
         `.${registyles.input_checkbox_ship_def}`
@@ -64,7 +62,6 @@ function validateFormToSubmit() {
     const checkBillAddressAsShipping = document.querySelector(
         `.${registyles.input_checkbox_bill_ship}`
     ) as HTMLInputElement;
-    // console.log(submitButton);
     const currentInputStreetShip = document.querySelector(`.${registyles.input_street_ship}`) as HTMLInputElement;
     const currentInputCitySheep = document.querySelector(`.${registyles.input_city_ship}`) as HTMLInputElement;
     const currentInputPostcodeShip = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
@@ -101,7 +98,6 @@ function validateFormToSubmit() {
     ) {
         submitButton.disabled = false;
         if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
-            console.log('hello');
             if (newCustomer.addresses.length === 0) {
                 newCustomer.addresses.push(addressShip);
             } else if (newCustomer.addresses.length === 1) {
@@ -224,10 +220,8 @@ function validateFormToSubmit() {
                 }
             }, 500);
         }
-        console.log(newCustomer);
     } else {
         submitButton.disabled = true;
-        console.log(newCustomer);
     }
 }
 
@@ -235,7 +229,6 @@ function filladdressForBill() {
     const checkShipAddressAsBilling = document.querySelector(
         `.${registyles.input_checkbox_ship_bill}`
     ) as HTMLInputElement;
-    console.log('popkainput');
     const currentInputStreetShip = document.querySelector(`.${registyles.input_street_ship}`) as HTMLInputElement;
     const currentInputCitySheep = document.querySelector(`.${registyles.input_city_ship}`) as HTMLInputElement;
     const currentInputPostcodeShip = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
@@ -245,7 +238,6 @@ function filladdressForBill() {
     const currentInputCityBill = document.querySelector(`.${registyles.input_city_bill}`) as HTMLInputElement;
     const currentInputPostcodeBill = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
     const currentInputCountryBill = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
-    console.log(checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked'));
     if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
         if (
             currentInputStreetShip.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
@@ -255,7 +247,6 @@ function filladdressForBill() {
         ) {
             currentInputStreetBill.value = currentInputStreetShip.value;
             currentInputStreetBill.style.border = '1px solid #1fffb7';
-            console.log(currentInputStreetShip.value);
             currentInputCityBill.value = currentInputCitySheep.value;
             currentInputCityBill.style.border = '1px solid #1fffb7';
             currentInputPostcodeBill.value = currentInputPostcodeShip.value;
@@ -272,7 +263,6 @@ function filladdressForShip() {
     const checkBillAddressAsShipping = document.querySelector(
         `.${registyles.input_checkbox_bill_ship}`
     ) as HTMLInputElement;
-    console.log('popkainput');
     const currentInputStreetShip = document.querySelector(`.${registyles.input_street_ship}`) as HTMLInputElement;
     const currentInputCitySheep = document.querySelector(`.${registyles.input_city_ship}`) as HTMLInputElement;
     const currentInputPostcodeShip = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
@@ -283,7 +273,6 @@ function filladdressForShip() {
     const currentInputPostcodeBill = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
     const currentInputCountryBill = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
 
-    console.log(checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked'));
     if (checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
         if (
             currentInputStreetBill.getAttribute('style') === 'border: 1px solid rgb(31, 255, 183);' &&
@@ -293,7 +282,6 @@ function filladdressForShip() {
         ) {
             currentInputStreetShip.value = currentInputStreetBill.value;
             currentInputStreetShip.style.border = '1px solid #1fffb7';
-            console.log(currentInputStreetBill.value);
             currentInputCitySheep.value = currentInputCityBill.value;
             currentInputCitySheep.style.border = '1px solid #1fffb7';
             currentInputPostcodeShip.value = currentInputPostcodeBill.value;
@@ -319,20 +307,14 @@ function checkShippingAddress() {
             !checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked') &&
             checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')
         ) {
-            // console.log('popka');
             checkBillAddressAsShipping.children[0].classList.remove('ant-checkbox-checked');
 
             setTimeout(() => {
                 checkShipAddressAsBilling.children[0].classList.add('ant-checkbox-checked');
             }, 500);
-
-            // const checkedInput = checkBillAddressAsShipping.children[0].children[0] as HTMLInputElement;
-            // checkedInput.checked = false;
         }
     }
     setTimeout(() => {
-        // console.log('hello');
-        // console.log(checkShipAddressAsBilling.children[0]);
         if (checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')) {
             filladdressForBill();
             validateFormToSubmit();
@@ -352,7 +334,6 @@ function checkBilligAddress() {
             !checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked') &&
             checkShipAddressAsBilling.children[0].classList.contains('ant-checkbox-checked')
         ) {
-            console.log('popk2');
             checkShipAddressAsBilling.children[0].classList.remove('ant-checkbox-checked');
 
             setTimeout(() => {
@@ -361,8 +342,6 @@ function checkBilligAddress() {
         }
     }
     setTimeout(() => {
-        console.log('hello');
-        console.log(checkBillAddressAsShipping.children[0]);
         if (checkBillAddressAsShipping.children[0].classList.contains('ant-checkbox-checked')) {
             filladdressForShip();
             validateFormToSubmit();
@@ -373,9 +352,6 @@ function valiDateFirstName() {
     const currentInput = document.querySelector(`.${registyles.input_name}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_name}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_firstname}`) as HTMLDivElement;
-    // console.log(currentInput);
-    // console.log(currentErrorMessage);
-    // console.log(currentFormInput);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
     const specialCharactersTemplate = /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/;
@@ -411,9 +387,6 @@ function valiDateSecondName() {
     const currentInput = document.querySelector(`.${registyles.input_surname}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_surname}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_secondname}`) as HTMLDivElement;
-    // console.log(currentInput);
-    // console.log(currentErrorMessage);
-    // console.log(currentFormInput);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
     const specialCharactersTemplate = /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/;
@@ -450,22 +423,17 @@ function valiDateEmail() {
     const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_email}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_mail}`) as HTMLDivElement;
-    // console.log(currentInput);
-    // console.log(currentErrorMessage);
     const validationValue = currentInput.value;
     const emailTemplate =
         /^(([^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*)|(".+"))@(([^<>()[\].,;:\s@"]+\.)+[^<>()[\].,;:\s@"]{2,})$/iu;
     const whitespacesStart = /^\S/;
     const whitespacesEnd = /\S$/;
-    // console.log(whitespacesStart.test(validationValue));
-    // console.log(whitespacesEnd.test(validationValue));
     let spaces = 0;
     for (let i = 0; i < validationValue.length; i += 1) {
         if (validationValue[i] === ' ') {
             spaces += 1;
         }
     }
-    // console.log(spaces);
     if (emailTemplate.test(validationValue) === false && spaces === 0) {
         currentErrorMessage.innerHTML = 'You entered an invalid email address!';
         currentInput.style.border = '1px solid #ff4d4f';
@@ -492,7 +460,6 @@ function valiDatePassword() {
     const currentErrorMessage = document.querySelector(`.${registyles.error_password}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_password}`) as HTMLDivElement;
     const validationValue = currentInput.value;
-    // console.log(validationValue);
     const digitTemplate = /(?=.*[0-9])/;
     const lowerCaseTemplate = /(?=.*[a-z])/;
     const upperCaseTemplate = /(?=.*[A-Z])/;
@@ -545,19 +512,14 @@ function valiDatePasswordRepeat() {
     const currentFormInput = document.querySelector(`.${registyles.form_password_repeat}`) as HTMLDivElement;
     const validationValue = currentInput.value.trim();
     const passwordValue = passwordInput.value.trim();
-    // console.log(passwordValue);
-    // console.log(validationValue);
     let spaces = 0;
     for (let i = 0; i < validationValue.length; i += 1) {
         if (validationValue[i] === ' ') {
             spaces += 1;
-            console.log(validationValue);
         }
     }
 
     if (spaces > 0) {
-        console.log(validationValue);
-        console.log('hello');
         currentErrorMessage.innerHTML = 'Password must not contain leading or trailing whitespace';
         currentInput.style.border = '1px solid #ff4d4f';
         currentFormInput.removeAttribute('submit');
@@ -592,7 +554,6 @@ function valiDateBirth() {
     const yearForValidation = Math.floor(
         (todayDateMiliseconds - dateForValidationMiliseconds) / (1000 * 60 * 60 * 24 * 365.25)
     );
-    console.log(yearForValidation);
     if (yearForValidation >= 13 && yearForValidation <= 110) {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
@@ -619,8 +580,6 @@ function valiDateStreetShip() {
     const currentInput = document.querySelector(`.${registyles.input_street_ship}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_street_ship}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_street_ship}`) as HTMLDivElement;
-    // console.log(currentInput);
-    // console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
     if (validationValue.length < 1) {
         currentErrorMessage.innerHTML = 'Street  should have at least one character';
@@ -639,8 +598,6 @@ function valiDateCityShip() {
     const currentInput = document.querySelector(`.${registyles.input_city_ship}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_town_ship}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_city_ship}`) as HTMLDivElement;
-    // console.log(currentInput);
-    // console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
     const specialCharactersTemplate = /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/;
@@ -681,12 +638,8 @@ function valiDatePostCodeShip() {
     const currentFormInput = document.querySelector(`.${registyles.form_code_ship}`) as HTMLDivElement;
     const countryInput = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
     const countryArray = countryInput.children[0].children[1].innerHTML.split(' ');
-    console.log(countryInput);
     const country = countryArray[1].slice(1, 3);
-    // console.log(currentInput);
-    // console.log(currentErrorMessage);
     let postcodeTemplateAll: RegExp = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
-    console.log(country);
     if (country === 'BL') {
         postcodeTemplateAll = /\b2\d\d\d\d\d\b/;
     } else if (country === 'PL') {
@@ -700,10 +653,7 @@ function valiDatePostCodeShip() {
     } else if (country === 'UA') {
         postcodeTemplateAll = /\b\d\d\d\d\d\b/;
     }
-    console.log(postcodeTemplateAll);
     const validationValue = currentInput.value.trim();
-    // const postcodeTemplateAll = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
-    // const postcodeTemplateCanadian = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
 
     if (postcodeTemplateAll.test(validationValue) === false) {
         currentErrorMessage.innerHTML = 'You entered an invalid postcode!';
@@ -723,23 +673,16 @@ function valiDatePostCodeShip() {
 }
 
 function valiDateCountryChangeShip(option: string) {
-    console.log(option);
     setTimeout(() => {
         const currentInput = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
         const selectCountryInput = currentInput.children[0].innerHTML;
         const currentErrorMessage = document.querySelector(`.${registyles.error_country_ship}`) as HTMLParagraphElement;
         const input = currentInput.children[1].children[0].children[0] as HTMLInputElement;
         const currentFormInput = document.querySelector(`.${registyles.form_country_ship}`) as HTMLDivElement;
-        // console.log(currentInput);
-        // console.log(selectCountryInput);
-        // console.log(currentErrorMessage);
-        // console.log(input);
         const inputPostCodeShip = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
         const postErrorMessage = document.querySelector(`.${registyles.error_postcode_ship}`) as HTMLParagraphElement;
-        // console.log(inputPostCodeShip);
         inputPostCodeShip.removeAttribute('disabled');
         inputPostCodeShip.classList.remove('ant-input-disabled');
-        // console.log(inputPostCodeShip.disabled);
         if (selectCountryInput === 'Select your country' && input.value.length === 0) {
             currentErrorMessage.innerHTML = 'Your need to choose country';
             currentInput.style.border = '1px solid #ff4d4f';
@@ -750,7 +693,6 @@ function valiDateCountryChangeShip(option: string) {
             currentFormInput.setAttribute('submit', 'true');
             const countryArray = currentInput.children[0].innerHTML.split(' ');
             addressShip.country = countryArray[1].slice(1, 3);
-            console.log(countryArray[1].slice(1, 3));
             validateFormToSubmit();
             if (inputPostCodeShip.value.length > 0) {
                 if (addressShip.country === 'BL') {
@@ -816,18 +758,12 @@ function valiDateCountryChangeShip(option: string) {
 function valiDateCountryClickShip(event: React.MouseEvent<HTMLDivElement>) {
     const iventType = event.type;
     const targetElement = event.target as HTMLDivElement;
-    // event.stopPropagation();
-    // const propagationstopped = event.isPropagationStopped();
-    // console.log(propagationstopped);
-    // console.log(iventType);
-    // console.log(targetElement);
     if (
         !targetElement.classList.contains('ant-select-item-option-content') &&
         !targetElement.classList.contains('ant-select-selection-item')
     ) {
         setTimeout(() => {
             const currentInput = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
-            console.log(currentInput);
 
             const selectCountryInput = currentInput.children[0].children[1].innerHTML;
             const currentErrorMessage = document.querySelector(
@@ -835,10 +771,6 @@ function valiDateCountryClickShip(event: React.MouseEvent<HTMLDivElement>) {
             ) as HTMLParagraphElement;
             const input = currentInput.children[0].children[0].children[0] as HTMLInputElement;
             const currentFormInput = document.querySelector(`.${registyles.form_country_ship}`) as HTMLDivElement;
-            console.log(currentInput);
-            console.log(selectCountryInput);
-            console.log(currentErrorMessage);
-            console.log(input);
             if (selectCountryInput === 'Select your country' && input.value.length === 0) {
                 currentErrorMessage.innerHTML = 'Your need to choose country';
                 currentInput.style.border = '1px solid #ff4d4f';
@@ -858,8 +790,6 @@ function valiDateStreetBill() {
     const currentInput = document.querySelector(`.${registyles.input_street_bill}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_street_bill}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_street_bil}`) as HTMLDivElement;
-    // console.log(currentInput);
-    // console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
     if (validationValue.length < 1) {
         currentErrorMessage.innerHTML = 'Street  should have at least one character';
@@ -878,8 +808,6 @@ function valiDateCityBill() {
     const currentInput = document.querySelector(`.${registyles.input_city_bill}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_town_bill}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_city_bill}`) as HTMLDivElement;
-    // console.log(currentInput);
-    // console.log(currentErrorMessage);
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
     const specialCharactersTemplate = /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/;
@@ -920,14 +848,9 @@ function valiDatePostCodeBill() {
     const currentFormInput = document.querySelector(`.${registyles.form_code_bill}`) as HTMLDivElement;
     const countryInput = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
     const countryArray = countryInput.children[0].children[1].innerHTML.split(' ');
-    console.log(countryInput);
     const country = countryArray[1].slice(1, 3);
-    // console.log(currentInput);
-    // console.log(currentInput);
-    // console.log(currentErrorMessage);
 
     let postcodeTemplateAll: RegExp = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
-    console.log(country);
     if (country === 'BL') {
         postcodeTemplateAll = /\b2\d\d\d\d\d\b/;
     } else if (country === 'PL') {
@@ -941,7 +864,6 @@ function valiDatePostCodeBill() {
     } else if (country === 'UA') {
         postcodeTemplateAll = /\b\d\d\d\d\d\b/;
     }
-    console.log(postcodeTemplateAll);
     const validationValue = currentInput.value.trim();
     // const postcodeTemplateAll = /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
     // const postcodeTemplateCanadian = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
@@ -964,20 +886,14 @@ function valiDatePostCodeBill() {
 }
 
 function valiDateCountryChangeBill(option: string) {
-    console.log(option);
     setTimeout(() => {
         const currentInput = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
         const selectCountryInput = currentInput.children[0].innerHTML;
         const currentErrorMessage = document.querySelector(`.${registyles.error_country_bill}`) as HTMLParagraphElement;
         const input = currentInput.children[1].children[0].children[0] as HTMLInputElement;
         const currentFormInput = document.querySelector(`.${registyles.form_country_bill}`) as HTMLDivElement;
-        // console.log(currentInput);
-        // console.log(selectCountryInput);
-        // console.log(currentErrorMessage);
-        // console.log(input);
         const inputPostCodeShip = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
         const postErrorMessage = document.querySelector(`.${registyles.error_postcode_bill}`) as HTMLParagraphElement;
-        // console.log(inputPostCodeShip);
         inputPostCodeShip.removeAttribute('disabled');
         inputPostCodeShip.classList.remove('ant-input-disabled');
 
@@ -991,7 +907,6 @@ function valiDateCountryChangeBill(option: string) {
             currentFormInput.setAttribute('submit', 'true');
             const countryArray = currentInput.children[0].innerHTML.split(' ');
             addressBill.country = countryArray[1].slice(1, 3);
-            console.log(countryArray[1].slice(1, 3));
             validateFormToSubmit();
             if (inputPostCodeShip.value.length > 0) {
                 if (addressShip.country === 'BL') {
@@ -1057,11 +972,6 @@ function valiDateCountryChangeBill(option: string) {
 function valiDateCountryClickBill(event: React.MouseEvent<HTMLDivElement>) {
     const iventType = event.type;
     const targetElement = event.target as HTMLDivElement;
-    // event.stopPropagation();
-    // const propagationstopped = event.isPropagationStopped();
-    // console.log(propagationstopped);
-    // console.log(iventType);
-    // console.log(targetElement);
     if (
         !targetElement.classList.contains('ant-select-item-option-content') &&
         !targetElement.classList.contains('ant-select-selection-item')
@@ -1074,10 +984,6 @@ function valiDateCountryClickBill(event: React.MouseEvent<HTMLDivElement>) {
             ) as HTMLParagraphElement;
             const input = currentInput.children[0].children[0].children[0] as HTMLInputElement;
             const currentFormInput = document.querySelector(`.${registyles.form_country_bill}`) as HTMLDivElement;
-            console.log(currentInput);
-            console.log(selectCountryInput);
-            console.log(currentErrorMessage);
-            console.log(input);
             if (selectCountryInput === 'Select your country' && input.value.length === 0) {
                 currentErrorMessage.innerHTML = 'Your need to choose country';
                 currentInput.style.border = '1px solid #ff4d4f';
@@ -1101,7 +1007,6 @@ const RegistrationPage: React.FC = () => {
     function clickCustomer() {
         const registration = store.registration(newCustomer);
         registration.then(() => {
-            console.log('sucsess');
             navigate('/');
         });
     }
