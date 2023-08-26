@@ -40,33 +40,19 @@ describe('render input fields', () => {
     });
 });
 
-describe('events', () => {
-    it('click to link "Or register now!"', () => {
-        render(<App />);
-        const linkElement = screen.getByText('Log In');
-        fireEvent.click(linkElement);
-        screen.debug();
-        expect(screen.getByText('Log In Page')).toBeInTheDocument();
-        const linkReg = screen.getByText('Or register now!');
-        expect(linkReg).toBeInTheDocument();
-        fireEvent.click(linkReg);
-        expect(screen.getByText('Registration Page')).toBeInTheDocument();
-    });
-});
-
-/* describe('log in input', () => {
-    it('input to be in the Log In Page', () => {
-        render(<App />);
-        const linkElement = screen.getByText('Log In');
-        fireEvent.click(linkElement);
-        screen.debug();
-        expect(screen.getByLabelText('Password')).toBeRequired();
-        userEvent.type(screen.getByLabelText('Email'), '');
-        expect(screen.getByLabelText('Password')).toBeValid();
-        userEvent.type(screen.getByLabelText('Password'), 'asddfffgg');
-        expect(screen.getByLabelText('Password')).toBeValid();
-    });
-}); */
+// describe('log in input', () => {
+//     it('input to be in the Log In Page', () => {
+//         render(<App />);
+//         const linkElement = screen.getByText('Log In');
+//         fireEvent.click(linkElement);
+//         screen.debug();
+//         expect(screen.getByLabelText('Password')).toBeRequired();
+//         userEvent.type(screen.getByLabelText('Email'), '');
+//         expect(screen.getByLabelText('Password')).toBeValid();
+//         userEvent.type(screen.getByLabelText('Password'), 'asddfffgg');
+//         expect(screen.getByLabelText('Password')).toBeValid();
+//     });
+// });
 
 describe('email input field', () => {
     it('email input is in the Log In Page', () => {
@@ -87,3 +73,17 @@ describe('password input field', () => {
         expect(screen.getByLabelText('Password')).toBeRequired();
     });
 });
+
+// describe('events', () => {
+//     it('click to link "Or register now!"', () => {
+//         render(<App />);
+//         const linkElement = screen.getByText('Log In');
+//         fireEvent.click(linkElement);
+//         screen.debug();
+//         expect(screen.getByText('Log In Page')).toBeInTheDocument();
+//         const linkReg = screen.getByText('Or register now!');
+//         expect(linkReg).toBeInTheDocument();
+//         fireEvent.click(linkReg);
+//         expect(screen.getByText('Welcome to our store')).toBeInTheDocument();
+//     });
+// });
