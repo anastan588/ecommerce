@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "dependencies": {
+        "@ant-design/icons": "^5.2.5",
         "@commercetools/importapi-sdk": "^4.6.2",
         "@commercetools/platform-sdk": "^5.0.0",
         "@commercetools/sdk-client-v2": "^2.2.0",
@@ -16,7 +17,6 @@
         "cross-env": "^7.0.3",
         "dotenv": "^16.3.1",
         "lint-staged": "^13.2.3",
-        "node-fetch": "^2.6.1",
         "mobx": "^6.10.0",
         "mobx-react-lite": "^4.0.3",
         "node-fetch": "^2.6.1",

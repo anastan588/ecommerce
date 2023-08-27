@@ -6,9 +6,9 @@ import AboutUsPage from '../about_us_page/AboutUsPage';
 import BasketPage from '../basket_page/BasketPage';
 import RegistrationPage from '../registration_page/RegistrationPage';
 import LogInPage from '../login_page/login_page';
-import MyProfilePage from '../my_profile_page/MyProfilePage';
 import Page404 from '../page_404/Page404';
 import CreateCustomerMessage from '../message_create_customer/message_create_customer';
+import { MyProfilePage } from '../my_profile_page/MyProfilePage';
 
 const RouterComponent = () => {
     return (
@@ -20,7 +20,7 @@ const RouterComponent = () => {
                 <Route path="/basket" element={<BasketPage />} />
                 <Route path="/registration" element={<RegistrationPage />} />
                 <Route path="/login" element={<LogInPage />} />
-                <Route path="/my-profile" element={<MyProfilePage />} />
+                <Route path="/my-profile/*" element={<MyProfilePage />} />
                 <Route path="*" element={<Page404 />} />
                 <Route path="/message-create" element={<CreateCustomerMessage />} />
             </Routes>
