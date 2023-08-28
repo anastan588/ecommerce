@@ -1,10 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { Avatar, Card } from 'antd';
+import { Avatar, Card, Carousel } from 'antd';
 import { apiRoot } from '../login_page/createClient';
 
 const { Meta } = Card;
+
+const contentStyle: React.CSSProperties = {
+    /* margin: 0, */
+    /* height: '160px', */
+    /* color: '#fff', */
+    /* lineHeight: '160px', */
+    /* textAlign: 'center', */
+    /* background: '#364d79' */
+}
+
+
+const onChange = (currentSlide: number) => {
+    console.log(currentSlide);
+  };
 
 type ImagesType = {
     url: string;
@@ -70,6 +84,10 @@ const AboutUsPage = () => {
     const titlePlants = product.masterData?.current.name.ru;
     const descriptionPlants = product.masterData?.current.description.ru;
     const attributesPlants = product.masterData?.current.masterVariant.attributes as AttributesPlants[];
+    const pathImage0 = product.masterData?.current.masterVariant.images[0].url;
+    const pathImage1 = product.masterData?.current.masterVariant.images[1].url;
+    const pathImage2 = product.masterData?.current.masterVariant.images[2].url;
+    const pathImage3 = product.masterData?.current.masterVariant.images[3].url;
 
     console.log(attributesPlants);
 
@@ -79,13 +97,45 @@ const AboutUsPage = () => {
         <div>
             <h2 className="page_title main">About1234</h2>
 
-            <Card style={{ width: 500 }} cover={<img alt="example" src={pathImage} />}>
+
+
+            
+
+            <Card 
+                style={{ width: 500 }}
+                cover={ 
+                    <Carousel afterChange={onChange}>
+                    <div>
+                        <h3 style={contentStyle}>
+                        <img alt="example" src={pathImage0} />
+                        </h3>
+                    </div>
+                    <div>
+                        <h3 style={contentStyle}>
+                        <img alt="example" src={pathImage1} />
+                        </h3>
+                    </div>
+                    <div>
+                        <h3 style={contentStyle}>
+                        <img alt="example" src={pathImage2} />
+                        </h3>
+                    </div>
+                    <div>
+                        <h3 style={contentStyle}>
+                        <img alt="example" src={pathImage3} />
+                        </h3>
+                    </div>
+                </Carousel>
+                }>
                 <Meta title={titlePlants} description={descriptionPlants} />
 
 
 
 
-                
+
+
+
+
             </Card>
         </div>
     );
