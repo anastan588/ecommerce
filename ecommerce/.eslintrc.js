@@ -15,6 +15,7 @@ module.exports = {
         '@typescript-eslint/no-explicit-any': 'error',
         '@typescript-eslint/no-inferrable-types': 'off',
         'import/extensions': 'off',
+        'prettier/prettier': 'warn',
     },
     env: {
         browser: true,
