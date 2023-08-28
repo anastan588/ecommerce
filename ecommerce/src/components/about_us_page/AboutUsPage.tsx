@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
 
-import { Avatar, Card, Carousel } from 'antd';
+import { Avatar, Card, Carousel, Col, Row } from 'antd';
 import { apiRoot } from '../login_page/createClient';
+import classes from './productPage.module.css';
+
 
 const { Meta } = Card;
 
@@ -13,12 +15,13 @@ const contentStyle: React.CSSProperties = {
     /* lineHeight: '160px', */
     /* textAlign: 'center', */
     /* background: '#364d79' */
-}
+};
+
 
 
 const onChange = (currentSlide: number) => {
     console.log(currentSlide);
-  };
+};
 
 type ImagesType = {
     url: string;
@@ -47,6 +50,7 @@ type ProductType = {
     key?: string;
     masterData?: MasterDataType;
 };
+
 
 const AboutUsPage = () => {
     const state = useState({});
@@ -90,44 +94,71 @@ const AboutUsPage = () => {
     const pathImage3 = product.masterData?.current.masterVariant.images[3].url;
 
     console.log(attributesPlants);
-
-    console.log(pathImage);
+    console.log(Array.isArray(attributesPlants));
 
     return (
         <div>
-            <h2 className="page_title main">About1234</h2>
+            <Row>
+                <Col>
+                    <Card
+                        style={{ width: 520 }}
+                        cover={
+                            <Carousel afterChange={onChange}>
+                                <div>
+                                    <h3 style={contentStyle}>
+                                        <img alt="example" src={pathImage0} />
+                                    </h3>
+                                </div>
+                                <div>
+                                    <h3 style={contentStyle}>
+                                        <img alt="example" src={pathImage1} />
+                                    </h3>
+                                </div>
+                                <div>
+                                    <h3 style={contentStyle}>
+                                        <img alt="example" src={pathImage2} />
+                                    </h3>
+                                </div>
+                                <div>
+                                    <h3 style={contentStyle}>
+                                        <img alt="example" src={pathImage3} />
+                                    </h3>
+                                </div>
+                            </Carousel>
+                        }>
+                    </Card>
+                
+                </Col>
+
+
+                <Col>
+
+                    <Card style={{ width: 520 }}>
+                        
+                    <Meta title={titlePlants} description={descriptionPlants} />
+
+<div>
+    <ul>
+        {
+            attributesPlants?.map((item) => {
+                return (
+                    <li>{item.name}: {item.value}</li>
+                )
+            })
+        }
+    </ul>
+</div>
+                        
+                    </Card>
+
+                
+                
+                </Col>
 
 
 
-            
 
-            <Card 
-                style={{ width: 500 }}
-                cover={ 
-                    <Carousel afterChange={onChange}>
-                    <div>
-                        <h3 style={contentStyle}>
-                        <img alt="example" src={pathImage0} />
-                        </h3>
-                    </div>
-                    <div>
-                        <h3 style={contentStyle}>
-                        <img alt="example" src={pathImage1} />
-                        </h3>
-                    </div>
-                    <div>
-                        <h3 style={contentStyle}>
-                        <img alt="example" src={pathImage2} />
-                        </h3>
-                    </div>
-                    <div>
-                        <h3 style={contentStyle}>
-                        <img alt="example" src={pathImage3} />
-                        </h3>
-                    </div>
-                </Carousel>
-                }>
-                <Meta title={titlePlants} description={descriptionPlants} />
+            </Row>
 
 
 
@@ -136,7 +167,9 @@ const AboutUsPage = () => {
 
 
 
-            </Card>
+
+
+
         </div>
     );
 };
