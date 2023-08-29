@@ -5,6 +5,7 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import RegistrationPage from '../registration_page/RegistrationPage';
 import { Context } from '../..';
+import Store from '../login_page/store';
 
 const Header = () => {
     const { store } = useContext(Context);
@@ -13,6 +14,10 @@ const Header = () => {
             store.checkAuth();
         }
     }, []);
+
+    function getLoginCustomer() {
+        store.receiveCustomerById();
+    }
 
     // const { authed, logout } = UserAuth();
     return (
@@ -56,7 +61,9 @@ const Header = () => {
                     <Link to="/registration">Registration</Link>
                 </Button>
                 <Button type="dashed">
-                    <Link to="/my-profile">My profile</Link>
+                    <Link to="/my-profile" onClick={getLoginCustomer}>
+                        My profile
+                    </Link>
                 </Button>
             </Col>
         </Row>

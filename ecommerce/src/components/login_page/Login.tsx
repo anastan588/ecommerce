@@ -84,7 +84,6 @@ const Login: React.FC = () => {
             navigate('/');
             const customer = getPasswordFlowClient(values.email, values.password);
             const apiRootClient = createApiBuilderFromCtpClient(customer);
-
             const endPointPassword = () => {
                 return apiRootClient.withProjectKey({ projectKey }).me().get().execute();
             };
@@ -93,6 +92,7 @@ const Login: React.FC = () => {
                 // eslint-disable-next-line @typescript-eslint/no-shadow
                 .then(({ body }) => {
                     console.log(body);
+                    localStorage.setItem('id', body.id);
                 })
                 .catch(({ error }) => {
                     console.log(error);

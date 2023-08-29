@@ -43,6 +43,7 @@ class Store {
 
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('id');
         this.setAuth(false);
     }
 
@@ -69,6 +70,7 @@ class Store {
                     // eslint-disable-next-line @typescript-eslint/no-shadow
                     .then(({ body }) => {
                         console.log(body);
+                        localStorage.setItem('id', body.id);
                     })
                     .catch(({ error }) => {
                         console.log(error);
@@ -104,6 +106,42 @@ class Store {
                 }
             })
             .catch(console.error);
+    }
+
+    receiveCustomerById() {
+        const ID = localStorage.getItem('id') as string;
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .get()
+            .execute()
+            .then((body) => {
+                console.log(body);
+                const customer = JSON.stringify(body);
+                localStorage.setItem('currentCustomer', customer);
+            });
+    }
+
+    updateCustomer() {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: 1,
+                    actions: [
+                        {
+                            action: 'setFirstName',
+                            firstName: `${customer.body.firstName}`,
+                        },
+                    ],
+                },
+            })
+            .execute();
     }
 }
 export default Store;
