@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 import axios from 'axios';
+import { isTemplateMiddle } from 'typescript';
 
 import { Avatar, Card, Carousel, Col, Row } from 'antd';
 import { apiRoot } from '../login_page/createClient';
@@ -16,8 +17,6 @@ const contentStyle: React.CSSProperties = {
     /* textAlign: 'center', */
     /* background: '#364d79' */
 };
-
-
 
 const onChange = (currentSlide: number) => {
     console.log(currentSlide);
@@ -52,10 +51,41 @@ type ProductType = {
 };
 
 
+type AttributesObjType = {
+    string: string;
+}
+
 const AboutUsPage = () => {
     const state = useState({});
     const product: ProductType = state[0];
     const setProduct = state[1];
+
+
+    type AttributesAllObj = {
+        [key: string]:  string;
+    }
+
+    const attributesObj: AttributesAllObj = {
+        'country-of-origin': 'Страна происхождения',
+        'Group': 'Группа',
+        'Flavor':  "Аромат",
+        'Landscape-use': 'Использование в ландшафте',
+        'growing-area': 'Место выращивания',
+        'type-of-packing': 'Вид упаковки',
+        'flower-color': 'Окрас цветка',
+        'light-requirements': 'Требования к освещению',
+        'flowering-period': 'Период цветения',
+        'Height': 'Вфсота',
+        'fetal-weight': 'Вес плодов',
+        'form': 'Форма',
+        'fruit-color': 'Цвет плодов',
+        'group': 'Группа',
+        'growth-patterns': 'Характер роста',
+        'height': 'Высота',
+        'pulp': 'Мякоть',
+        'ripening-rate': 'Скорость созревания',
+        'type-of-pollination': 'Тип опыления'
+    } 
 
     useEffect(() => {
         apiRoot
@@ -125,51 +155,29 @@ const AboutUsPage = () => {
                                     </h3>
                                 </div>
                             </Carousel>
-                        }>
-                    </Card>
-                
+                        }
+                    ></Card>
                 </Col>
-
 
                 <Col>
-
                     <Card style={{ width: 520 }}>
-                        
-                    <Meta title={titlePlants} description={descriptionPlants} />
-
-<div>
-    <ul>
-        {
-            attributesPlants?.map((item) => {
-                return (
-                    <li>{item.name}: {item.value}</li>
-                )
-            })
-        }
-    </ul>
-</div>
-                        
+                        <Meta title={titlePlants} description={descriptionPlants} />
+                        <div>
+                            <h2>Краткие характеристики</h2>
+                            <ul>
+                                {attributesPlants?.map((item) => {
+                                    const { name, value } = item;
+                                    return (
+                                        <li>
+                                            {attributesObj[name]}: {value}
+                                        </li>
+                                    );
+                                })}
+                            </ul>
+                        </div>
                     </Card>
-
-                
-                
                 </Col>
-
-
-
-
             </Row>
-
-
-
-
-
-
-
-
-
-
-
         </div>
     );
 };
