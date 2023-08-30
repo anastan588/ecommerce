@@ -6,7 +6,6 @@ import { Avatar, Card, Carousel, Col, Row } from 'antd';
 import { apiRoot } from '../login_page/createClient';
 import classes from './productPage.module.css';
 
-
 const { Meta } = Card;
 
 const contentStyle: React.CSSProperties = {
@@ -29,9 +28,16 @@ type ImagesType = {
 
 type AttributesPlants = { name: string; value: string };
 
+type ValuePlantsType = { centAmount: number, currencyCode: string, fractionDigits: number, type: string}
+
+type PricePlantsObj = { id: string, value: ValuePlantsType, discounted: {value: ValuePlantsType }};
+
+
+
 type MasterVariantType = {
     images: ImagesType[];
     attributes: AttributesPlants[];
+    prices:  PricePlantsObj[];
 };
 
 type MasterDataCurrent = {
@@ -50,42 +56,40 @@ type ProductType = {
     masterData?: MasterDataType;
 };
 
-
 type AttributesObjType = {
     string: string;
-}
+};
 
 const AboutUsPage = () => {
     const state = useState({});
     const product: ProductType = state[0];
     const setProduct = state[1];
 
-
     type AttributesAllObj = {
-        [key: string]:  string;
-    }
+        [key: string]: string;
+    };
 
     const attributesObj: AttributesAllObj = {
         'country-of-origin': 'Страна происхождения',
-        'Group': 'Группа',
-        'Flavor':  "Аромат",
+        "Group": 'Группа',
+        "Flavor": 'Аромат',
         'Landscape-use': 'Использование в ландшафте',
         'growing-area': 'Место выращивания',
         'type-of-packing': 'Вид упаковки',
         'flower-color': 'Окрас цветка',
         'light-requirements': 'Требования к освещению',
         'flowering-period': 'Период цветения',
-        'Height': 'Вфсота',
+        "Height": 'Вфсота',
         'fetal-weight': 'Вес плодов',
-        'form': 'Форма',
+        "form": 'Форма',
         'fruit-color': 'Цвет плодов',
-        'group': 'Группа',
+        "group": 'Группа',
         'growth-patterns': 'Характер роста',
-        'height': 'Высота',
-        'pulp': 'Мякоть',
+        "height": 'Высота',
+        "pulp": 'Мякоть',
         'ripening-rate': 'Скорость созревания',
-        'type-of-pollination': 'Тип опыления'
-    } 
+        'type-of-pollination': 'Тип опыления',
+    };
 
     useEffect(() => {
         apiRoot
@@ -123,8 +127,11 @@ const AboutUsPage = () => {
     const pathImage2 = product.masterData?.current.masterVariant.images[2].url;
     const pathImage3 = product.masterData?.current.masterVariant.images[3].url;
 
-    console.log(attributesPlants);
-    console.log(Array.isArray(attributesPlants));
+    const pricePlants: number = product.masterData?.current.masterVariant.prices[0].value.centAmount || 99;
+    const discountPrice: number | undefined = product.masterData?.current.masterVariant.prices[0].discounted.value.centAmount || undefined;
+
+    console.log(discountPrice);
+
 
     return (
         <div>
@@ -174,6 +181,12 @@ const AboutUsPage = () => {
                                     );
                                 })}
                             </ul>
+                            <div className={classes.priceBlock}>
+                                <p>Цена</p>
+                                <p className={discountPrice?classes.discountClass:undefined}>{pricePlants / 100}</p>
+                                <p  className={`${classes.discountPrice_hide} ${discountPrice?classes.discountPrice :undefined}`}>{discountPrice ? discountPrice / 100 :''}</p>
+                                <p>EUR</p>
+                            </div>
                         </div>
                     </Card>
                 </Col>

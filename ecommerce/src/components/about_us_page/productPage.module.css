@@ -1,0 +1,22 @@
+.discountClass{
+  color: red;
+  text-decoration: line-through;
+  font-size: 14px;
+}
+
+.discountPrice_hide {
+  display: none;
+}
+
+.discountPrice {
+  display: block;
+  color: green;
+  font-size: 20px;
+}
+
+
+
+.priceBlock {
+  display: flex;
+  align-items: center;
+}
