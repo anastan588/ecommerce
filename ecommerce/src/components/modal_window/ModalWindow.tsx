@@ -30,11 +30,8 @@ const ModalWindow = () => {
   
     function addImage(i: number) {
       const imageObj: ImagesType = arrayImage[i]
-      console.log(arrayImage[i])
-      console.log(imageObj.dimensions)
-      console.log(imageObj.url)
-      return imageObj.url;
-
+      if (imageObj) return imageObj.url;
+      return 'https://img3.procvetok.com/crop/w520h520/5c/ae/5caed97990d7c7b29166cfb030880eae.webp';
     }
 
 
