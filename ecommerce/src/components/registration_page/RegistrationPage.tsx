@@ -348,13 +348,14 @@ function checkBilligAddress() {
         }
     }, 800);
 }
-function valiDateFirstName() {
+export function valiDateFirstName() {
     const currentInput = document.querySelector(`.${registyles.input_name}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_name}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_firstname}`) as HTMLDivElement;
     const validationValue = currentInput.value.trim();
     const numberTemplate = /\d/;
     const specialCharactersTemplate = /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/;
+    const sucsess = false;
     if (specialCharactersTemplate.test(validationValue) && numberTemplate.test(validationValue)) {
         currentErrorMessage.innerHTML = "Name  shouldn't contain special characters and numbers";
         currentInput.style.border = '1px solid #ff4d4f';
@@ -382,6 +383,7 @@ function valiDateFirstName() {
         newCustomer.firstName = currentInput.value;
         validateFormToSubmit();
     }
+    return sucsess;
 }
 function valiDateSecondName() {
     const currentInput = document.querySelector(`.${registyles.input_surname}`) as HTMLInputElement;
@@ -544,6 +546,7 @@ function valiDateBirth() {
     const currentErrorMessage = document.querySelector(`.${registyles.error_birth}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_birth}`) as HTMLDivElement;
     const validationValue = currentInput.value.trim();
+    console.log(currentInput.value.trim());
     const todayDate = new Date();
     const dateForValidation = new Date(validationValue);
     // dateForValidation.setFullYear(Number(validationValue.slice(0, 4)));

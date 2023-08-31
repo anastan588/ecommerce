@@ -122,7 +122,7 @@ class Store {
             });
     }
 
-    updateCustomer() {
+    updateCustomer(vers: number) {
         const ID = localStorage.getItem('id') as string;
         const customerJSON = localStorage.getItem('currentCustomer') as string;
         const customer = JSON.parse(customerJSON);
@@ -132,16 +132,33 @@ class Store {
             .post({
                 body: {
                     // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
-                    version: 1,
+                    version: vers,
                     actions: [
                         {
                             action: 'setFirstName',
                             firstName: `${customer.body.firstName}`,
                         },
+                        {
+                            action: 'setLastName',
+                            lastName: `${customer.body.lastName}`,
+                        },
+                        {
+                            action: 'setDateOfBirth',
+                            dateOfBirth: `${customer.body.dateOfBirth}`,
+                        },
+                        {
+                            action: 'changeEmail',
+                            email: `${customer.body.email}`,
+                        },
                     ],
                 },
             })
-            .execute();
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
     }
 }
 export default Store;
