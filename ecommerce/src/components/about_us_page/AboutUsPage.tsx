@@ -60,6 +60,14 @@ type AttributesObjType = {
     string: string;
 };
 
+
+function openModalWindow() {
+    console.log('open modal window')
+
+
+
+}
+
 const AboutUsPage = () => {
     const state = useState({});
     const product: ProductType = state[0];
@@ -97,7 +105,7 @@ const AboutUsPage = () => {
             .get()
             .execute()
             .then((body) => {
-                console.log(body.body.results);
+                /* console.log(body.body.results); */
                 setProduct(body.body.results[0]);
             });
     }, []);
@@ -114,9 +122,9 @@ const AboutUsPage = () => {
         console.log(body);
     }); */
 
-    console.log('product-id');
+    /* console.log('product-id');
     console.log(product.id);
-    console.log(product.key);
+    console.log(product.key); */
 
     const pathImage = product.masterData?.current.masterVariant.images[0].url;
     const titlePlants = product.masterData?.current.name.ru;
@@ -130,17 +138,17 @@ const AboutUsPage = () => {
     const pricePlants: number = product.masterData?.current.masterVariant.prices[0].value.centAmount || 99;
     const discountPrice: number | undefined = product.masterData?.current.masterVariant.prices[0].discounted.value.centAmount || undefined;
 
-    console.log(discountPrice);
+    /* console.log(discountPrice); */
 
 
     return (
         <div>
             <Row>
-                <Col>
+                <Col onClick={openModalWindow} >
                     <Card
                         style={{ width: 520 }}
                         cover={
-                            <Carousel afterChange={onChange}>
+                            <Carousel afterChange={onChange}      >
                                 <div>
                                     <h3 style={contentStyle}>
                                         <img alt="example" src={pathImage0} />
