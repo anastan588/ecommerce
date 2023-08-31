@@ -28,16 +28,14 @@ type ImagesType = {
 
 type AttributesPlants = { name: string; value: string };
 
-type ValuePlantsType = { centAmount: number, currencyCode: string, fractionDigits: number, type: string}
+type ValuePlantsType = { centAmount: number; currencyCode: string; fractionDigits: number; type: string };
 
-type PricePlantsObj = { id: string, value: ValuePlantsType, discounted: {value: ValuePlantsType }};
-
-
+type PricePlantsObj = { id: string; value: ValuePlantsType; discounted: { value: ValuePlantsType } };
 
 type MasterVariantType = {
     images: ImagesType[];
     attributes: AttributesPlants[];
-    prices:  PricePlantsObj[];
+    prices: PricePlantsObj[];
 };
 
 type MasterDataCurrent = {
@@ -60,12 +58,8 @@ type AttributesObjType = {
     string: string;
 };
 
-
 function openModalWindow() {
-    console.log('open modal window')
-
-
-
+    console.log('open modal window');
 }
 
 const AboutUsPage = () => {
@@ -79,22 +73,22 @@ const AboutUsPage = () => {
 
     const attributesObj: AttributesAllObj = {
         'country-of-origin': 'Страна происхождения',
-        "Group": 'Группа',
-        "Flavor": 'Аромат',
+        Group: 'Группа',
+        Flavor: 'Аромат',
         'Landscape-use': 'Использование в ландшафте',
         'growing-area': 'Место выращивания',
         'type-of-packing': 'Вид упаковки',
         'flower-color': 'Окрас цветка',
         'light-requirements': 'Требования к освещению',
         'flowering-period': 'Период цветения',
-        "Height": 'Вфсота',
+        Height: 'Вфсота',
         'fetal-weight': 'Вес плодов',
-        "form": 'Форма',
+        form: 'Форма',
         'fruit-color': 'Цвет плодов',
-        "group": 'Группа',
+        group: 'Группа',
         'growth-patterns': 'Характер роста',
-        "height": 'Высота',
-        "pulp": 'Мякоть',
+        height: 'Высота',
+        pulp: 'Мякоть',
         'ripening-rate': 'Скорость созревания',
         'type-of-pollination': 'Тип опыления',
     };
@@ -136,19 +130,19 @@ const AboutUsPage = () => {
     const pathImage3 = product.masterData?.current.masterVariant.images[3].url;
 
     const pricePlants: number = product.masterData?.current.masterVariant.prices[0].value.centAmount || 99;
-    const discountPrice: number | undefined = product.masterData?.current.masterVariant.prices[0].discounted.value.centAmount || undefined;
+    const discountPrice: number | undefined =
+        product.masterData?.current.masterVariant.prices[0].discounted.value.centAmount || undefined;
 
     /* console.log(discountPrice); */
-
 
     return (
         <div>
             <Row>
-                <Col onClick={openModalWindow} >
+                <Col onClick={openModalWindow}>
                     <Card
                         style={{ width: 520 }}
                         cover={
-                            <Carousel afterChange={onChange}      >
+                            <Carousel afterChange={onChange}>
                                 <div>
                                     <h3 style={contentStyle}>
                                         <img alt="example" src={pathImage0} />
@@ -191,8 +185,14 @@ const AboutUsPage = () => {
                             </ul>
                             <div className={classes.priceBlock}>
                                 <p>Цена</p>
-                                <p className={discountPrice?classes.discountClass:undefined}>{pricePlants / 100}</p>
-                                <p  className={`${classes.discountPrice_hide} ${discountPrice?classes.discountPrice :undefined}`}>{discountPrice ? discountPrice / 100 :''}</p>
+                                <p className={discountPrice ? classes.discountClass : undefined}>{pricePlants / 100}</p>
+                                <p
+                                    className={`${classes.discountPrice_hide} ${
+                                        discountPrice ? classes.discountPrice : undefined
+                                    }`}
+                                >
+                                    {discountPrice ? discountPrice / 100 : ''}
+                                </p>
                                 <p>EUR</p>
                             </div>
                         </div>
