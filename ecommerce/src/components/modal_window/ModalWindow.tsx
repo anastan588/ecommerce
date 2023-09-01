@@ -13,7 +13,6 @@ const ModalWindow = () => {
     console.log('open modal window from');
 
     const state = useState<ImagesType[]>([]);
-
     const arrayImage: ImagesType[] = state[0];
     const setState = state[1];
 
@@ -23,12 +22,24 @@ const ModalWindow = () => {
         return 'https://img3.procvetok.com/crop/w520h520/5c/ae/5caed97990d7c7b29166cfb030880eae.webp';
     }
 
+
+    const [imageCurrent, setImageCurrent] = useState(addImage(3))
+
+
+
     function changeImage(i: number): void {
-      console.log('changeImage');
-      console.log(i);
+        console.log('changeImage');
+        console.log(i);
+
+        setImageCurrent(addImage(i))
 
 
-      
+
+
+
+
+
+
     }
 
     useEffect(() => {
@@ -62,7 +73,7 @@ const ModalWindow = () => {
     return (
         <div className={[classes.modal, classes.modal_active].join(' ')}>
             <div className={classes.modal__content}>
-                <img src={addImage(5)}></img>
+                <img src={imageCurrent}></img>
                 <IntegerStep countImages={arrayImage.length} imageArray={arrayImage} changeImage={changeImage} />
             </div>
         </div>

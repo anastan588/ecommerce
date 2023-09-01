@@ -20,8 +20,8 @@ const IntegerStep = (props: IntegerStepProps) => {
 
     const onChange = (newValue: number | null) => {
         if (newValue) {
-          setInputValue(newValue);
-          props.changeImage(newValue)
+            setInputValue(newValue);
+            props.changeImage(newValue);
         }
     };
 
