@@ -3,6 +3,7 @@ import { UserOutlined, EnvironmentOutlined, ExclamationCircleOutlined } from '@a
 import { Layout, Menu, theme, Typography, Avatar, Space, Badge, Descriptions } from 'antd';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import UserInformation from './UserIInformation';
+import PassWord from './PassWord';
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -112,24 +113,24 @@ export function BillingAddresses() {
     );
 }
 
-export function ChangePassword() {
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
+// export function ChangePassword() {
+//     const {
+//         token: { colorBgContainer },
+//     } = theme.useToken();
 
-    return (
-        <Layout key={'billingAddresses'} style={{ width: '100%' }}>
-            <Header style={{ padding: 0, background: colorBgContainer }}>
-                <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                    <Title level={3}>Change Password</Title>
-                </div>
-            </Header>
-            <Content style={{ margin: '24px 16px 0' }}>
-                <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>content</div>
-            </Content>
-        </Layout>
-    );
-}
+//     return (
+//         <Layout key={'billingAddresses'} style={{ width: '100%' }}>
+//             <Header style={{ padding: 0, background: colorBgContainer }}>
+//                 <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
+//                     <Title level={3}>Change Password</Title>
+//                 </div>
+//             </Header>
+//             <Content style={{ margin: '24px 16px 0' }}>
+//                 <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>content</div>
+//             </Content>
+//         </Layout>
+//     );
+// }
 
 export const MyProfilePage = () => {
     return (
@@ -141,7 +142,7 @@ export const MyProfilePage = () => {
                     <Route path="/user-information" element={<UserInformation />} />
                     <Route path="/shipping-addresses" element={<ShippingAddresses />} />
                     <Route path="/billing-addresses" element={<BillingAddresses />} />
-                    <Route path="/change-password" element={<ChangePassword />} />
+                    <Route path="/change-password" element={<PassWord />} />
                 </Routes>
             </Layout>
         </Layout>

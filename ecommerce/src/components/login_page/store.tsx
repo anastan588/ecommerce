@@ -160,5 +160,28 @@ class Store {
                 localStorage.setItem('currentCustomer', customerUpdate);
             });
     }
+
+    changePasswordOfCustomer(vers: number, currentPassword: string, nextPassword: string) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .password()
+            .post({
+                body: {
+                    id: `${ID}`,
+                    version: vers,
+                    currentPassword: `${currentPassword}`,
+                    newPassword: `${nextPassword}`,
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
 }
 export default Store;

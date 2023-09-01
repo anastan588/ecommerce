@@ -1,25 +1,17 @@
 import { Layout, theme, Card } from 'antd';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import FirstNameEdit from './userInformation/userFirstName';
-import LastNameEdit from './userInformation/userLastName';
-import DateOfBirthEdit from './userInformation/dateOfBirth';
-import EmailEdit from './userInformation/email';
+import PasswordChange from './password/changepassword';
 
 const { Content } = Layout;
 
-export function UserInformation() {
+export function PassWord() {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
 
     return (
-        <Layout key={'/my-profile/user-information'}>
-            {/* <Header style={{ padding: 0, background: colorBgContainer }}>
-                <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                    <Title level={3}>User Information</Title>
-                </div>
-            </Header> */}
+        <Layout key={'/my-profile/change-password'}>
             <Content style={{ margin: '24px 16px 0' }}>
                 <div
                     style={{
@@ -32,17 +24,14 @@ export function UserInformation() {
                     }}
                 >
                     <Card
-                        title="User Information"
+                        title="Change Password"
                         bodyStyle={{
                             display: 'flex',
                             flexDirection: 'column',
                             gap: 20,
                         }}
                     >
-                        <FirstNameEdit />
-                        <LastNameEdit />
-                        <DateOfBirthEdit />
-                        <EmailEdit />
+                        <PasswordChange />
                     </Card>
                 </div>
             </Content>
@@ -51,4 +40,4 @@ export function UserInformation() {
     );
 }
 
-export default UserInformation;
+export default PassWord;

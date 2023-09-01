@@ -23,7 +23,7 @@ function EmailEdit() {
     };
     const notifyEmailError = () => {
         console.log('notify');
-        toast.error(`Current email`, {
+        toast.error(`Current email already exists`, {
             position: 'top-center',
             autoClose: 2000,
             hideProgressBar: false,
