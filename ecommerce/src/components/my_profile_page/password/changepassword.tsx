@@ -65,7 +65,7 @@ function PasswordChange() {
     const customer = JSON.parse(customerJSON);
 
     const [currentPassword, setPassword] = useState('');
-    const [newPassword, changePassword] = useState('');
+    const [newPassword, setText] = useState('');
 
     const onFinish = (values: Values) => {
         version = customer.body.version;
@@ -83,7 +83,7 @@ function PasswordChange() {
             .then(() => notifyPasswordSuccess())
             .catch(() => notifyPasswordError());
         setPassword('');
-        changePassword('');
+        setText('');
     };
 
     const onFinishFailed = (errorInfo: ValidateErrorEntity<Values>) => {

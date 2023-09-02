@@ -4,6 +4,7 @@ import { Layout, Menu, theme, Typography, Avatar, Space, Badge, Descriptions } f
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import UserInformation from './UserIInformation';
 import PassWord from './PassWord';
+import Addresses from './Addresses';
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -31,22 +32,20 @@ function SideMenu() {
                     {
                         key: '/my-profile/user-information',
                         icon: React.createElement(UserOutlined),
-                        label: 'User information',
+                        label: `User's information`,
                     },
                     {
-                        key: '/my-profile/shipping-addresses',
+                        key: '/my-profile/addresses',
                         icon: React.createElement(EnvironmentOutlined),
-                        label: 'Shipping addresses',
-                    },
-                    {
-                        key: '/my-profile/billing-addresses',
-                        icon: React.createElement(EnvironmentOutlined),
-                        label: 'Billing addresses',
+                        label: `User's addresses`,
                     },
                     {
                         key: '/my-profile/change-password',
                         icon: React.createElement(ExclamationCircleOutlined),
                         label: 'Change password',
+                        style: {
+                            color: '#ff4040',
+                        },
                     },
                 ]}
             />
@@ -59,6 +58,8 @@ export function UserIcon() {
         token: { colorBgContainer },
     } = theme.useToken();
 
+    const customerJSON = localStorage.getItem('currentCustomer') as string;
+    const customer = JSON.parse(customerJSON);
     return (
         <Layout key={'/my-profile/'}>
             <Header style={{ padding: 0, background: colorBgContainer }}>
@@ -68,50 +69,52 @@ export function UserIcon() {
             </Header>
             <Content style={{ margin: '24px 16px 0' }}>
                 <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                    <Title level={3}>User Name</Title>
+                    <Title level={3}>
+                        {customer.body.firstName} {customer.body.lastName}
+                    </Title>
                 </div>
             </Content>
         </Layout>
     );
 }
 
-export function ShippingAddresses() {
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
+// export function ShippingAddresses() {
+//     const {
+//         token: { colorBgContainer },
+//     } = theme.useToken();
 
-    return (
-        <Layout key={'/my-profile/billing-addresses'}>
-            <Header style={{ padding: 0, background: colorBgContainer }}>
-                <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                    <Title level={3}>Shipping Addresses</Title>
-                </div>
-            </Header>
-            <Content style={{ margin: '24px 16px 0' }}>
-                <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>content</div>
-            </Content>
-        </Layout>
-    );
-}
+//     return (
+//         <Layout key={'/my-profile/billing-addresses'}>
+//             <Header style={{ padding: 0, background: colorBgContainer }}>
+//                 <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
+//                     <Title level={3}>Shipping Addresses</Title>
+//                 </div>
+//             </Header>
+//             <Content style={{ margin: '24px 16px 0' }}>
+//                 <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>content</div>
+//             </Content>
+//         </Layout>
+//     );
+// }
 
-export function BillingAddresses() {
-    const {
-        token: { colorBgContainer },
-    } = theme.useToken();
+// export function BillingAddresses() {
+//     const {
+//         token: { colorBgContainer },
+//     } = theme.useToken();
 
-    return (
-        <Layout key={'billingAddresses'}>
-            <Header style={{ padding: 0, background: colorBgContainer }}>
-                <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                    <Title level={3}>Billing Addresses</Title>
-                </div>
-            </Header>
-            <Content style={{ margin: '24px 16px 0' }}>
-                <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>content</div>
-            </Content>
-        </Layout>
-    );
-}
+//     return (
+//         <Layout key={'billingAddresses'}>
+//             <Header style={{ padding: 0, background: colorBgContainer }}>
+//                 <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
+//                     <Title level={3}>Billing Addresses</Title>
+//                 </div>
+//             </Header>
+//             <Content style={{ margin: '24px 16px 0' }}>
+//                 <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>content</div>
+//             </Content>
+//         </Layout>
+//     );
+// }
 
 // export function ChangePassword() {
 //     const {
@@ -140,8 +143,7 @@ export const MyProfilePage = () => {
                 <Routes>
                     <Route path="/" element={<UserIcon />}></Route>
                     <Route path="/user-information" element={<UserInformation />} />
-                    <Route path="/shipping-addresses" element={<ShippingAddresses />} />
-                    <Route path="/billing-addresses" element={<BillingAddresses />} />
+                    <Route path="/addresses" element={<Addresses />} />
                     <Route path="/change-password" element={<PassWord />} />
                 </Routes>
             </Layout>

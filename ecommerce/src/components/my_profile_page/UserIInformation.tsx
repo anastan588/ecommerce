@@ -32,7 +32,7 @@ export function UserInformation() {
                     }}
                 >
                     <Card
-                        title="User Information"
+                        title="User's Information"
                         bodyStyle={{
                             display: 'flex',
                             flexDirection: 'column',

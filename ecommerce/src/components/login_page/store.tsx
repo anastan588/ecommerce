@@ -183,5 +183,38 @@ class Store {
                 localStorage.setItem('currentCustomer', customerUpdate);
             });
     }
+
+    changeAddress(vers: number) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'changeAddress',
+                            addressId: `${customer.body.addresses[0].id}`,
+                            address: {
+                                country: `${customer.body.addresses[0].country}`,
+                                city: `${customer.body.addresses[0].city}`,
+                                streetName: `${customer.body.addresses[0].streetName}`,
+                                postalCode: `${customer.body.addresses[0].postalCode}`,
+                            },
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
 }
 export default Store;
