@@ -5,13 +5,13 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Context } from '../../..';
 import {
+    countryDetection,
     shippingAddress,
     billingAddress,
     shippingDefaultAddress,
     billingDefaultAddress,
-    countryDetection,
-    AddressComponent,
 } from './functionsForDisplaingAddresses';
+import AddressComponentEditingForm from './functionsForEditingAddresses';
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -58,151 +58,225 @@ function AddRessesEdit() {
     let makeAddressesList;
 
     if (isEdit) {
-        // customer.body.addresses.map((element: Values) => {});
-        // returnAddresses = (
-        //     <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-        //         <Form
-        //             name="address"
-        //             labelCol={{ span: 8 }}
-        //             wrapperCol={{ span: 16 }}
-        //             style={{ maxWidth: 600 }}
-        //             initialValues={{ remember: true }}
-        //             onFinish={onFinish}
-        //             onFinishFailed={onFinishFailed}
-        //             autoComplete="off"
-        //         >
-        //             <Form.Item<FieldType>
-        //                 label="Street"
-        //                 name="street"
-        //                 rules={[{ required: true, message: 'Please input street!' }]}
-        //             >
-        //                 <Input.Password value={currentPassword} />
-        //             </Form.Item>
-        //             <Form.Item<FieldType>
-        //                 label="New Password"
-        //                 name="newPassword"
-        //                 rules={[
-        //                     { required: true, message: 'Please input your current password!' },
-        //                     { pattern: /\S$/, message: 'Password must not contain trailing whitespace' },
-        //                     { pattern: /^\S/, message: 'Password must not contain leading whitespace' },
-        //                     { pattern: /.{8}/, message: 'Password must be at least 8 characters long' },
-        //                     { pattern: /[A-Z]/, message: 'Password must contain at least one uppercase letter (A-Z)' },
-        //                     { pattern: /[a-z]/, message: 'Password must contain at least one lowercase letter (a-z)' },
-        //                     { pattern: /\d/, message: 'Password must contain at least one digit (0-9)' },
-        //                 ]}
-        //             >
-        //                 <Input.Password value={newPassword} />
-        //             </Form.Item>
-        //             <Form.Item wrapperCol={{ offset: 10, span: 16 }}>
-        //                 <Button type="primary" htmlType="submit">
-        //                     Confirm new Password
-        //                 </Button>
-        //             </Form.Item>
-        //         </Form>
-        //         <Form
-        //             style={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}
-        //             name="name"
-        //             className="form"
-        //             wrapperCol={{ span: 30 }}
-        //             // style={{ maxWidth: 600 }}
-        //             initialValues={{ remember: true }}
-        //             fields={[
-        //                 {
-        //                     name: ['name'],
-        //                     value: text.body.firstName,
-        //                 },
-        //             ]}
-        //             // autoComplete="off"
-        //             onFinish={() => {
-        //                 setIsEdit(false);
-        //                 sendUpdateCustomerToServer(version).then(() => notifyFirstName());
-        //                 console.log(customer.body.firstName);
-        //             }}
-        //         >
-        //             <Form.Item
-        //                 name="name"
-        //                 style={{ width: '80%' }}
-        //                 rules={[
-        //                     { required: true, message: 'Please, enter your first name' },
-        //                     {
-        //                         message: `First name shouldn't contain numbers and special characters`,
-        //                         validator: (_, value) => {
-        //                             if (/\d/.test(value) && /[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/.test(value)) {
-        //                                 return Promise.reject(
-        //                                     new Error(`First name shouldn't contain numbers and special characters`)
-        //                                 );
-        //                             }
-        //                             return Promise.resolve();
-        //                         },
-        //                     },
-        //                     {
-        //                         message: `First name must be at least 1 characters long`,
-        //                         validator: (_, value) => {
-        //                             if (/.{1}/.test(value)) {
-        //                                 return Promise.resolve();
-        //                             }
-        //                             return Promise.reject(new Error(`First name must be at least 1 characters long`));
-        //                         },
-        //                     },
-        //                     {
-        //                         message: `First name shouldn't contain special characters`,
-        //                         validator: (_, value) => {
-        //                             if (/[\\^$.[\]|~`?!@#$%&\-_={}:;"'<>.,*+()]/.test(value)) {
-        //                                 return Promise.reject(
-        //                                     new Error(`First name shouldn't contain special characters`)
-        //                                 );
-        //                             }
-        //                             return Promise.resolve();
-        //                         },
-        //                     },
-        //                     {
-        //                         message: `First name shouldn't contain numbers`,
-        //                         validator: (_, value) => {
-        //                             if (/\d/.test(value)) {
-        //                                 return Promise.reject(new Error(`First name shouldn't contain numbers`));
-        //                             }
-        //                             return Promise.resolve();
-        //                         },
-        //                     },
-        //                 ]}
-        //             >
-        //                 <Input
-        //                     style={{ width: '100%' }}
-        //                     type="text"
-        //                     value={text.body.firstName}
-        //                     onChange={(event) => {
-        //                         console.log(text.body.firstName);
-        //                         console.log(event.target.value);
-        //                         customer.body.firstName = event.target.value;
-        //                         version = customer.body.version;
-        //                         console.log(customer);
-        //                         const customerUpdate = JSON.stringify(customer);
-        //                         localStorage.removeItem('currentCustomer');
-        //                         localStorage.setItem('currentCustomer', customerUpdate);
-        //                         setText(customer);
-        //                     }}
-        //                 />
-        //             </Form.Item>
-        //             <div>
-        //                 <Button
-        //                     type="primary"
-        //                     htmlType="submit"
-        //                     // onClick={() => {
-        //                     //     setIsEdit(false);
-        //                     //     sendUpdateCustomerToServer(version).then(() => notifyFirstName());
-        //                     //     console.log(customer.body.firstName);
-        //                     // }}
-        //                 >
-        //                     Save
-        //                 </Button>
-        //             </div>
-        //         </Form>
-        //     </div>
-        // );
+        makeAddressesList = <AddressComponentEditingForm />;
     } else {
-        makeAddressesList = <AddressComponent />;
+        makeAddressesList = (
+            <React.Fragment>
+                {customer.body.addresses.map((element: Values) => {
+                    return (
+                        <div
+                            key={element.id}
+                            style={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                gap: 10,
+                                border: 'solid 1px #9a9a9a',
+                                borderRadius: '15px',
+                                padding: '10px 10px 10px 10px',
+                            }}
+                        >
+                            <Header
+                                style={{
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    padding: '2px 10px 5px 10px',
+                                    alignItems: 'center',
+                                    height: 'auto',
+                                    lineHeight: '1.0',
+                                    background: '#9a9a9a',
+                                    borderRadius: 15,
+                                }}
+                            >
+                                <div
+                                    style={{
+                                        display: 'flex',
+                                    }}
+                                >
+                                    <div
+                                        style={{
+                                            fontWeight: 'bold',
+                                        }}
+                                    >
+                                        Address
+                                    </div>
+                                </div>
+                                <div style={{ display: 'flex', gap: 10, alignSelf: 'center' }}>
+                                    <Button icon={<ScissorOutlined />}>Delete</Button>
+                                    <Button
+                                        icon={<EditOutlined />}
+                                        onClick={() => {
+                                            setIsEdit(true);
+                                            console.log(isEdit);
+                                        }}
+                                    >
+                                        Edit
+                                    </Button>
+                                </div>
+                            </Header>
+                            <div
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    gap: 10,
+                                }}
+                            >
+                                <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+                                    <Card
+                                        type="inner"
+                                        title="Street"
+                                        style={{ flexBasis: '23%' }}
+                                        headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
+                                        bodyStyle={{
+                                            lineHeight: '1.0',
+                                            minHeight: '30px',
+                                            padding: '10px 10px 10px 24px',
+                                        }}
+                                    >
+                                        {element.streetName}
+                                    </Card>
+                                    <Card
+                                        type="inner"
+                                        title="City"
+                                        style={{ flexBasis: '23%' }}
+                                        headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
+                                        bodyStyle={{
+                                            lineHeight: '1.0',
+                                            minHeight: '30px',
+                                            padding: '10px 10px 10px 24px',
+                                        }}
+                                    >
+                                        {element.city}
+                                    </Card>
+                                    <Card
+                                        type="inner"
+                                        title="Postal Code"
+                                        style={{ flexBasis: '23%' }}
+                                        headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
+                                        bodyStyle={{
+                                            lineHeight: '1.0',
+                                            minHeight: '30px',
+                                            padding: '10px 10px 10px 24px',
+                                        }}
+                                    >
+                                        {element.postalCode}
+                                    </Card>
+                                    <Card
+                                        type="inner"
+                                        title="Country"
+                                        style={{ flexBasis: '23%' }}
+                                        headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
+                                        bodyStyle={{
+                                            lineHeight: '1.0',
+                                            minHeight: '30px',
+                                            padding: '10px 10px 10px 24px',
+                                        }}
+                                    >
+                                        {countryDetection(element)}
+                                    </Card>
+                                </div>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+                                    <Card
+                                        type="inner"
+                                        title="Shipping Address settings:"
+                                        style={{
+                                            flexBasis: '45%',
+                                        }}
+                                        headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
+                                        bodyStyle={{
+                                            lineHeight: '1.0',
+                                            minHeight: '30px',
+                                            padding: '10px 10px 10px 10px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 10,
+                                        }}
+                                    >
+                                        <Card
+                                            type="inner"
+                                            title="Shipping Address:"
+                                            style={{
+                                                fontWeight: 'bold',
+                                            }}
+                                            headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
+                                            bodyStyle={{
+                                                lineHeight: '1.0',
+                                                minHeight: '30px',
+                                                padding: '10px 10px 10px 24px',
+                                            }}
+                                        >
+                                            {shippingAddress(element)}
+                                        </Card>
+                                        <Card
+                                            type="inner"
+                                            title="Default Shipping Address:"
+                                            style={{
+                                                fontWeight: 'bold',
+                                            }}
+                                            headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
+                                            bodyStyle={{
+                                                lineHeight: '1.0',
+                                                minHeight: '30px',
+                                                padding: '10px 10px 10px 24px',
+                                            }}
+                                        >
+                                            {shippingDefaultAddress(element)}
+                                        </Card>
+                                    </Card>
+                                    <Card
+                                        type="inner"
+                                        title="Shipping Address settings:"
+                                        style={{
+                                            flexBasis: '45%',
+                                        }}
+                                        headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
+                                        bodyStyle={{
+                                            lineHeight: '1.0',
+                                            minHeight: '30px',
+                                            padding: '10px 10px 10px 10px',
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            gap: 10,
+                                        }}
+                                    >
+                                        <Card
+                                            type="inner"
+                                            title="Billing Address:"
+                                            style={{
+                                                fontWeight: 'bold',
+                                            }}
+                                            headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
+                                            bodyStyle={{
+                                                lineHeight: '1.0',
+                                                minHeight: '30px',
+                                                padding: '10px 10px 10px 24px',
+                                            }}
+                                        >
+                                            {billingAddress(element)}
+                                        </Card>
+                                        <Card
+                                            type="inner"
+                                            title="Default Billing Address:"
+                                            style={{
+                                                fontWeight: 'bold',
+                                            }}
+                                            headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
+                                            bodyStyle={{
+                                                lineHeight: '1.0',
+                                                minHeight: '30px',
+                                                padding: '10px 10px 10px 24px',
+                                            }}
+                                        >
+                                            {billingDefaultAddress(element)}
+                                        </Card>
+                                    </Card>
+                                </div>
+                            </div>
+                        </div>
+                    );
+                })}
+            </React.Fragment>
+        );
     }
-
     return (
         <Card
             title="User's addresses"
