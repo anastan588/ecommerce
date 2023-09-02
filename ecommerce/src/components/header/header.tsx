@@ -61,7 +61,14 @@ const Header = () => {
                     <Link to="/registration">Registration</Link>
                 </Button>
                 <Button type="dashed">
-                    <Link to="/my-profile" onClick={getLoginCustomer}>
+                    <Link
+                        to="/my-profile"
+                        onClick={() => {
+                            if (store.isAuth) {
+                                getLoginCustomer();
+                            }
+                        }}
+                    >
                         My profile
                     </Link>
                 </Button>

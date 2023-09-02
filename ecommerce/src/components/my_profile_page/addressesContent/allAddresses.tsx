@@ -1,9 +1,17 @@
-import React, { ReactElement, useState, useContext } from 'react';
+import React, { ReactElement, useState, useContext, ReactNode } from 'react';
 import { Button, Card, Input, Form, Typography, theme, Layout } from 'antd';
-import { EditOutlined } from '@ant-design/icons';
+import { EditOutlined, ScissorOutlined } from '@ant-design/icons';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Context } from '../../..';
+import {
+    shippingAddress,
+    billingAddress,
+    shippingDefaultAddress,
+    billingDefaultAddress,
+    countryDetection,
+    AddressComponent,
+} from './functionsForDisplaingAddresses';
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -43,13 +51,11 @@ function AddRessesEdit() {
         return store.updateCustomer(vers);
     }
     const customerJSON = localStorage.getItem('currentCustomer') as string;
-    // console.log(customerJSON);
     const customer = JSON.parse(customerJSON);
-    // console.log(customer);
-    // console.log(customer.body.firstName);
     const [text, setText] = useState(customer);
     const [isEdit, setIsEdit] = useState(false);
-    let returnAddresses: ReactElement = <div>{text.body.addresses}</div>;
+    // let makeAddressesList = <div>{text.body.addresses}</div>;
+    let makeAddressesList;
 
     if (isEdit) {
         // customer.body.addresses.map((element: Values) => {});
@@ -194,241 +200,7 @@ function AddRessesEdit() {
         //     </div>
         // );
     } else {
-        customer.body.addresses.map((element: Values) => {
-            const {
-                token: { colorBgContainer },
-            } = theme.useToken();
-            function shippingAddress() {
-                console.log(typeof customer.body.shippingAddressIds);
-                const shipId: string = customer.body.shippingAddressIds.map((ship: string) => {
-                    if (element.id === ship) {
-                        return 'true';
-                    }
-                    return 'false';
-                });
-                return shipId;
-            }
-            function billingAddress() {
-                console.log(typeof customer.body.billingAddressIds);
-                const billId: string = customer.body.billingAddressIds.map((bill: string) => {
-                    if (element.id === bill) {
-                        return 'true';
-                    }
-                    return 'false';
-                });
-                return billId;
-            }
-            function shippingDefaultAddress() {
-                if (customer.body.defaultShippingAddressId !== undefined) {
-                    if (customer.body.defaultShippingAddressId === element.id) {
-                        return 'true';
-                    }
-                    return 'false';
-                }
-                return 'false';
-            }
-
-            function billingDefaultAddress() {
-                if (customer.body.defaultBillingAddressId !== undefined) {
-                    if (customer.body.defaultBillingAddressId === element.id) {
-                        return 'true';
-                    }
-                    return 'false';
-                }
-                return 'false';
-            }
-
-            function countryDetection(el: Values) {
-                if (el.country === 'BL') {
-                    return 'Belarus';
-                }
-                if (el.country === 'KZ') {
-                    return 'Kazakhstan';
-                }
-                if (el.country === 'LT') {
-                    return 'Lithuania';
-                }
-                if (el.country === 'PL') {
-                    return 'Poland';
-                }
-                if (el.country === 'RU') {
-                    return 'Russia';
-                }
-                return 'Ukraine';
-            }
-            returnAddresses = (
-                <div
-                    style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        border: 'solid 1px #9a9a9a',
-                        borderRadius: '15px',
-                        padding: '10px 10px 10px 10px',
-                    }}
-                >
-                    <Header
-                        style={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            background: colorBgContainer,
-                            padding: '2px 2px 5px 2px',
-                            alignItems: 'center',
-                            height: 'auto',
-                            lineHeight: '1.0',
-                        }}
-                    >
-                        <div style={{ background: colorBgContainer, display: 'flex' }}>
-                            <div
-                                style={{
-                                    fontWeight: 'bold',
-                                }}
-                            >
-                                Address
-                            </div>
-                        </div>
-                        <div style={{ display: 'flex', gap: 10 }}>
-                            <Button
-                                icon={<EditOutlined />}
-                                onClick={() => {
-                                    setIsEdit(true);
-                                    console.log(isEdit);
-                                }}
-                            >
-                                Edit
-                            </Button>
-                        </div>
-                    </Header>
-                    <div
-                        style={{
-                            background: colorBgContainer,
-                            display: 'flex',
-                            flexDirection: 'column',
-                            gap: 10,
-                        }}
-                    >
-                        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                            <Card
-                                type="inner"
-                                title="Street"
-                                style={{ flexBasis: '23%' }}
-                                headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
-                                bodyStyle={{ lineHeight: '1.0', minHeight: '30px', padding: '10px 10px 10px 24px' }}
-                            >
-                                {element.streetName}
-                            </Card>
-                            <Card
-                                type="inner"
-                                title="City"
-                                style={{ flexBasis: '23%' }}
-                                headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
-                                bodyStyle={{ lineHeight: '1.0', minHeight: '30px', padding: '10px 10px 10px 24px' }}
-                            >
-                                {element.city}
-                            </Card>
-                            <Card
-                                type="inner"
-                                title="Postal Code"
-                                style={{ flexBasis: '23%' }}
-                                headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
-                                bodyStyle={{ lineHeight: '1.0', minHeight: '30px', padding: '10px 10px 10px 24px' }}
-                            >
-                                {element.postalCode}
-                            </Card>
-                            <Card
-                                type="inner"
-                                title="Country"
-                                style={{ flexBasis: '23%' }}
-                                headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
-                                bodyStyle={{ lineHeight: '1.0', minHeight: '30px', padding: '10px 10px 10px 24px' }}
-                            >
-                                {countryDetection(element)}
-                            </Card>
-                        </div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap' }}>
-                            <Card
-                                type="inner"
-                                title="Shipping Address settings:"
-                                style={{
-                                    flexBasis: '45%',
-                                }}
-                                headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
-                                bodyStyle={{
-                                    lineHeight: '1.0',
-                                    minHeight: '30px',
-                                    padding: '10px 10px 10px 10px',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: 10,
-                                }}
-                            >
-                                <Card
-                                    type="inner"
-                                    title="Shipping Address:"
-                                    style={{
-                                        fontWeight: 'bold',
-                                    }}
-                                    headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
-                                    bodyStyle={{ lineHeight: '1.0', minHeight: '30px', padding: '10px 10px 10px 24px' }}
-                                >
-                                    {shippingAddress()}
-                                </Card>
-                                <Card
-                                    type="inner"
-                                    title="Default Shipping Address:"
-                                    style={{
-                                        fontWeight: 'bold',
-                                    }}
-                                    headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
-                                    bodyStyle={{ lineHeight: '1.0', minHeight: '30px', padding: '10px 10px 10px 24px' }}
-                                >
-                                    {shippingDefaultAddress()}
-                                </Card>
-                            </Card>
-                            <Card
-                                type="inner"
-                                title="Shipping Address settings:"
-                                style={{
-                                    flexBasis: '45%',
-                                }}
-                                headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
-                                bodyStyle={{
-                                    lineHeight: '1.0',
-                                    minHeight: '30px',
-                                    padding: '10px 10px 10px 10px',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    gap: 10,
-                                }}
-                            >
-                                <Card
-                                    type="inner"
-                                    title="Billing Address:"
-                                    style={{
-                                        fontWeight: 'bold',
-                                    }}
-                                    headStyle={{ lineHeight: '1.0', minHeight: '35px' }}
-                                    bodyStyle={{ lineHeight: '1.0', minHeight: '30px', padding: '10px 10px 10px 24px' }}
-                                >
-                                    {billingAddress()}
-                                </Card>
-                                <Card
-                                    type="inner"
-                                    title="Default Billing Address:"
-                                    style={{
-                                        fontWeight: 'bold',
-                                    }}
-                                    headStyle={{ lineHeight: '1.0', minHeight: '30px' }}
-                                    bodyStyle={{ lineHeight: '1.0', minHeight: '30px', padding: '10px 10px 10px 24px' }}
-                                >
-                                    {billingDefaultAddress()}
-                                </Card>
-                            </Card>
-                        </div>
-                    </div>
-                </div>
-            );
-            return returnAddresses;
-        });
+        makeAddressesList = <AddressComponent />;
     }
 
     return (
@@ -441,7 +213,7 @@ function AddRessesEdit() {
                 padding: '0px 15px 0px 15px',
             }}
         >
-            {returnAddresses}
+            {makeAddressesList}
         </Card>
     );
 }
