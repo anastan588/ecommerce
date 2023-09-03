@@ -7,7 +7,7 @@ const { Meta } = Card;
 const ProductsItem: React.FC<{ item: Obj }> = (props) => {
     const names = Object.values(props.item.name);
     return (
-        <Col push={0.5} sm={12} md={12} lg={8} xl={6}>
+        <Col push={0.5} xs={24} sm={24} md={12} lg={8} xl={6}>
             <Card
                 className="card_style"
                 hoverable
@@ -16,11 +16,15 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
             >
                 <Meta title={names[0]} />
                 <Meta title={names[1]} />
-                <h3 className="card-tytle">
+                <div className="card-price">
                     {props.item.prices?.[0].value.centAmount.toString()}
                     <span className="card-curr">{props.item.prices?.[0].value.currencyCode}</span>
-                    <p className="card-descr">{props.item.description?.ru}</p>
-                </h3>
+                </div>
+                <div className="card-discount">
+                    {props.item.prices?.[0].discounted?.value.centAmount.toString()}
+                    <span className="card-curr">{props.item.prices?.[0].discounted?.value.currencyCode}</span>
+                </div>
+                <p className="card-descr">{props.item.description?.ru}</p>
             </Card>
         </Col>
     );
