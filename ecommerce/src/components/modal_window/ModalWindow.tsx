@@ -78,8 +78,8 @@ const ModalWindow = ({ active, setActive }: ModalActiveType) => {
             <div className={classes.modal__content} onClick={(e) => e.stopPropagation()}>
                 <img src={imageCurrent}></img>
                 <IntegerStep countImages={arrayImage.length} imageArray={arrayImage} changeImage={changeImage} />
-                <Button type="primary" onClick={closeModalWindow}>
-                    Primary Button
+                <Button type="primary" onClick={closeModalWindow} className={classes.modalButton}>
+                    Close Modal Window
                 </Button>
             </div>
         </div>

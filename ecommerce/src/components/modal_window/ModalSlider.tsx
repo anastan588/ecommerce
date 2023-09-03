@@ -1,6 +1,7 @@
 import { Col, InputNumber, Row, Slider } from 'antd';
 import React, { useState } from 'react';
 import { ImagesType } from './ModalWindow';
+import classes from './modalWindow.module.css';
 
 /* const { createRoot } = ReactDOM;
 const {  useState  } = React;;
@@ -26,7 +27,7 @@ const IntegerStep = (props: IntegerStepProps) => {
     };
 
     return (
-        <Row>
+        <Row className={classes.modalIntegerStep}>
             <Col span={12}>
                 <Slider
                     min={1}

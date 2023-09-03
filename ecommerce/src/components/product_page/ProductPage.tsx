@@ -56,17 +56,13 @@ type ProductType = {
 };
 
 type AttributesAllObj = {
-  [key: string]: string;
+    [key: string]: string;
 };
-
-
 
 const ProductPage = () => {
     const state = useState({});
     const product: ProductType = state[0];
     const setProduct = state[1];
-
-
 
     const attributesObj: AttributesAllObj = {
         'country-of-origin': 'Страна происхождения',
@@ -78,7 +74,7 @@ const ProductPage = () => {
         'flower-color': 'Окрас цветка',
         'light-requirements': 'Требования к освещению',
         'flowering-period': 'Период цветения',
-        Height: 'Вфсота',
+        Height: 'Высота',
         'fetal-weight': 'Вес плодов',
         form: 'Форма',
         'fruit-color': 'Цвет плодов',
@@ -96,7 +92,7 @@ const ProductPage = () => {
             .get()
             .execute()
             .then((body) => {
-                /* console.log(body.body.results); */
+                console.log(body.body.results);
                 setProduct(body.body.results[0]);
             });
     }, []);
@@ -119,15 +115,15 @@ const ProductPage = () => {
     return (
         <div>
             <ModalWindow active={modalActive} setActive={setModalActive} />
-            <Row>
-                <Col className={classes.cardBlock}  >
-                    <Card 
-                        style={{ width: 520 }}
+            <Row className={classes.productBlock}>
+                <Col className={classes.cardBlock}>
+                    <Card
+                        className={classes.cardElement}
                         cover={
-                            <Carousel afterChange={onChange} >
+                            <Carousel afterChange={onChange}>
                                 <div onClick={() => setModalActive(true)}>
                                     <h3 style={contentStyle}>
-                                        <img alt="example" src={pathImage0} className={classes.imageCarousel} />
+                                        <img alt="example" src={pathImage0} />
                                     </h3>
                                 </div>
                                 <div onClick={() => setModalActive(true)}>
@@ -148,22 +144,23 @@ const ProductPage = () => {
                             </Carousel>
                         }
                     ></Card>
-                    <Card style={{ width: 520 }}>
-                        <Meta title={titlePlants} description={descriptionPlants} />
+                    <Card className={classes.cardElement}>
+                        <Meta title={titlePlants} description={descriptionPlants} className={classes.titlePlants} />
                         <div>
-                            <h2>Краткие характеристики</h2>
+                            <h2 className={classes.subtitlePlants}>Краткие характеристики</h2>
                             <ul>
                                 {attributesPlants?.map((item) => {
                                     const { name, value } = item;
                                     return (
                                         <li>
-                                            {attributesObj[name]}: {value}
+                                            <span className={classes.parameterPlants}>{attributesObj[name]}:</span>{' '}
+                                            <span className={classes.parameter}>{value}</span>
                                         </li>
                                     );
                                 })}
                             </ul>
                             <div className={classes.priceBlock}>
-                                <p>Цена</p>
+                                <p className={classes.parameterPlants}>Цена: </p>
                                 <p className={discountPrice ? classes.discountClass : undefined}>{pricePlants / 100}</p>
                                 <p
                                     className={`${classes.discountPrice_hide} ${
@@ -172,7 +169,7 @@ const ProductPage = () => {
                                 >
                                     {discountPrice ? discountPrice / 100 : ''}
                                 </p>
-                                <p>EUR</p>
+                                <p className={classes.parameterPlants}>EUR</p>
                             </div>
                         </div>
                     </Card>
@@ -183,5 +180,3 @@ const ProductPage = () => {
 };
 
 export default ProductPage;
-
-
