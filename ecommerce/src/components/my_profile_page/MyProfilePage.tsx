@@ -1,5 +1,5 @@
 import React from 'react';
-import { UserOutlined, EnvironmentOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
+import { UserOutlined, EnvironmentOutlined, ExclamationCircleOutlined, LikeFilled } from '@ant-design/icons';
 import { Layout, Menu, theme, Typography, Avatar, Space, Badge, Descriptions } from 'antd';
 import { Route, Routes, useNavigate } from 'react-router-dom';
 import UserInformation from './UserIInformation';
@@ -57,9 +57,17 @@ export function UserIcon() {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
+    let customer = {
+        body: {
+            firstName: '',
+            lastName: '',
+        },
+    };
+    if (localStorage.getItem('currentCustomer')) {
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        customer = JSON.parse(customerJSON);
+    }
 
-    const customerJSON = localStorage.getItem('currentCustomer') as string;
-    const customer = JSON.parse(customerJSON);
     return (
         <Layout key={'/my-profile/'}>
             <Header style={{ padding: 0, background: colorBgContainer }}>
