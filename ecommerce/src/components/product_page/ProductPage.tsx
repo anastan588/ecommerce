@@ -112,13 +112,17 @@ const ProductPage = () => {
 
     const [modalActive, setModalActive] = useState(false);
 
+    let pathImageCurrent: string = pathImage0 || '';
+
     function openModal(path: string | undefined) {
         setModalActive(true);
+        if(path) pathImageCurrent = path;
+
     }
 
     return (
         <div>
-            <ModalWindow active={modalActive} setActive={setModalActive} />
+            <ModalWindow active={modalActive} setActive={setModalActive} path={pathImageCurrent}/>
             <Row className={classes.productBlock}>
                 <Col className={classes.cardBlock}>
                     <Card

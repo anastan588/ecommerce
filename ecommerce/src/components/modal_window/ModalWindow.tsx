@@ -13,22 +13,28 @@ export type ImagesType = {
 type ModalActiveType = {
     active: boolean;
     setActive: React.Dispatch<React.SetStateAction<boolean>>;
+    path: string;
 };
 
-const ModalWindow = ({ active, setActive }: ModalActiveType) => {
+const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
     console.log('open modal window from');
+    console.log('path');
+    console.log(path)
 
     const state = useState<ImagesType[]>([]);
     const arrayImage: ImagesType[] = state[0];
     const setState = state[1];
 
     function addImage(i: number) {
+        console.log('path');
+        console.log(path)
         const imageObj: ImagesType = arrayImage[i];
         if (imageObj) return imageObj.url;
         return 'https://img3.procvetok.com/crop/w520h520/5c/ae/5caed97990d7c7b29166cfb030880eae.webp';
     }
 
     const [imageCurrent, setImageCurrent] = useState(addImage(3));
+    
 
     function changeImage(i: number): void {
         console.log('changeImage');
@@ -63,7 +69,7 @@ const ModalWindow = ({ active, setActive }: ModalActiveType) => {
     }, []);
 
     console.log('add image');
-    addImage(4);
+    /* addImage(4); */
 
     function closeModalWindow() {
         console.log('close modal window');

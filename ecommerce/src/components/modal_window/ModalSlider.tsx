@@ -14,9 +14,9 @@ type IntegerStepProps = {
 };
 
 const IntegerStep = (props: IntegerStepProps) => {
-    console.log('props');
+/*     console.log('props');
     console.log(props.countImages);
-    console.log(props.imageArray);
+    console.log(props.imageArray); */
     const [inputValue, setInputValue] = useState(1);
 
     const onChange = (newValue: number | null) => {
