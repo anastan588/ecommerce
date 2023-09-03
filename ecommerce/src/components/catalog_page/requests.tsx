@@ -576,3 +576,27 @@ export const searchProd = (text: string) => {
             return arr;
         });
 };
+
+export const priceFilter = (value: number[], args: string[]) => {
+    const str = `variants.price.centAmount:range(${value[0]} to ${value[1]})`;
+    args.push(str);
+    return apiRoot
+        .productProjections()
+        .search()
+        .get({ queryArgs: { filter: args } })
+        .execute()
+        .then(({ body }) => {
+            const arr = body.results.map((item) => {
+                return {
+                    id: item.id,
+                    name: item.name,
+                    categoriesId: item.categories[0].id,
+                    attributes: item.masterVariant.attributes,
+                    description: item.description,
+                    images: item.masterVariant.images,
+                    prices: item.masterVariant.prices,
+                };
+            });
+            return arr;
+        });
+};
