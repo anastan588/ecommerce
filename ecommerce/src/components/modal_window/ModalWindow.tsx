@@ -1,17 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from 'antd';
 import classes from './modalWindow.module.css';
 import { apiRoot } from '../login_page/createClient';
 import IntegerStep from './ModalSlider';
 
-
 export type ImagesType = {
     url: string;
     dimensions: { w: number; h: number };
 };
 
-const ModalWindow = () => {
+type ModalActiveType = {
+    active: boolean,
+    setActive: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const ModalWindow = ({active, setActive}: ModalActiveType) => {
     console.log('open modal window from');
 
     const state = useState<ImagesType[]>([]);
@@ -24,24 +28,13 @@ const ModalWindow = () => {
         return 'https://img3.procvetok.com/crop/w520h520/5c/ae/5caed97990d7c7b29166cfb030880eae.webp';
     }
 
-
-    const [imageCurrent, setImageCurrent] = useState(addImage(3))
-
-
+    const [imageCurrent, setImageCurrent] = useState(addImage(3));
 
     function changeImage(i: number): void {
         console.log('changeImage');
         console.log(i);
 
-        setImageCurrent(addImage(i))
-
-
-
-
-
-
-
-
+        setImageCurrent(addImage(i));
     }
 
     useEffect(() => {
@@ -74,14 +67,17 @@ const ModalWindow = () => {
 
     function closeModalWindow() {
         console.log('close modal window');
+        setActive(false);
     }
 
     return (
-        <div className={[classes.modal, classes.modal_active].join(' ')} onClick={closeModalWindow}>
-            <div className={classes.modal__content} onClick={e => e.stopPropagation}>
+        <div className={active? [classes.modal, classes.modal_active].join(' ') : classes.modal} onClick={closeModalWindow}>
+            <div className={classes.modal__content} onClick={(e) => e.stopPropagation()}>
                 <img src={imageCurrent}></img>
                 <IntegerStep countImages={arrayImage.length} imageArray={arrayImage} changeImage={changeImage} />
-                <Button type="primary" onClick={closeModalWindow}>Primary Button</Button>
+                <Button type="primary" onClick={closeModalWindow}>
+                    Primary Button
+                </Button>
             </div>
         </div>
     );

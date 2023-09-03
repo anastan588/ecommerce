@@ -9,7 +9,7 @@ import ModalWindow from './components/modal_window/ModalWindow';
 const App: React.FC = () => (
     <div className="main_container">
         <BrowserRouter>
-            <ModalWindow />
+            
             <Header />
             <RouterComponent />
         </BrowserRouter>

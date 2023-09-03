@@ -5,6 +5,7 @@ import { isTemplateMiddle } from 'typescript';
 import { Avatar, Card, Carousel, Col, Row } from 'antd';
 import { apiRoot } from '../login_page/createClient';
 import classes from './productPage.module.css';
+import ModalWindow from '../modal_window/ModalWindow';
 
 const { Meta } = Card;
 
@@ -135,10 +136,13 @@ const AboutUsPage = () => {
 
     /* console.log(discountPrice); */
 
+    const [modalActive, setModalActive] = useState(false)
+
     return (
         <div>
+            <ModalWindow active={modalActive} setActive={setModalActive} />
             <Row>
-                <Col onClick={openModalWindow}>
+                <Col onClick={() => setModalActive(true)}>
                     <Card
                         style={{ width: 520 }}
                         cover={
