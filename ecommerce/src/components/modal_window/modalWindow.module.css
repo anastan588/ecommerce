@@ -1,0 +1,33 @@
+.modal {
+    position: fixed;
+    z-index: 20;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: none;
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal_active {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.modal__content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 16px;
+}
+
+.modalIntegerStep {
+    padding: 10px;
+    justify-content: center;
+}
+
+.modalButton {
+    display: block;
+    margin: 0 auto;
+}
