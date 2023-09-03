@@ -554,3 +554,25 @@ export const queryArgsDef = (types: TypeProducts[], categoryVal: CategoryType[],
     }
     return args;
 };
+
+export const searchProd = (text: string) => {
+    return apiRoot
+        .productProjections()
+        .search()
+        .get({ queryArgs: { 'text.en-US': text } })
+        .execute()
+        .then(({ body }) => {
+            const arr = body.results.map((item) => {
+                return {
+                    id: item.id,
+                    name: item.name,
+                    categoriesId: item.categories[0].id,
+                    attributes: item.masterVariant.attributes,
+                    description: item.description,
+                    images: item.masterVariant.images,
+                    prices: item.masterVariant.prices,
+                };
+            });
+            return arr;
+        });
+};
