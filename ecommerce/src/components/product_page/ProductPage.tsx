@@ -112,6 +112,10 @@ const ProductPage = () => {
 
     const [modalActive, setModalActive] = useState(false);
 
+    function openModal(path: string | undefined) {
+        setModalActive(true);
+    }
+
     return (
         <div>
             <ModalWindow active={modalActive} setActive={setModalActive} />
@@ -121,22 +125,22 @@ const ProductPage = () => {
                         className={classes.cardElement}
                         cover={
                             <Carousel afterChange={onChange}>
-                                <div onClick={() => setModalActive(true)}>
+                                <div onClick={() => openModal(pathImage0)}>
                                     <h3 style={contentStyle}>
                                         <img alt="example" src={pathImage0} />
                                     </h3>
                                 </div>
-                                <div onClick={() => setModalActive(true)}>
+                                <div onClick={() => openModal(pathImage1)}>
                                     <h3 style={contentStyle}>
                                         <img alt="example" src={pathImage1} />
                                     </h3>
                                 </div>
-                                <div onClick={() => setModalActive(true)}>
+                                <div onClick={() => openModal(pathImage2)}>
                                     <h3 style={contentStyle}>
                                         <img alt="example" src={pathImage2} />
                                     </h3>
                                 </div>
-                                <div onClick={() => setModalActive(true)}>
+                                <div onClick={() => openModal(pathImage3)}>
                                     <h3 style={contentStyle}>
                                         <img alt="example" src={pathImage3} />
                                     </h3>
@@ -161,13 +165,13 @@ const ProductPage = () => {
                             </ul>
                             <div className={classes.priceBlock}>
                                 <p className={classes.parameterPlants}>Цена: </p>
-                                <p className={discountPrice ? classes.discountClass : undefined}>{pricePlants / 100}</p>
+                                <p className={discountPrice ? classes.discountClass : undefined}>{pricePlants}</p>
                                 <p
                                     className={`${classes.discountPrice_hide} ${
                                         discountPrice ? classes.discountPrice : undefined
                                     }`}
                                 >
-                                    {discountPrice ? discountPrice / 100 : ''}
+                                    {discountPrice}
                                 </p>
                                 <p className={classes.parameterPlants}>EUR</p>
                             </div>
