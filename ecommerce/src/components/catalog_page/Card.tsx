@@ -1,13 +1,25 @@
 import React from 'react';
+/* import { useNavigate } from 'react-router'; */
 import { Card, Col } from 'antd';
+import { useNavigate } from 'react-router-dom';
 import { Obj } from './productsStore';
+
+
 
 const { Meta } = Card;
 
 const ProductsItem: React.FC<{ item: Obj }> = (props) => {
+    const navigate = useNavigate();
+
+    function openProductPage(idPlants: string) {
+        console.log('open product card');
+        console.log(idPlants);
+        navigate('/productpage');
+    }
+
     const names = Object.values(props.item.name);
     return (
-        <Col push={0.5} xs={24} sm={24} md={12} lg={8} xl={6}>
+        <Col push={0.5} xs={24} sm={24} md={12} lg={8} xl={6} onClick={() => openProductPage(props.item.id)}>
             <Card
                 className="card_style"
                 hoverable

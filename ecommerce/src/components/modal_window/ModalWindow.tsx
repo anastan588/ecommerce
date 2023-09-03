@@ -17,17 +17,17 @@ type ModalActiveType = {
 };
 
 const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
-    console.log('open modal window from');
+    /* console.log('open modal window from');
     console.log('path');
-    console.log(path)
+    console.log(path) */
 
     const state = useState<ImagesType[]>([]);
     const arrayImage: ImagesType[] = state[0];
     const setState = state[1];
 
     function addImage(i: number) {
-        console.log('path');
-        console.log(path)
+        /* console.log('path');
+        console.log(path) */
         const imageObj: ImagesType = arrayImage[i];
         if (imageObj) return imageObj.url;
         return 'https://img3.procvetok.com/crop/w520h520/5c/ae/5caed97990d7c7b29166cfb030880eae.webp';
@@ -58,11 +58,11 @@ const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
                 const arrayImgTemp = [];
 
                 for (let i = 0; i < bodyProducts.length; i += 1) {
-                    console.log(bodyProducts[i].masterData.current.masterVariant.images);
+                    /* console.log(bodyProducts[i].masterData.current.masterVariant.images); */
                     arrayImgTemp.push(bodyProducts[i].masterData.current.masterVariant.images as ImagesType[]);
                 }
 
-                console.log(arrayImgTemp.flat());
+                /* console.log(arrayImgTemp.flat()); */
                 setState(arrayImgTemp.flat());
                 console.log(arrayImage);
             });
