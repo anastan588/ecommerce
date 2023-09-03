@@ -1,4 +1,4 @@
-import { Attribute, Image, LocalizedString } from '@commercetools/platform-sdk';
+import { Attribute, Image, LocalizedString, Price } from '@commercetools/platform-sdk';
 import { makeAutoObservable } from 'mobx';
 
 export type Obj = {
@@ -8,17 +8,23 @@ export type Obj = {
     attributes: Attribute[] | undefined;
     description: LocalizedString | undefined;
     images: Image[] | undefined;
-    prices: Prices[] | undefined;
+    prices: Price[] | undefined;
 };
 
-export type Price = {
+/* export type Price = {
     centAmount: number;
     currencyCode: string;
     fractionDigits: number;
     type: string;
-};
+}; */
 
 export type Prices = {
+    discounted: Discount;
+    id: string;
+    value: Price;
+};
+
+export type Discount = {
     id: string;
     value: Price;
 };

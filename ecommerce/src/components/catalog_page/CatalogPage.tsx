@@ -11,6 +11,7 @@ import Sorting from './filter_components/sorting';
 import SortingAl from './filter_components/sortingAlfabet';
 import FilterBar from './filterBar';
 import { AttributeType } from './productsStore';
+import SearchCompponent from './filter_components/Searсh';
 
 const CatalogPage = observer(() => {
     const products = useContext(Context);
@@ -115,6 +116,7 @@ const CatalogPage = observer(() => {
                 <TypesBar />
                 <Sorting />
                 <SortingAl />
+                <SearchCompponent />
             </div>
             <div className="catalog_container">
                 <FilterBar />

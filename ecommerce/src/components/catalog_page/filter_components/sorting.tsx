@@ -23,13 +23,13 @@ const Sorting: React.FC = observer(() => {
     const onChange3 = ({ target: { value } }: RadioChangeEvent) => {
         console.log('radio3 checked', value);
         setValue3(value);
-        console.log(value);
+        // console.log(value);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         hundleEvent(value);
     };
     const hundleEvent = async (value: string) => {
-        console.log('click');
-        console.log(value);
+        // console.log('click');
+        // console.log(value);
         const types = products.products.getTypes();
         let categories = products.products.getCategory();
         const categoryActive = products.products.getCategoryActive();
@@ -58,7 +58,7 @@ const Sorting: React.FC = observer(() => {
             args.push(strId);
         } */
         if (value === 'по возрастанию') {
-            console.log(value);
+            // console.log(value);
             sortPricesheight(args).then(({ body }) => {
                 const arr = body.results.map((item) => {
                     // const catId = categories.find((i) => i.id === item.categories[0].id);
@@ -100,7 +100,6 @@ const Sorting: React.FC = observer(() => {
 
     return (
         <div className="types_bar">
-            <h2>Сортировать</h2>
             <Radio.Group
                 className="sorting"
                 id="sort"

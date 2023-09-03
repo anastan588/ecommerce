@@ -19,7 +19,7 @@ export const Attributeitem: React.FC<{ item: AttributeType }> = (props) => {
         return { value: item, label: item };
     });
     const handleChange = async (value: string) => {
-        console.log(value);
+        // console.log(value);
         // const attrActive = products.products.getActiveAttributes();
         const array = value.toString().split(',');
         const types = products.products.getTypes();
@@ -29,7 +29,7 @@ export const Attributeitem: React.FC<{ item: AttributeType }> = (props) => {
             categories = categoryActive;
         }
         if (value.length === 0) {
-            console.log(array);
+            // console.log(array);
             const objInactive: AttributeType | undefined = products.products
                 .getActiveAttributes()
                 .find((i) => i.name === props.item.name);
@@ -38,7 +38,7 @@ export const Attributeitem: React.FC<{ item: AttributeType }> = (props) => {
             }
             const activeAttr = products.products.getActiveAttributes();
             const argsVal = queryArgsDef(types, categories, activeAttr);
-            console.log(argsVal);
+            // console.log(argsVal);
             const defaultProd = await defaultProducts(argsVal);
             products.products.setProducts(defaultProd);
         } else {
