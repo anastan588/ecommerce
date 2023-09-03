@@ -53,6 +53,7 @@ class Store {
     logout() {
         localStorage.removeItem('token');
         localStorage.removeItem('id');
+        localStorage.removeItem('currentCustomer');
         this.setAuth(false);
     }
 

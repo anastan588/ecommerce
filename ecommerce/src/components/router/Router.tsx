@@ -12,7 +12,6 @@ import ProductPage from '../product_page/ProductPage';
 import { MyProfilePage } from '../my_profile_page/MyProfilePage';
 import { Context } from '../..';
 
-
 const RouterComponent = () => {
     const { store } = useContext(Context);
     return (
@@ -25,7 +24,7 @@ const RouterComponent = () => {
                 <Route path="/productpage" element={<ProductPage />} />
                 <Route path="/registration" element={<RegistrationPage />} />
                 <Route path="/login" element={<LogInPage />} />
-                <Route path="/my-profile/*" element={!store.isAuth ? <MyProfilePage /> : <Navigate to="/login" />} />
+                <Route path="/my-profile/*" element={<MyProfilePage />} />
                 <Route path="*" element={<Page404 />} />
                 <Route path="/message-create" element={<CreateCustomerMessage />} />
             </Routes>
