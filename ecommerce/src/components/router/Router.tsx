@@ -9,6 +9,7 @@ import LogInPage from '../login_page/login_page';
 import MyProfilePage from '../my_profile_page/MyProfilePage';
 import Page404 from '../page_404/Page404';
 import CreateCustomerMessage from '../message_create_customer/message_create_customer';
+import ProductPage from '../product_page/ProductPage';
 
 const RouterComponent = () => {
     return (
@@ -18,6 +19,7 @@ const RouterComponent = () => {
                 <Route path="/catalog" element={<CatalogPage />} />
                 <Route path="/about" element={<AboutUsPage />} />
                 <Route path="/basket" element={<BasketPage />} />
+                <Route path="/productpage" element={<ProductPage />} />
                 <Route path="/registration" element={<RegistrationPage />} />
                 <Route path="/login" element={<LogInPage />} />
                 <Route path="/my-profile" element={<MyProfilePage />} />

@@ -11,11 +11,11 @@ export type ImagesType = {
 };
 
 type ModalActiveType = {
-    active: boolean,
-    setActive: React.Dispatch<React.SetStateAction<boolean>>
-}
+    active: boolean;
+    setActive: React.Dispatch<React.SetStateAction<boolean>>;
+};
 
-const ModalWindow = ({active, setActive}: ModalActiveType) => {
+const ModalWindow = ({ active, setActive }: ModalActiveType) => {
     console.log('open modal window from');
 
     const state = useState<ImagesType[]>([]);
@@ -71,7 +71,10 @@ const ModalWindow = ({active, setActive}: ModalActiveType) => {
     }
 
     return (
-        <div className={active? [classes.modal, classes.modal_active].join(' ') : classes.modal} onClick={closeModalWindow}>
+        <div
+            className={active ? [classes.modal, classes.modal_active].join(' ') : classes.modal}
+            onClick={closeModalWindow}
+        >
             <div className={classes.modal__content} onClick={(e) => e.stopPropagation()}>
                 <img src={imageCurrent}></img>
                 <IntegerStep countImages={arrayImage.length} imageArray={arrayImage} changeImage={changeImage} />
