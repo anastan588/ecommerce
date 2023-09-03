@@ -5,17 +5,20 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Store from './components/login_page/store';
+import { ProductsStore } from './components/catalog_page/productsStore';
 
 const store = new Store();
+const products = new ProductsStore();
 // eslint-disable-next-line import/prefer-default-export
-export const Context = createContext({ store });
+export const Context = createContext({ store, products });
+// export const ProductsContext = createContext({ products });
 
 const element = document.querySelector('#root');
 
 if (element) {
     const root = ReactDOM.createRoot(element);
     root.render(
-        <Context.Provider value={{ store }}>
+        <Context.Provider value={{ store, products }}>
             <React.StrictMode>
                 <App />
             </React.StrictMode>
