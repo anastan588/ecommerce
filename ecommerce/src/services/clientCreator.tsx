@@ -1,16 +1,9 @@
-import { error } from 'console';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
-import { Body } from 'node-fetch';
-import { NavigateFunction, useNavigate } from 'react-router-dom';
-import { ctpClient, ctpClientPasswordFlow } from './BuildClient';
+import { ctpClient } from './BuildClient';
 import API_CLIENT_SETTINGS from './apiClientSettings';
 import { Customer } from '../types';
-import CreateCustomerMessage from '../components/message_create_customer/message_create_customer';
 import registyles from '../components/registration_page/regisration_page.module.css';
-import { newCustomer } from '../components/registration_page/RegistrationPage';
 import { getPasswordFlowClient } from '../components/login_page/createClient';
-import Store from '../components/login_page/store';
-import { Context } from '..';
 // Create apiRoot from the imported ClientBuilder and include your Project key
 const apiRoot = createApiBuilderFromCtpClient(ctpClient).withProjectKey({
     projectKey: `${API_CLIENT_SETTINGS.projectKey}`,

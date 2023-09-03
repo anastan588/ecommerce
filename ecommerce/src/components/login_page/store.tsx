@@ -8,6 +8,15 @@ import { projectKey, getLocalStorage } from './BuildClient';
 import registyles from '../registration_page/regisration_page.module.css';
 import { Customer } from '../../types';
 import { newCustomer } from '../registration_page/RegistrationPage';
+import { Values } from '../my_profile_page/password/changepassword';
+
+type Address = {
+    id: string;
+    streetName: string;
+    city: string;
+    postalCode: string;
+    country: string;
+};
 
 class Store {
     isAuth = false;
@@ -43,6 +52,7 @@ class Store {
 
     logout() {
         localStorage.removeItem('token');
+        localStorage.removeItem('id');
         this.setAuth(false);
     }
 
@@ -69,6 +79,7 @@ class Store {
                     // eslint-disable-next-line @typescript-eslint/no-shadow
                     .then(({ body }) => {
                         console.log(body);
+                        localStorage.setItem('id', body.id);
                     })
                     .catch(({ error }) => {
                         console.log(error);
@@ -104,6 +115,277 @@ class Store {
                 }
             })
             .catch(console.error);
+    }
+
+    receiveCustomerById() {
+        const ID = localStorage.getItem('id') as string;
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .get()
+            .execute()
+            .then((body) => {
+                console.log(body);
+                const customer = JSON.stringify(body);
+                localStorage.setItem('currentCustomer', customer);
+            });
+    }
+
+    updateCustomer(vers: number) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'setFirstName',
+                            firstName: `${customer.body.firstName}`,
+                        },
+                        {
+                            action: 'setLastName',
+                            lastName: `${customer.body.lastName}`,
+                        },
+                        {
+                            action: 'setDateOfBirth',
+                            dateOfBirth: `${customer.body.dateOfBirth}`,
+                        },
+                        {
+                            action: 'changeEmail',
+                            email: `${customer.body.email}`,
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    changePasswordOfCustomer(vers: number, currentPassword: string, nextPassword: string) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .password()
+            .post({
+                body: {
+                    id: `${ID}`,
+                    version: vers,
+                    currentPassword: `${currentPassword}`,
+                    newPassword: `${nextPassword}`,
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    changeAddress(vers: number, addressID: string, address: Address) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'changeAddress',
+                            addressId: `${addressID}`,
+                            address: {
+                                country: `${address.country}`,
+                                city: `${address.city}`,
+                                streetName: `${address.streetName}`,
+                                postalCode: `${address.postalCode}`,
+                            },
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    addShippingAddress(vers: number, newShipAddress: string) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'addShippingAddressId',
+                            addressId: `${newShipAddress}`,
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    addBillingAddress(vers: number, newBillAddress: string) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'addBillingAddressId',
+                            addressId: `${newBillAddress}`,
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    deleteShippingAddress(vers: number, deleteShipAddress: string) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'removeShippingAddressId',
+                            addressId: `${deleteShipAddress}`,
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    deleteBillingAddress(vers: number, deleteBillAddress: string) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'removeBillingAddressId',
+                            addressId: `${deleteBillAddress}`,
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    setDefaultShippingAddress(vers: number, newDefShipAddress: string) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'setDefaultShippingAddress',
+                            addressId: `${newDefShipAddress}`,
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    setDefaultBillingAddress(vers: number, newDefBillAddress: string) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'setDefaultBillingAddress',
+                            addressId: `${newDefBillAddress}`,
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
     }
 }
 export default Store;
