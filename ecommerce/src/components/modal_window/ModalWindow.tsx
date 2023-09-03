@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Button } from 'antd';
 import classes from './modalWindow.module.css';
 import { apiRoot } from '../login_page/createClient';
 import IntegerStep from './ModalSlider';
+
 
 export type ImagesType = {
     url: string;
@@ -70,11 +72,16 @@ const ModalWindow = () => {
     console.log('add image');
     addImage(4);
 
+    function closeModalWindow() {
+        console.log('close modal window');
+    }
+
     return (
-        <div className={[classes.modal, classes.modal_active].join(' ')}>
-            <div className={classes.modal__content}>
+        <div className={[classes.modal, classes.modal_active].join(' ')} onClick={closeModalWindow}>
+            <div className={classes.modal__content} onClick={e => e.stopPropagation}>
                 <img src={imageCurrent}></img>
                 <IntegerStep countImages={arrayImage.length} imageArray={arrayImage} changeImage={changeImage} />
+                <Button type="primary" onClick={closeModalWindow}>Primary Button</Button>
             </div>
         </div>
     );
