@@ -1,6 +1,7 @@
 import React from 'react';
 import { Card, Col } from 'antd';
 import { Obj } from './productsStore';
+import ButtonCarts from './Carts_button';
 
 const { Meta } = Card;
 
@@ -25,6 +26,7 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
                     <span className="card-curr">{props.item.prices?.[0].discounted?.value.currencyCode}</span>
                 </div>
                 <p className="card-descr">{props.item.description?.ru}</p>
+                <ButtonCarts />
             </Card>
         </Col>
     );
