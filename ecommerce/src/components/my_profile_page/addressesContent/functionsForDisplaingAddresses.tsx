@@ -109,6 +109,19 @@ export function AddressComponent(element: Values) {
             theme: 'colored',
         });
     };
+    const notifyAddresDelete = () => {
+        console.log('notify');
+        toast.success('Address was deleted', {
+            position: 'top-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+        });
+    };
     const notifyNewShipAdd = () => {
         console.log('notify');
         toast.success('New shipping address was added', {
@@ -194,6 +207,8 @@ export function AddressComponent(element: Values) {
     const { store } = useContext(Context);
     const [text, setText] = useState(newElement);
     const [isEdit, setIsEdit] = useState(false);
+    const [updatingCustomerForDelete, setState] = useState(customer);
+
     let makeAddressesList;
     if (isEdit) {
         makeAddressesList = (
@@ -995,6 +1010,7 @@ export function AddressComponent(element: Values) {
         makeAddressesList = (
             <div
                 key={text.id}
+                id={text.id}
                 style={{
                     display: 'flex',
                     flexDirection: 'column',
@@ -1030,7 +1046,24 @@ export function AddressComponent(element: Values) {
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: 10, alignSelf: 'center' }}>
-                        <Button icon={<ScissorOutlined />}>Delete</Button>
+                        {/* <Button
+                            icon={<ScissorOutlined />}
+                            onClick={() => {
+                                console.log(text);
+                                addressID = text.id;
+                                version = updatingCustomerForDelete.body.version;
+                                // store.removeAddress(version, addressID).then(() => {
+                                //     notifyAddresDelete();
+                                //     const newcustomerJSON = localStorage.getItem('currentCustomer') as string;
+                                //     const customerUpdate = JSON.parse(newcustomerJSON);
+                                //     setState(customerUpdate);
+                                //     const addressforDelete = document.getElementById(`${addressID}`) as HTMLElement;
+                                //     addressforDelete.remove();
+                                // });
+                            }}
+                        >
+                            Delete
+                        </Button> */}
                         <Button
                             icon={<EditOutlined />}
                             onClick={() => {
