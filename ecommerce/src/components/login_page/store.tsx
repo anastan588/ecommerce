@@ -40,10 +40,12 @@ class Store {
                 },
             })
             .execute()
-            .then((statusCode) => {
-                console.log(statusCode);
+            .then((body) => {
+                // console.log(statusCode);
                 this.setAuth(true);
                 localStorage.removeItem('token');
+                const customer = JSON.stringify(body);
+                localStorage.setItem('currentCustomer', customer);
             })
             .catch((e) => {
                 alert(e.message);
@@ -113,6 +115,7 @@ class Store {
                 if (statusCode === 200) {
                     console.log(statusCode);
                     this.setAuth(true);
+                    this.receiveCustomerById();
                 }
             })
             .catch(console.error);
