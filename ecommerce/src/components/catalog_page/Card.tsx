@@ -4,6 +4,7 @@ import { Card, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Obj } from './productsStore';
 import { updateID } from '../product_page/ProductPage';
+import ButtonCarts from './Cart';
 
 
 
@@ -39,6 +40,7 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
                     <span className="card-curr">{props.item.prices?.[0].discounted?.value.currencyCode}</span>
                 </div>
                 <p className="card-descr">{props.item.description?.ru}</p>
+                <ButtonCarts />
             </Card>
         </Col>
     );
