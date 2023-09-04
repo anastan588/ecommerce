@@ -9,6 +9,7 @@ import registyles from '../registration_page/regisration_page.module.css';
 import { Customer } from '../../types';
 import { newCustomer } from '../registration_page/RegistrationPage';
 import { Values } from '../my_profile_page/password/changepassword';
+import { NewAddress } from '../my_profile_page/addressesContent/allAddresses';
 
 type Address = {
     id: string;
@@ -218,6 +219,65 @@ class Store {
                                 streetName: `${address.streetName}`,
                                 postalCode: `${address.postalCode}`,
                             },
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    addAddress(vers: number, address: NewAddress) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'addAddress',
+                            address: {
+                                country: `${address.country}`,
+                                city: `${address.city}`,
+                                streetName: `${address.streetName}`,
+                                postalCode: `${address.postalCode}`,
+                            },
+                        },
+                    ],
+                },
+            })
+            .execute()
+            .then((body) => {
+                const customerUpdate = JSON.stringify(body);
+                localStorage.removeItem('currentCustomer');
+                localStorage.setItem('currentCustomer', customerUpdate);
+            });
+    }
+
+    removeAddress(vers: number, addressID: string) {
+        const ID = localStorage.getItem('id') as string;
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        const customer = JSON.parse(customerJSON);
+        return apiRoot
+            .customers()
+            .withId({ ID })
+            .post({
+                body: {
+                    // The version of a new Customer is 1. This value is incremented every time an update action is applied to the Customer. If the specified version does not match the current version, the request returns an error.
+                    version: vers,
+                    actions: [
+                        {
+                            action: 'removeAddress',
+                            addressId: `${addressID}`,
                         },
                     ],
                 },
