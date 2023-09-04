@@ -1,0 +1,16 @@
+.slick-slider .slick-dots li.slick-active {
+  width: 45px;
+  height: 10px;
+  background: white;
+}
+
+.slick-slider .slick-dots li {
+  height: 10px;
+  background: red;
+  width: 30px;
+
+}
+
+.slick-slider .slick-dots li:hover {
+  background: white;
+}
