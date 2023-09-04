@@ -60,7 +60,7 @@ const Header = () => {
                 <Button>
                     <Link to="/registration">Registration</Link>
                 </Button>
-                <Button type="dashed">
+                <Button type="dashed" style={{ display: store.isAuth === true ? 'block' : 'none' }}>
                     <Link
                         to="/my-profile"
                         onClick={() => {
