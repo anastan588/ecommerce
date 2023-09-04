@@ -1,5 +1,5 @@
 import { Col, InputNumber, Row, Slider } from 'antd';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ImagesType } from './ModalWindow';
 import classes from './modalWindow.module.css';
 
@@ -11,17 +11,46 @@ type IntegerStepProps = {
     countImages: number;
     imageArray: ImagesType[];
     changeImage: (a: number) => void;
+
 };
+
+
+let startImage: number = 27;
+
+export function changeStartImage(i: number) {
+    startImage = i;
+}
 
 const IntegerStep = (props: IntegerStepProps) => {
 /*     console.log('props');
     console.log(props.countImages);
     console.log(props.imageArray); */
-    const [inputValue, setInputValue] = useState(1);
+    const [inputValue, setInputValue] = useState(23);
+
+
+
+    useEffect(() => {
+        setInputValue(startImage)
+
+    }, [startImage])
+
+
+
+
+
+
+
+
+
+
+
+
 
     const onChange = (newValue: number | null) => {
         if (newValue) {
-            setInputValue(newValue);
+
+            startImage = newValue;
+/*             setInputValue(newValue); */
             props.changeImage(newValue);
         }
     };
