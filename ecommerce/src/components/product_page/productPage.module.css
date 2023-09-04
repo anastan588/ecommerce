@@ -62,6 +62,13 @@ h3 {
     width: 520px;
 }
 
+
+.imageProduct {
+    width: 520px;
+  
+}
+
+
 @media screen and (max-width: 900px) {
     .cardBlock {
         flex-direction: column;
@@ -70,8 +77,51 @@ h3 {
     .cardElement {
         width: 450px;
     }
+
+    .imageProduct {
+        width: 100%;
+      
+    }
 }
 
+
+@media screen and (max-width: 600px) {
+
+    .cardElement {
+        width: 370px;
+    }
+
+    .imageProduct {
+        width: 100%;
+      
+    }
+
+    .discountPrice {
+        display: block;
+        color: green;
+        font-size: 20px;
+        padding: 0 10px 0 0;
+    }
+
+    .titlePlants {
+        font-size: 18px;
+    }
+    
+    .subtitlePlants {
+        font-size: 18px;
+        padding: 6px;
+    }
+    
+    .parameterPlants {
+        font-size: 16px;
+        font-weight: bold;
+    }
+    
+    .parameter {
+        font-size: 16px;
+    }
+    
+}
 
 
 

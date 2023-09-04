@@ -172,22 +172,22 @@ const ProductPage = () => {
                             <Carousel afterChange={onChange}>
                                 <div onClick={() => openModal(pathImage0)}>
                                     <h3 style={contentStyle}>
-                                        <img alt="example" src={pathImage0} />
+                                        <img className={classes.imageProduct} alt="example" src={pathImage0} />
                                     </h3>
                                 </div>
                                 <div onClick={() => openModal(pathImage1)}>
                                     <h3 style={contentStyle}>
-                                        <img alt="example" src={pathImage1} />
+                                        <img className={classes.imageProduct} alt="example" src={pathImage1} />
                                     </h3>
                                 </div>
                                 <div onClick={() => openModal(pathImage2)}>
                                     <h3 style={contentStyle}>
-                                        <img alt="example" src={pathImage2} />
+                                        <img className={classes.imageProduct} alt="example" src={pathImage2} />
                                     </h3>
                                 </div>
                                 <div onClick={() => openModal(pathImage3)}>
                                     <h3 style={contentStyle}>
-                                        <img alt="example" src={pathImage3} />
+                                        <img className={classes.imageProduct} alt="example" src={pathImage3} />
                                     </h3>
                                 </div>
                             </Carousel>
