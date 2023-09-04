@@ -16,6 +16,22 @@ type ModalActiveType = {
     path: string;
 };
 
+
+let indexPlants: number = 0;
+let pathToStartImage: string = 'https://img3.procvetok.com/crop/w520h520/5c/ae/5caed97990d7c7b29166cfb030880eae.webp';
+
+
+export function setStartImageForModalWindow(pathToImage: string, indexProduct: number ) {
+    indexPlants = indexProduct;
+    pathToStartImage = pathToImage;
+/*     console.log('setStartModal')
+    console.log(indexPlants);
+    console.log(pathToImage); */
+    /* setImageCurrent(pathToStartImage); */
+    
+
+}
+
 const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
     /* console.log('open modal window from');
     console.log('path');
@@ -33,7 +49,7 @@ const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
         return 'https://img3.procvetok.com/crop/w520h520/5c/ae/5caed97990d7c7b29166cfb030880eae.webp';
     }
 
-    const [imageCurrent, setImageCurrent] = useState(addImage(3));
+    const [imageCurrent, setImageCurrent] = useState(pathToStartImage);
     
 
     function changeImage(i: number): void {
@@ -50,8 +66,8 @@ const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
             .get()
             .execute()
             .then(async (body) => {
-                console.log('modal');
-                console.log(body.body.results);
+                /* console.log('modal');
+                console.log(body.body.results); */
 
                 const bodyProducts = body.body.results;
 
@@ -64,15 +80,18 @@ const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
 
                 /* console.log(arrayImgTemp.flat()); */
                 setState(arrayImgTemp.flat());
-                console.log(arrayImage);
+                /* console.log(arrayImage); */
             });
     }, []);
 
-    console.log('add image');
-    /* addImage(4); */
+    useEffect(() => {
+        setImageCurrent(pathToStartImage);
+    }, [pathToStartImage])
 
+/*     console.log('add image'); */
+    
     function closeModalWindow() {
-        console.log('close modal window');
+/*         console.log('close modal window'); */
         setActive(false);
     }
 

@@ -13,8 +13,8 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
     const navigate = useNavigate();
 
     function openProductPage(idPlants: string) {
-        console.log('open product card');
-        console.log(idPlants);
+        /* console.log('open product card');
+        console.log(idPlants); */
         updateID(idPlants);
         navigate('/productpage');
     }

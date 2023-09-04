@@ -6,7 +6,7 @@ import { Avatar, Card, Carousel, Col, Row } from 'antd';
 import { apiRoot } from '../login_page/createClient';
 import classes from './productPage.module.css';
 import './productStyles.css';
-import ModalWindow from '../modal_window/ModalWindow';
+import ModalWindow, { setStartImageForModalWindow } from '../modal_window/ModalWindow';
 
 const { Meta } = Card;
 
@@ -20,7 +20,7 @@ const contentStyle: React.CSSProperties = {
 };
 
 const onChange = (currentSlide: number) => {
-    console.log(currentSlide);
+    /* console.log(currentSlide); */
 };
 
 type ImagesType = {
@@ -60,14 +60,15 @@ type AttributesAllObj = {
     [key: string]: string;
 };
 
-let idPlants = '37e040f3-3e80-4197-b3fc-64afbbc2dc35'
+let idPlants: string = '37e040f3-3e80-4197-b3fc-64afbbc2dc35';
+let indexPlants: number = 0;
 
 
 export function updateID(id: string) {
-    console.log('idPlants');
-    console.log(idPlants);
+/*     console.log('idPlants');
+    console.log(idPlants); */
     idPlants = id;
-    console.log(idPlants);
+    /* console.log(idPlants); */
 
 }
 
@@ -106,13 +107,19 @@ const ProductPage = () => {
             .get()
             .execute()
             .then((body) => {
-                console.log('body.body.results')
-                console.log(body.body.results);
+                /* console.log('body.body.results')
+                console.log(body.body.results); */
 
-                const productCard = body.body.results.filter(item => item.id === idPlants);
-                console.log('control')
+            const productCard = body.body.results.filter((item, index) => {
+                if (item.id === idPlants) {
+                    indexPlants = index;
+                    return item;
+                }
+                return false;
+            });
+                /* console.log('control')
                 console.log(productCard[0]);
-                console.log(body.body.results[0]);
+                console.log(body.body.results[0]); */
 
                 setProduct(productCard[0]);
 
@@ -148,6 +155,7 @@ const ProductPage = () => {
     let pathImageCurrent: string = pathImage0 || '';
 
     function openModal(path: string | undefined) {
+        if (path) setStartImageForModalWindow(path, indexPlants);
         setModalActive(true);
         if(path) pathImageCurrent = path;
 
