@@ -11,9 +11,16 @@ import CreateCustomerMessage from '../message_create_customer/message_create_cus
 import ProductPage from '../product_page/ProductPage';
 import { MyProfilePage } from '../my_profile_page/MyProfilePage';
 import { Context } from '../..';
+import Store from '../login_page/store';
 
 const RouterComponent = () => {
     const { store } = useContext(Context);
+
+    function MyProfile() {
+        if (store.isAuth) return <MyProfilePage />;
+        return <Navigate to="/login" />;
+    }
+
     return (
         <div>
             <Routes>
@@ -24,7 +31,7 @@ const RouterComponent = () => {
                 <Route path="/productpage" element={<ProductPage />} />
                 <Route path="/registration" element={<RegistrationPage />} />
                 <Route path="/login" element={<LogInPage />} />
-                <Route path="/my-profile/*" element={<MyProfilePage />} />
+                <Route path="/my-profile/*" element={<MyProfile />} />
                 <Route path="*" element={<Page404 />} />
                 <Route path="/message-create" element={<CreateCustomerMessage />} />
             </Routes>

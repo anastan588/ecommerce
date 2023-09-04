@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { UserOutlined, EnvironmentOutlined, ExclamationCircleOutlined, LikeFilled } from '@ant-design/icons';
 import { Layout, Menu, theme, Typography, Avatar, Space, Badge, Descriptions } from 'antd';
 import { Route, Routes, useNavigate } from 'react-router-dom';
@@ -57,17 +57,19 @@ export function UserIcon() {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
-    let customer = {
-        body: {
-            firstName: '',
-            lastName: '',
-        },
-    };
-    if (localStorage.getItem('currentCustomer')) {
-        const customerJSON = localStorage.getItem('currentCustomer') as string;
-        customer = JSON.parse(customerJSON);
-    }
+    // let customer = {
+    //     body: {
+    //         firstName: '',
+    //         lastName: '',
+    //     },
+    // };
 
+    // if (localStorage.getItem('currentCustomer')) {
+
+    // }
+    const customerJSON = localStorage.getItem('currentCustomer') as string;
+    const customer = JSON.parse(customerJSON);
+    const [text, setText] = useState(customer);
     return (
         <Layout key={'/my-profile/'}>
             <Header style={{ padding: 0, background: colorBgContainer }}>
@@ -78,7 +80,7 @@ export function UserIcon() {
             <Content style={{ margin: '24px 16px 0' }}>
                 <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
                     <Title level={3}>
-                        {customer.body.firstName} {customer.body.lastName}
+                        {text.body.firstName} {text.body.lastName}
                     </Title>
                 </div>
             </Content>
