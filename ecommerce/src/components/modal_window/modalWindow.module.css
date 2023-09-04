@@ -31,3 +31,20 @@
     display: block;
     margin: 0 auto;
 }
+
+@media screen and (max-width: 900px) {
+    .imageCurrent {
+        width: 100%;
+    }
+
+    .modal__content {
+        width: 500px;
+    }
+}
+
+
+@media screen and (max-width: 600px) {
+    .modal__content {
+        width: 370px;
+    }
+}
