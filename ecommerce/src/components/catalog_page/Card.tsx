@@ -3,6 +3,7 @@ import React from 'react';
 import { Card, Col } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { Obj } from './productsStore';
+import { updateID } from '../product_page/ProductPage';
 
 
 
@@ -14,6 +15,7 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
     function openProductPage(idPlants: string) {
         console.log('open product card');
         console.log(idPlants);
+        updateID(idPlants);
         navigate('/productpage');
     }
 

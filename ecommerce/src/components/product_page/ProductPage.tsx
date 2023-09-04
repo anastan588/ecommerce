@@ -5,6 +5,7 @@ import { isTemplateMiddle } from 'typescript';
 import { Avatar, Card, Carousel, Col, Row } from 'antd';
 import { apiRoot } from '../login_page/createClient';
 import classes from './productPage.module.css';
+import './productStyles.css';
 import ModalWindow from '../modal_window/ModalWindow';
 
 const { Meta } = Card;
@@ -59,6 +60,19 @@ type AttributesAllObj = {
     [key: string]: string;
 };
 
+let idPlants = '37e040f3-3e80-4197-b3fc-64afbbc2dc35'
+
+
+export function updateID(id: string) {
+    console.log('idPlants');
+    console.log(idPlants);
+    idPlants = id;
+    console.log(idPlants);
+
+}
+
+
+
 const ProductPage = () => {
     const state = useState({});
     const product: ProductType = state[0];
@@ -92,13 +106,32 @@ const ProductPage = () => {
             .get()
             .execute()
             .then((body) => {
+                console.log('body.body.results')
                 console.log(body.body.results);
-                setProduct(body.body.results[0]);
+
+                const productCard = body.body.results.filter(item => item.id === idPlants);
+                console.log('control')
+                console.log(productCard[0]);
+                console.log(body.body.results[0]);
+
+                setProduct(productCard[0]);
+
+
+
+
+
+
+
+
+                /* setProduct(body.body.results[0]); */
             });
     }, []);
 
+    
+
     const pathImage = product.masterData?.current.masterVariant.images[0].url;
     const titlePlants = product.masterData?.current.name.ru;
+
     const descriptionPlants = product.masterData?.current.description.ru;
     const attributesPlants = product.masterData?.current.masterVariant.attributes as AttributesPlants[];
     const pathImage0 = product.masterData?.current.masterVariant.images[0].url;
