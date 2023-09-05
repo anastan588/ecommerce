@@ -57,18 +57,17 @@ export function UserIcon() {
     const {
         token: { colorBgContainer },
     } = theme.useToken();
-    // let customer = {
-    //     body: {
-    //         firstName: '',
-    //         lastName: '',
-    //     },
-    // };
+    let customer = {
+        body: {
+            firstName: '',
+            lastName: '',
+        },
+    };
 
-    // if (localStorage.getItem('currentCustomer')) {
-
-    // }
-    const customerJSON = localStorage.getItem('currentCustomer') as string;
-    const customer = JSON.parse(customerJSON);
+    if (localStorage.getItem('currentCustomer')) {
+        const customerJSON = localStorage.getItem('currentCustomer') as string;
+        customer = JSON.parse(customerJSON);
+    }
     const [text, setText] = useState(customer);
     return (
         <Layout key={'/my-profile/'}>
