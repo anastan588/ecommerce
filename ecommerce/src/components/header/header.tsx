@@ -5,6 +5,7 @@ import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import RegistrationPage from '../registration_page/RegistrationPage';
 import { Context } from '../..';
+import Store from '../login_page/store';
 
 const Header = () => {
     const { store } = useContext(Context);
@@ -13,6 +14,10 @@ const Header = () => {
             store.checkAuth();
         }
     }, []);
+
+    function getLoginCustomer() {
+        store.receiveCustomerById();
+    }
 
     // const { authed, logout } = UserAuth();
     return (
@@ -55,8 +60,17 @@ const Header = () => {
                 <Button>
                     <Link to="/registration">Registration</Link>
                 </Button>
-                <Button type="dashed">
-                    <Link to="/my-profile">My profile</Link>
+                <Button type="dashed" style={{ display: store.isAuth === true ? 'block' : 'none' }}>
+                    <Link
+                        to="/my-profile"
+                        onClick={() => {
+                            if (store.isAuth) {
+                                getLoginCustomer();
+                            }
+                        }}
+                    >
+                        My profile
+                    </Link>
                 </Button>
             </Col>
         </Row>
