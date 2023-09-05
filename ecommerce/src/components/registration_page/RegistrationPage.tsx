@@ -883,7 +883,7 @@ function valiDatePostCodeBill() {
         currentErrorMessage.innerHTML = '';
         currentInput.style.border = '1px solid #1fffb7';
         currentFormInput.setAttribute('submit', 'true');
-        addressShip.postalCode = currentInput.value;
+        addressBill.postalCode = currentInput.value;
         validateFormToSubmit();
     }
 }

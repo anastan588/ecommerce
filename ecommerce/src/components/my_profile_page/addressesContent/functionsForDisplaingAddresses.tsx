@@ -207,7 +207,7 @@ export function AddressComponent(element: Values) {
     const { store } = useContext(Context);
     const [text, setText] = useState(newElement);
     const [isEdit, setIsEdit] = useState(false);
-    const [updatingCustomerForDelete, setState] = useState(customer);
+    const [countryForValidation, setState] = useState(newElement.country);
 
     let makeAddressesList;
     if (isEdit) {
@@ -666,7 +666,37 @@ export function AddressComponent(element: Values) {
                                 <Form.Item
                                     name="postcode"
                                     style={{ width: '80%' }}
-                                    rules={[{ required: true, message: 'Please, enter postal code' }]}
+                                    rules={[
+                                        { required: true, message: 'Please, enter postal code' },
+                                        {
+                                            message: `You entered an invalid postcode!`,
+                                            validator: (_, value) => {
+                                                console.log(countryForValidation);
+                                                let postcodeTemplateAll: RegExp =
+                                                    /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
+                                                if (countryForValidation === 'BL') {
+                                                    postcodeTemplateAll = /\b2\d\d\d\d\d\b/;
+                                                } else if (countryForValidation === 'PL') {
+                                                    postcodeTemplateAll = /\b\d\d-\d\d\d\b/;
+                                                } else if (countryForValidation === 'RU') {
+                                                    postcodeTemplateAll = /\b\d\d\d\d\d\d\b/;
+                                                } else if (countryForValidation === 'KZ') {
+                                                    postcodeTemplateAll = /\b\d\d\d\d\d\d\b/;
+                                                } else if (countryForValidation === 'LT') {
+                                                    postcodeTemplateAll = /\b\d\d\d\d\d\b/;
+                                                } else if (countryForValidation === 'UA') {
+                                                    postcodeTemplateAll = /\b\d\d\d\d\d\b/;
+                                                }
+                                                console.log(postcodeTemplateAll);
+                                                if (postcodeTemplateAll.test(value) === false) {
+                                                    return Promise.reject(
+                                                        new Error(`You entered an invalid postcode!`)
+                                                    );
+                                                }
+                                                return Promise.resolve();
+                                            },
+                                        },
+                                    ]}
                                 >
                                     <Input
                                         id={text.id}
@@ -726,6 +756,7 @@ export function AddressComponent(element: Values) {
                                             console.log(value);
                                             newElement.country = value.slice(0, 2);
                                             setText(newElement);
+                                            setState(value.slice(0, 2));
                                             console.log(newElement);
                                             text.country = newElement.country;
                                             console.log(text);
