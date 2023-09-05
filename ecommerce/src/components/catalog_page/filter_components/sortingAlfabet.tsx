@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { Radio, RadioChangeEvent } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { Context } from '../../..';
-import { defaultProducts, sortAlfAsc, sortAlfDesc } from '../requests';
+import { defaultProducts, queryArgsDef, sortAlfAsc, sortAlfDesc } from '../requests';
 import { Obj } from '../productsStore';
 
 type Options = {
@@ -37,24 +37,7 @@ const SortingAl: React.FC = observer(() => {
             categories = categoryActive;
         }
         const attrActiveA = products.products.getActiveAttributes();
-        const args: string[] = [];
-        // let args: string = ``;
-        attrActiveA.forEach((i) => {
-            let str = `variants.attributes.${i.name}:`;
-            i.value.forEach((val) => {
-                str += `"${val}",`;
-            });
-            args.push(`${str.slice(0, str.length - 1)}`);
-        });
-        let str = `categories.id: `;
-        categories.forEach((c) => {
-            str += `"${c.id}",`;
-        });
-        args.push(`${str.slice(0, str.length - 1)}`);
-        if (types.length === 1) {
-            const strId = `productType.id: "${types[0].id}"`;
-            args.push(strId);
-        }
+        const args = queryArgsDef(types, categories, attrActiveA);
         console.log(args);
         if (value === 'от А -> Я') {
             console.log(value);
