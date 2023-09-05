@@ -577,13 +577,18 @@ export const searchProd = (text: string) => {
         });
 };
 
-export const priceFilter = (value: number[], args: string[]) => {
+export const priceFilter = (value?: number[], args?: string[]) => {
+    const argum: string[] = [];
+    if (value) {
     const str = `variants.price.centAmount:range(${value[0]} to ${value[1]})`;
-    args.push(str);
+    argum.push(str);} 
+    if (args) {
+        args.forEach((item) => argum.push(item));
+    }
     return apiRoot
         .productProjections()
         .search()
-        .get({ queryArgs: { filter: args } })
+        .get({ queryArgs: { filter: argum } })
         .execute()
         .then(({ body }) => {
             const arr = body.results.map((item) => {
