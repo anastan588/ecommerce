@@ -1,4 +1,6 @@
-import { apiRoot } from '../login_page/createClient';
+import { action } from 'mobx';
+import { apiRoot, apiRootAnonimusClient } from '../login_page/createClient';
+import ProductsItem from './Card';
 import { TypeProducts, CategoryType, AttributeType } from './productsStore';
 
 export const categories = () => {
@@ -605,3 +607,71 @@ export const priceFilter = (value?: number[], args?: string[]) => {
             return arr;
         });
 };
+
+const reqCarts = () => {
+    return apiRoot.carts().get().execute();
+};
+
+reqCarts().then((body) => {
+    console.log(body);
+});
+
+const reqCart = () => {
+    return apiRootAnonimusClient.me().carts().get().execute();
+};
+
+reqCart().then((body) => {
+    console.log(body);
+});
+
+/* const createAnonimusCart = () => {
+    return apiRootAnonimusClient
+        .me()
+        .carts()
+        .post({ body: { currency: 'EUR' } })
+        .execute();
+};
+
+createAnonimusCart().then((body) => {
+    console.log(body);
+    const cartId = body.body.anonymousId;
+    const { version } = body.body;
+    console.log(cartId);
+    console.log(version);
+    return { cartId, version };
+}); */
+
+/* const addProductItem = (cartId: string, prodId: string, version: number) => {
+    return apiRootAnonimusClient
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({ body: { version, actions: [{ action: 'addLineItem', productId: prodId }] } })
+        .execute()
+        .then((body) => {
+            console.log(body);
+        });
+}; */
+
+/* const checkCarts = (cartId: string) => {
+    return apiRootAnonimusClient
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .get()
+        .execute()
+        .then((body) => {
+            console.log(body);
+        });
+}; */
+
+// checkCarts('ab2bd2c7-42ea-4bf9-9253-fbcc8a4de73e');
+
+// addProductItem('ab2bd2c7-42ea-4bf9-9253-fbcc8a4de73e', '1c02bd49-af61-47fe-a23f-950cc8897faa', 1);
+
+/* const checkProduct = () => {
+    return apiRootAnonimusClient
+    .me()
+    .carts()
+    .withId( { ID: cartId })
+} */
