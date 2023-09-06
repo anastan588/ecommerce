@@ -17,7 +17,9 @@ const RouterComponent = () => {
     const { store } = useContext(Context);
 
     function MyProfile() {
-        if (store.isAuth) return <MyProfilePage />;
+        if (store.isAuth) {
+            return <MyProfilePage />;
+        }
         return <Navigate to="/login" />;
     }
 
@@ -28,7 +30,7 @@ const RouterComponent = () => {
                 <Route path="/catalog" element={<CatalogPage />} />
                 <Route path="/about" element={<AboutUsPage />} />
                 <Route path="/basket" element={<BasketPage />} />
-                <Route path="/productpage" element={<ProductPage />} />
+                <Route path="/productpage/*" element={<ProductPage />} />
                 <Route path="/registration" element={<RegistrationPage />} />
                 <Route path="/login" element={<LogInPage />} />
                 <Route path="/my-profile/*" element={<MyProfile />} />

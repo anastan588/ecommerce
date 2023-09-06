@@ -17,7 +17,7 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
         /* console.log('open product card');
         console.log(idPlants); */
         updateID(idPlants);
-        navigate('/productpage');
+        navigate(`/productpage/${idPlants}`);
     }
 
     const names = Object.values(props.item.name);
