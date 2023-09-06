@@ -145,6 +145,7 @@ export function UserIcon() {
 // }
 
 export const MyProfilePage = () => {
+    const ID = localStorage.getItem('id') as string;
     return (
         <Layout>
             <SideMenu />

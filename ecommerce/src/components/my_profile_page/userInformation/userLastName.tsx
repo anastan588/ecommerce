@@ -136,7 +136,7 @@ function LastNameEdit() {
     return (
         <Card
             type="inner"
-            title="Date of Birth"
+            title="Last name"
             extra={
                 <Button
                     icon={<EditOutlined />}
