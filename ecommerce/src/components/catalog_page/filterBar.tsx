@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Suspense, useContext } from 'react';
 import { Button, CollapseProps, Collapse, Space } from 'antd';
 import { observer } from 'mobx-react-lite';
 // import Color from './filter_components/Color';
@@ -66,7 +66,10 @@ const FilterBar: React.FC = observer(() => {
 
     return (
         <div className="filter">
-            <Collapse className="filter_bar" onChange={onChange} items={items} />
+            <Suspense>
+               <Collapse className="filter_bar" onChange={onChange} items={items} />
+            </Suspense>
+            
         </div>
     );
 });
