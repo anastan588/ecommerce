@@ -1,10 +1,11 @@
 import { observer } from 'mobx-react-lite';
-import React, { useContext, useEffect } from 'react';
+import React, { Suspense, useContext, useEffect } from 'react';
+import { Spin } from 'antd';
 import { Context } from '../..';
 import Catalog from './Catalog';
 import './catalog.css';
 // import CategoryBar from './CategoryBar';
-import { productsRes, productsType, categories, attributesList } from './requests';
+import { productsRes, productsType, categories, attributesList, getCartsProduct, getCartsAuth } from './requests';
 import TypesBar from './TypesBar';
 import { apiRoot } from './ClientBuilderView';
 import Sorting from './filter_components/sorting';
@@ -12,9 +13,13 @@ import SortingAl from './filter_components/sortingAlfabet';
 import FilterBar from './filterBar';
 import { AttributeType } from './productsStore';
 import SearchCompponent from './filter_components/Searсh';
+import { getLocalStorage } from '../login_page/BuildClient';
 
 const CatalogPage = observer(() => {
-    const products = useContext(Context);
+    const { products, cart, store } = useContext(Context);
+    const tokenStore = getLocalStorage();
+    console.log(tokenStore);
+    const { refreshToken } = tokenStore;
     useEffect(() => {
         productsType().then(({ body }) => {
             console.log(body);
@@ -22,7 +27,7 @@ const CatalogPage = observer(() => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 return { id: item.id, name: item.name };
             });
-            products.products.setTypes(arr);
+            products.setTypes(arr);
         });
         productsRes().then(({ body }) => {
             const arr = body.results.map((item) => {
@@ -37,7 +42,7 @@ const CatalogPage = observer(() => {
                 };
             });
             console.log(arr);
-            products.products.setProducts(arr);
+            products.setProducts(arr);
         });
         categories().then(({ body }) => {
             console.log(body);
@@ -47,7 +52,7 @@ const CatalogPage = observer(() => {
                     return { id: item.id, name: item.name.en };
                 });
             console.log(category);
-            products.products.setCategory(category);
+            products.setCategory(category);
         });
         attributesList().then(async ({ body }) => {
             if (body) {
@@ -103,10 +108,28 @@ const CatalogPage = observer(() => {
                             c.push(item);
                         }
                     });
-                    products.products.setAttributes(c);
+                    products.setAttributes(c);
                 }
             }
         });
+        if (refreshToken)
+            getCartsProduct(refreshToken)
+                .then((body) => {
+                    console.log(body);
+                    const cartId = body.body.id;
+                    const { version } = body.body;
+                    console.log(cartId);
+                    console.log(version);
+                    const cartObj = []
+                    cartObj.push({cartId, version});
+                    cart.setCart(cartObj);
+                    const arr = body.body.lineItems;
+                    console.log(arr);
+                    cart.setProducts(arr);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
     }, []);
 
     return (
