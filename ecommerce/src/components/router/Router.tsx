@@ -1,7 +1,7 @@
-import React, { ReactElement, useState, useContext } from 'react';
+import React, { ReactElement, useState, useContext, lazy, Suspense } from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
 import MainPage from '../main_page/MainPage';
-import CatalogPage from '../catalog_page/CatalogPage';
+// import CatalogPage from '../catalog_page/CatalogPage';
 import AboutUsPage from '../about_us_page/AboutUsPage';
 import BasketPage from '../basket_page/BasketPage';
 import RegistrationPage from '../registration_page/RegistrationPage';
@@ -11,7 +11,12 @@ import CreateCustomerMessage from '../message_create_customer/message_create_cus
 import ProductPage from '../product_page/ProductPage';
 import { MyProfilePage } from '../my_profile_page/MyProfilePage';
 import { Context } from '../..';
-import Store from '../login_page/store';
+import '../../index.css';
+import Spinner from './spinner';
+
+const CatalogPage = lazy(() => import('../catalog_page/CatalogPage'));
+// const MainPage = lazy(() => import('../main_page/MainPage'));
+// const ProductPage = lazy(() => import('../product_page/ProductPage'));
 
 const RouterComponent = () => {
     const { store } = useContext(Context);
@@ -27,7 +32,14 @@ const RouterComponent = () => {
         <div>
             <Routes>
                 <Route path="/" element={<MainPage />} />
-                <Route path="/catalog" element={<CatalogPage />} />
+                <Route
+                    path="/catalog"
+                    element={
+                        <Suspense fallback={<Spinner />}>
+                            <CatalogPage />
+                        </Suspense>
+                    }
+                />
                 <Route path="/about" element={<AboutUsPage />} />
                 <Route path="/basket" element={<BasketPage />} />
                 <Route path="/productpage/*" element={<ProductPage />} />

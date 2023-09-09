@@ -1,18 +1,115 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Button, Space } from 'antd';
-import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
-import store from '../login_page/store';
+import { Context } from '../..';
+import {
+    addProductItemAnonim,
+    createAnonimusCart,
+    getCartsAnonimus,
+    addProductItemCastomer,
+    getCartsAuth,
+    createCartAuth,
+    getProductById,
+} from './requests';
+import { Obj } from './productsStore';
+import { getLocalStorage } from '../login_page/BuildClient';
+import { CartType } from '../basket_page/BasketStore';
 
-const ButtonCarts: React.FC = observer(() => {
+const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
+    const { store, products, cart } = useContext(Context);
+    const [value3, setValue3] = useState('В корзину');
+    const [style, setStyle] = useState('button_carts');
+    const value = cart.getProducts().find((val) => val.productId === props.item.id);
+    useEffect(() => {
+        const values = cart.getProducts().forEach((item) => {
+            if (item.productId === props.item.id) {
+                setValue3('В корзине!');
+                setStyle('button_carts-changed');
+            }
+        });
+        console.log(values);
+        if (!value) { setValue3('В корзину');
+        setStyle('button_carts');}
+    }, [value]);
+    
+    // console.log(props.item.id);
+    // console.log(value);
+    // if(value) setValue3('В корзине!'); setStyle('button_carts-changed');
+
+    const handleEvent = async () => {
+        console.log('click');
+        console.log(props.item.id);
+        if (store.isAuth) {
+            const tokenStore = getLocalStorage();
+            console.log(tokenStore);
+            const { refreshToken } = tokenStore;
+            const getCartsCastomer = cart.getCart();
+            console.log(getCartsCastomer);
+            if (getCartsCastomer) {
+                console.log('cart');
+                console.log(getCartsCastomer[0].cartId);
+                console.log(props.item.id);
+                console.log(getCartsCastomer[0].version);
+                const itemsCart = await addProductItemCastomer(
+                    refreshToken,
+                    getCartsCastomer[0].cartId,
+                    props.item.id,
+                    getCartsCastomer[0].version
+                );
+                console.log(itemsCart);
+                if (itemsCart) cart.setProducts(itemsCart);
+            } else {
+                const addProd = await createCartAuth(refreshToken, props.item.id);
+                console.log(addProd);
+                if (addProd) cart.setProducts(addProd);
+                const getCarts = await getCartsAuth(refreshToken);
+                if (getCarts) {
+                    console.log(getCarts);
+                    const arr: CartType[] = [];
+                    arr.push(getCarts);
+                    cart.setCart(arr);
+                }
+            }
+            setValue3('В корзине!');
+            setStyle('button_carts-changed');
+        } else {
+            const getCartsAnonim = await getCartsAnonimus();
+            console.log(getCartsAnonim);
+            if (getCartsAnonim) {
+                console.log('cart');
+                console.log(getCartsAnonim.id);
+                console.log(props.item.id);
+                console.log(getCartsAnonim.version);
+                const itemsCart = await addProductItemAnonim(getCartsAnonim.id, props.item.id, getCartsAnonim.version);
+                console.log(itemsCart);
+                if (itemsCart) cart.setProducts(itemsCart);
+                setValue3('В корзине!');
+                setStyle('button_carts-changed');
+            } else {
+                const addProd = await createAnonimusCart(props.item.id);
+                console.log(addProd);
+                if (addProd) cart.setProducts(addProd);
+                setValue3('В корзине!');
+                setStyle('button_carts-changed');
+            }
+        }
+    };
     return (
         <Space wrap>
-            <Button type="dashed" className="button_carts">
+            <Button
+                type="dashed"
+                className={style}
+                onClick={(e) => {
+                    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+                    e.stopPropagation();
+                    handleEvent();
+                }}
+            >
                 <span className="carts_icon"></span>
-                <span className="carts_text">В корзину</span>
+                <span className="carts_text">{value3}</span>
             </Button>
         </Space>
     );
-});
+};
 
 export default ButtonCarts;
