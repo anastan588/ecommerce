@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 /* import { useNavigate } from 'react-router'; */
 import { Card, Col, Skeleton, Avatar } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -7,24 +7,45 @@ import { useInView } from 'react-intersection-observer';
 import { Obj } from './productsStore';
 import { updateID } from '../product_page/ProductPage';
 import ButtonCarts from './Cart';
+import { getProductById } from './requests';
+import { Context } from '../..';
 
 const { Meta } = Card;
 
 const ProductsItem: React.FC<{ item: Obj }> = (props) => {
-    const { ref, inView } = useInView({ threshold: 0.5, triggerOnce: true });
+    const { store, products } = useContext(Context);
+    const { ref, inView } = useInView({ threshold: 0.8, triggerOnce: true });
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    
 
-    /* function openProductPage(idPlants: string) {
-        /* console.log('open product card');
-        console.log(idPlants);
-        updateID(idPlants);
+
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    async function openProductPage(objItem: Obj) {
+        console.log('open product card');
+        console.log(objItem.id);
+        const item = getProductById(props.item.id).then((body) => {
+            const arr = [];
+            arr.push({
+                id: body.body.id,
+                name: body.body.masterData.current.name,
+                categoriesId: body.body.masterData.current.categories[0].id,
+                attributes: body.body.masterData.current.masterVariant.attributes,
+                description: body.body.masterData.current.description,
+                images: body.body.masterData.current.masterVariant.images,
+                prices: body.body.masterData.current.masterVariant.prices,
+            });
+            products.setProductItem(arr);
+            return arr;
+        });
+        console.log(await item);
+        updateID(objItem.id);
         navigate('/productpage');
-    } */
+    }
 
     const names = Object.values(props.item.name);
     return (
-        <Col push={0.5} xs={24} sm={24} md={12} lg={8} xl={6} /* onClick={() => openProductPage(props.item.id)} */>
+        <Col push={0.5} xs={24} sm={24} md={12} lg={8} xl={6} onClick={() => openProductPage(props.item)} >
             <Card
                 ref={ref}
                 className="card_style"
