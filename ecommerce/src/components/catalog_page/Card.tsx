@@ -21,9 +21,9 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
 
 
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    async function openProductPage(objItem: Obj) {
+    async function openProductPage(idPlants: string) {
         console.log('open product card');
-        console.log(objItem.id);
+        console.log(idPlants);
         const item = getProductById(props.item.id).then((body) => {
             const arr = [];
             arr.push({
@@ -39,13 +39,13 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
             return arr;
         });
         console.log(await item);
-        updateID(objItem.id);
-        navigate('/productpage');
+        updateID(idPlants);
+        navigate(`/productpage/${idPlants}`);
     }
 
     const names = Object.values(props.item.name);
     return (
-        <Col push={0.5} xs={24} sm={24} md={12} lg={8} xl={6} onClick={() => openProductPage(props.item)} >
+        <Col push={0.5} xs={24} sm={24} md={12} lg={8} xl={6} onClick={() => openProductPage(props.item.id)} >
             <Card
                 ref={ref}
                 className="card_style"
