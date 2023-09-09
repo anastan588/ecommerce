@@ -3,6 +3,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 // import { ByProjectKeyCustomersPasswordTokenByPasswordTokenRequestBuilder } from '@commercetools/platform-sdk/dist/declarations/src/generated/client/customers/by-project-key-customers-password-token-by-password-token-request-builder';
 import {
+    AnonymousAuthMiddlewareOptions,
     ClientBuilder,
     PasswordAuthMiddlewareOptions,
     RefreshAuthMiddlewareOptions,
@@ -89,7 +90,7 @@ export const getPasswordFlowOptions = (usermame: string, password: string) => {
                 setLocalStorage(cache);
             },
         },
-        scopes: ['manage_project:rsschool-final-task-stage2'],
+        // scopes: ['manage_project:rsschool-final-task-stage2'],
         fetch,
     };
     return options;
@@ -113,6 +114,21 @@ export const getClientWithTokenOptions = (token: string) => {
             },
         }, */
         // scopes: [ `manage_project:${projectKey}` ],
+        fetch,
+    };
+    return options;
+};
+
+export const getAnonymousSessionFlow = () => {
+    const options: AnonymousAuthMiddlewareOptions = {
+        host: 'https://auth.europe-west1.gcp.commercetools.com',
+        projectKey,
+        credentials: {
+            clientId: 'X7xMQJdEw5S3mkVSv8ZKdGy1',
+            clientSecret: 'eSSKTHOweSI0n3bIOuLjXCzjzqwjHoPs',
+            anonymousId: process.env.CTP_ANONYMOUS_ID, // a unique id
+        },
+        scopes: [`manage_project:${projectKey}`],
         fetch,
     };
     return options;
