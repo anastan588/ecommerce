@@ -19,6 +19,7 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
     const { store, products, cart } = useContext(Context);
     const [value3, setValue3] = useState('В корзину');
     const [style, setStyle] = useState('button_carts');
+    const [loading, setLoading] = useState(false);
     const value = cart.getProducts().find((val) => val.productId === props.item.id);
     useEffect(() => {
         const values = cart.getProducts().forEach((item) => {
@@ -39,6 +40,7 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
     const handleEvent = async () => {
         console.log('click');
         console.log(props.item.id);
+        setLoading(true);
         if (store.isAuth) {
             const tokenStore = getLocalStorage();
             console.log(tokenStore);
@@ -55,11 +57,11 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
                     getCartsCastomer[0].cartId,
                     props.item.id,
                     getCartsCastomer[0].version
-                );
+                ).finally(() => setLoading(false));
                 console.log(itemsCart);
                 if (itemsCart) cart.setProducts(itemsCart);
             } else {
-                const addProd = await createCartAuth(refreshToken, props.item.id);
+                const addProd = await createCartAuth(refreshToken, props.item.id).finally(() => setLoading(false));
                 console.log(addProd);
                 if (addProd) cart.setProducts(addProd);
                 const getCarts = await getCartsAuth(refreshToken);
@@ -80,7 +82,7 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
                 console.log(getCartsAnonim.id);
                 console.log(props.item.id);
                 console.log(getCartsAnonim.version);
-                const itemsCart = await addProductItemAnonim(getCartsAnonim.id, props.item.id, getCartsAnonim.version);
+                const itemsCart = await addProductItemAnonim(getCartsAnonim.id, props.item.id, getCartsAnonim.version).finally(() => setLoading(false))
                 console.log(itemsCart);
                 if (itemsCart) cart.setProducts(itemsCart);
                 setValue3('В корзине!');
@@ -96,7 +98,7 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
     };
     return (
         <Space wrap>
-            <Button
+            <Button loading={loading}
                 type="dashed"
                 className={style}
                 onClick={(e) => {
