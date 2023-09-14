@@ -1,18 +1,65 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import axios from 'axios';
-import { isTemplateMiddle } from 'typescript';
+import { Route, Routes, useNavigate } from 'react-router-dom';
+import { Layout, Menu, Avatar } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
+import AllMembers from './ourCommand/allMembers';
+import we from './we';
 
-import { Avatar, Card, Carousel, Col, Row } from 'antd';
-import { apiRoot } from '../login_page/createClient';
-import classes from './productPage.module.css';
-import ModalWindow from '../modal_window/ModalWindow';
+const { Sider } = Layout;
+
+function SideMenu() {
+    const navigate = useNavigate();
+
+    return (
+        <Sider
+            breakpoint="lg"
+            collapsedWidth="0"
+            onBreakpoint={(broken) => {
+                console.log(broken);
+            }}
+            onCollapse={(collapsed, type) => {
+                console.log(collapsed, type);
+            }}
+        >
+            <Menu
+                onClick={({ key }) => navigate(key)}
+                theme="dark"
+                mode="inline"
+                defaultSelectedKeys={['3']}
+                items={[
+                    {
+                        key: '/about/nastya',
+                        icon: React.createElement(UserOutlined),
+                        label: `Anastasiya`,
+                    },
+                    {
+                        key: '/about/aliaksand',
+                        icon: React.createElement(UserOutlined),
+                        label: `Aliaksandr`,
+                    },
+                    {
+                        key: '/about/yulia',
+                        icon: React.createElement(UserOutlined),
+                        label: 'Yulia',
+                    },
+                ]}
+            />
+        </Sider>
+    );
+}
 
 const AboutUsPage = () => {
-    return <h2 className="page_title main">About us page</h2>;
+    return (
+        <Layout>
+            <SideMenu />
+            <Layout style={{ padding: 20 }}>
+                <Routes>
+                    <Route path="/" element={<AllMembers />}></Route>
+                    {/* <Route path="/nastya" element={<UserInformation />} /> */}
+                </Routes>
+            </Layout>
+        </Layout>
+    );
 };
 
 export default AboutUsPage;
-
-/* const AboutUsPage1 = () => {
-    return <h2 className="page_title main">About us page</h2>;
-}; */
