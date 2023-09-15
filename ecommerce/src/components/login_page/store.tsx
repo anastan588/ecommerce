@@ -30,7 +30,7 @@ class Store {
         this.isAuth = bool;
     }
 
-    login(email: string, password: string) {
+    login(email: string, password: string, cartId?: string) {
         console.log(email);
         return apiRoot
             .login()
@@ -38,6 +38,11 @@ class Store {
                 body: {
                     email: `${email}`,
                     password: `${password}`,
+                    anonymousCartSignInMode: 'MergeWithExistingCustomerCart',
+                    anonymousCart: {
+                        id: cartId,
+                        typeId: 'cart',
+                    }
                 },
             })
             .execute()

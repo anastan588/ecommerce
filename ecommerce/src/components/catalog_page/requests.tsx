@@ -625,6 +625,7 @@ export const createAnonimusCart = (prodId: string) => {
             const { version } = body.body;
             console.log(cartId);
             console.log(version);
+            localStorage.setItem('cartIdAnonim', cartId);
             // return { cartId, version };
             const addProductItemAnonim = () => {
                 return (

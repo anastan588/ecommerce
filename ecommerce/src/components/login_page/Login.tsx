@@ -78,7 +78,13 @@ const Login: React.FC = () => {
 
     const navigate = useNavigate();
     const onFinish = (values: Values) => {
-        const login = store.login(values.email, values.password);
+        const cartIdAnonim = localStorage.getItem('cartIdAnonim');
+        let login;
+        if (cartIdAnonim !== null) {
+            login = store.login(values.email, values.password, cartIdAnonim);
+        } else {
+            login = store.login(values.email, values.password);
+        }
         login.then(() => {
             console.log('sucsess');
             navigate('/');
