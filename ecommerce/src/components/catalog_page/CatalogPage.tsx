@@ -19,7 +19,7 @@ const CatalogPage = observer(() => {
     const { products, cart, store } = useContext(Context);
     const tokenStore = getLocalStorage();
     console.log(tokenStore);
-    const { refreshToken } = tokenStore;
+    /* const { refreshToken } = tokenStore; */
     useEffect(() => {
         productsType().then(({ body }) => {
             console.log(body);
@@ -112,24 +112,28 @@ const CatalogPage = observer(() => {
                 }
             }
         });
-        if (refreshToken)
+        if (tokenStore){
+            const { refreshToken } = tokenStore;
             getCartsProduct(refreshToken)
-                .then((body) => {
-                    console.log(body);
-                    const cartId = body.body.id;
-                    const { version } = body.body;
-                    console.log(cartId);
-                    console.log(version);
-                    const cartObj = []
-                    cartObj.push({cartId, version});
-                    cart.setCart(cartObj);
-                    const arr = body.body.lineItems;
-                    console.log(arr);
-                    cart.setProducts(arr);
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
+            .then((body) => {
+                console.log(body);
+                const cartId = body.body.id;
+                const { version } = body.body;
+                console.log(cartId);
+                console.log(version);
+                const cartObj = []
+                cartObj.push({cartId, version});
+                cart.setCart(cartObj);
+                const arr = body.body.lineItems;
+                console.log(arr);
+                cart.setProducts(arr);
+            })
+            .catch((e) => {
+                console.log(e);
+            });
+        }
+        
+
     }, []);
 
     return (

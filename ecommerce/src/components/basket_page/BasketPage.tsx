@@ -1,7 +1,23 @@
 import React from 'react';
+import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
+
+
+
 
 const BasketPage = () => {
-    return <h2 className="page_title main">Basket page</h2>;
+
+
+
+
+
+
+
+
+    return (
+        <div>
+            <h2>Basket page1111</h2>
+        </div>
+    )
 };
 
 export default BasketPage;
