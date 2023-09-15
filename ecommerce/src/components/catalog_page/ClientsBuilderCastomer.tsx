@@ -135,8 +135,9 @@ export const getCastomertWithToken = (token: string) => {
         .withLoggerMiddleware() // Include middleware for logging
         .withRefreshTokenFlow(getClientWithTokenOptions(token))
         .build();
-    const apiRoot = createApiBuilderFromCtpClient(ctpClientToken).withProjectKey({
+    /* const apiRoot = createApiBuilderFromCtpClient(ctpClientToken).withProjectKey({
         projectKey: 'rsschool-final-task-stage2',
     });
-    return apiRoot;
+    return apiRoot; */
+    return ctpClientToken;
 };
