@@ -26,12 +26,13 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
     let value = cart.getProducts().find((val) => val.productId === props.item.id);
     console.log(props.item.id);
     console.log(value?.id);
+    console.log(value3);
     useEffect(() => {
         value = cart.getProducts().find((val) => val.productId === props.item.id);
         console.log(value);
+        console.log(value3);
         if (value) {
-            setDisabled(false);
-        }
+        setDisabled(false)}
     }, [value]);
     const handleEvent = async () => {
         if (store.isAuth) {
@@ -77,7 +78,9 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
 
     return (
         <>
-            <div className="buttons_product">
+            <div
+                className="buttons_product"
+            >
                 <ButtonCarts item={props.item} />
                 <Button type="primary" className="button-product" size={size} onClick={handleEvent} disabled={disabled}>
                     Удалить из корзины
