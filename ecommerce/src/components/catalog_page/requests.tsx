@@ -3,7 +3,7 @@ import { action } from 'mobx';
 import { TokenClass } from 'typescript';
 import { apiRoot, apiRootAnonimusClient, getClientWithToken } from '../login_page/createClient';
 import ProductsItem from './Card';
-import { apiRootAnonimusClientCastomer, apiRootCastomer } from './ClientsBuilderCastomer';
+import { apiRootAnonimusClientCastomer, apiRootCastomer, getCastomertWithToken } from './ClientsBuilderCastomer';
 import { TypeProducts, CategoryType, AttributeType } from './productsStore';
 
 export const categories = () => {
@@ -811,6 +811,21 @@ export const getCartsAnonimus = () => {
             return { id, version };
         })
         .catch((e) => console.log(e));
+};
+
+export const getCartsProdAnonimus = () => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .carts()
+        .get()
+        .execute()
+        /* .then((body) => {
+            console.log(body.body.results[0]);
+            const { id } = body.body.results[0];
+            const { version } = body.body.results[0];
+            return { id, version };
+        })
+        .catch((e) => console.log(e)); */
 };
 
 export const checkCartsAnonimus = (cartId: string) => {
