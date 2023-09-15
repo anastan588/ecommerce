@@ -5,7 +5,15 @@ import { Context } from '../..';
 import Catalog from './Catalog';
 import './catalog.css';
 // import CategoryBar from './CategoryBar';
-import { productsRes, productsType, categories, attributesList, getCartsProduct, getCartsAuth } from './requests';
+import {
+    productsRes,
+    productsType,
+    categories,
+    attributesList,
+    getCartsProduct,
+    getCartsAuth,
+    getCartsProdAnonimus,
+} from './requests';
 import TypesBar from './TypesBar';
 import { apiRoot } from './ClientBuilderView';
 import Sorting from './filter_components/sorting';
@@ -14,12 +22,12 @@ import FilterBar from './filterBar';
 import { AttributeType } from './productsStore';
 import SearchCompponent from './filter_components/Searсh';
 import { getLocalStorage } from '../login_page/BuildClient';
+import Spinner from '../router/spinner';
 
 const CatalogPage = observer(() => {
     const { products, cart, store } = useContext(Context);
     const tokenStore = getLocalStorage();
     console.log(tokenStore);
-    const { refreshToken } = tokenStore;
     useEffect(() => {
         productsType().then(({ body }) => {
             console.log(body);
@@ -112,16 +120,16 @@ const CatalogPage = observer(() => {
                 }
             }
         });
-        if (refreshToken)
+        if (tokenStore) {
+            const { refreshToken } = tokenStore;
+            console.log(refreshToken);
             getCartsProduct(refreshToken)
                 .then((body) => {
                     console.log(body);
                     const cartId = body.body.id;
                     const { version } = body.body;
-                    console.log(cartId);
-                    console.log(version);
-                    const cartObj = []
-                    cartObj.push({cartId, version});
+                    const cartObj = [];
+                    cartObj.push({ cartId, version });
                     cart.setCart(cartObj);
                     const arr = body.body.lineItems;
                     console.log(arr);
@@ -130,6 +138,14 @@ const CatalogPage = observer(() => {
                 .catch((e) => {
                     console.log(e);
                 });
+        } /* else {
+            getCartsProdAnonimus()
+                .then((body) => {
+                    const arr = body.body.results[0].lineItems;
+                    cart.setProducts(arr);
+                })
+                .catch((e) => console.log(e));
+        } */
     }, []);
 
     return (
@@ -143,7 +159,9 @@ const CatalogPage = observer(() => {
             </div>
             <div className="catalog_container">
                 <FilterBar />
-                <Catalog />
+                <Suspense fallback={<Spinner />}>
+                    <Catalog />
+                </Suspense>
             </div>
         </div>
     );
