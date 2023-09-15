@@ -3,6 +3,9 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Layout, Menu, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import AllMembers from './ourCommand/allMembers';
+import NastyaPage from './ourCommand/nastya';
+import YuliaPage from './ourCommand/julia';
+import SashaPage from './ourCommand/sasha';
 import we from './we';
 
 const { Sider } = Layout;
@@ -33,7 +36,7 @@ function SideMenu() {
                         label: `Anastasiya`,
                     },
                     {
-                        key: '/about/aliaksand',
+                        key: '/about/aliaksandr',
                         icon: React.createElement(UserOutlined),
                         label: `Aliaksandr`,
                     },
@@ -55,7 +58,9 @@ const AboutUsPage = () => {
             <Layout style={{ padding: 20 }}>
                 <Routes>
                     <Route path="/" element={<AllMembers />}></Route>
-                    {/* <Route path="/nastya" element={<UserInformation />} /> */}
+                    <Route path="/nastya" element={<NastyaPage />}></Route>
+                    <Route path="/yulia" element={<YuliaPage />}></Route>
+                    <Route path="/aliaksandr" element={<SashaPage />}></Route>
                 </Routes>
             </Layout>
         </Layout>
