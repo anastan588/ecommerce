@@ -45,18 +45,19 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
             const tokenStore = getLocalStorage();
             console.log(tokenStore);
             const { refreshToken } = tokenStore;
-            const getCartsCastomer = cart.getCart();
+            const getCartsCastomer = await getCartsAuth(refreshToken);
             console.log(getCartsCastomer);
             if (getCartsCastomer) {
                 console.log('cart');
-                console.log(getCartsCastomer[0].cartId);
+                console.log(cart.getCart()[0].cartId)
+                console.log(getCartsCastomer.cartId);
                 console.log(props.item.id);
-                console.log(getCartsCastomer[0].version);
+                console.log(getCartsCastomer.version);
                 const itemsCart = await addProductItemCastomer(
                     refreshToken,
-                    getCartsCastomer[0].cartId,
+                    getCartsCastomer.cartId,
                     props.item.id,
-                    getCartsCastomer[0].version
+                    getCartsCastomer.version
                 ).finally(() => setLoading(false));
                 console.log(itemsCart);
                 if (itemsCart) cart.setProducts(itemsCart);
@@ -88,7 +89,7 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
                 setValue3('В корзине!');
                 setStyle('button_carts-changed');
             } else {
-                const addProd = await createAnonimusCart(props.item.id);
+                const addProd = await createAnonimusCart(props.item.id).finally(() => setLoading(false));
                 console.log(addProd);
                 if (addProd) cart.setProducts(addProd);
                 setValue3('В корзине!');
