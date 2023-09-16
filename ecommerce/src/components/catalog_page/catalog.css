@@ -10,7 +10,7 @@
 }
 .cards-container {
     flex: 0 1 100%;
-    padding: 10px;
+    padding: 20px;
     display: flex;
     justify-content: space-around;
     text-align: center;
@@ -27,8 +27,8 @@
     position: relative;
     z-index: 10;
     transform: scale3d(1.1, 1.1, 1.1);
-    background-color:aquamarine;
-    box-shadow: 2px 2px 5px 5px yellow;
+    background-color: #b9fcff;
+    box-shadow: 2px 2px 5px 5px #ffdaa4;
     color: blueviolet;
 }
 
@@ -40,7 +40,6 @@
 .card-curr {
     margin-left: 5px;
     font-size: 12px;
-
 }
 .card-price {
     text-decoration: line-through;
@@ -86,7 +85,7 @@
 
 .filter_bar {
     width: 30%;
-    background-color: greenyellow;
+    background-color: rgba(250, 240, 190, 1);
     font-weight: 500;
     color: blue;
     padding: 5px;
@@ -110,7 +109,7 @@
     box-shadow: 2px 5px 5px yellowgreen;
     border-radius: 10px;
     padding-bottom: 5px;
-    background-color: rgb(255, 255, 162);
+    background-color: rgba(250, 240, 190, 1);
     margin-bottom: 7px;
 }
 
@@ -129,11 +128,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color:greenyellow
+    background-color: #fff5b7;
 }
 
 .button_carts:hover {
-    background-color: yellow;
+    background-color: #fff74b;
     box-shadow: 2px 2px 5px blueviolet;
 }
 
@@ -141,8 +140,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color:gold;
-
+    background-color: gold;
 }
 
 .carts_icon {

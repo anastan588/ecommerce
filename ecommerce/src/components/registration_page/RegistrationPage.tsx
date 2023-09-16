@@ -11,6 +11,7 @@ import Store from '../login_page/store';
 import { Context } from '../..';
 import { getPasswordFlowClient } from '../login_page/createClient';
 import API_CLIENT_SETTINGS from '../../services/apiClientSettings';
+import BackGround from '../../images/backgrounds/background3.jpg';
 
 const { Title } = Typography;
 
@@ -1016,7 +1017,15 @@ const RegistrationPage: React.FC = () => {
 
     return (
         <div className={registyles.registration__page}>
-            <div className={registyles.registration__container}>
+            <img
+                src={BackGround}
+                alt="mainPage"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
+            />
+            <div
+                className={registyles.registration__container}
+                style={{ position: 'relative', zIndex: 1, backgroundColor: 'rgba(250, 240, 190, 0.5)' }}
+            >
                 <Title
                     className={registyles.title_registration_main}
                     level={2}

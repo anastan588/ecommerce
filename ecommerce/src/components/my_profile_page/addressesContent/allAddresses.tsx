@@ -1,23 +1,14 @@
 import React, { ReactElement, useState, useContext, ReactNode } from 'react';
-import { Button, Card, Input, Form, Typography, theme, Layout, Modal, Select } from 'antd';
-import { EditOutlined, ScissorOutlined, PlusOutlined } from '@ant-design/icons';
-import { toast, ToastContainer } from 'react-toastify';
+import { Button, Card, Input, Form, Layout, Modal, Select } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { observer } from 'mobx-react-lite';
 import ReactDOM from 'react-dom';
 import { Context } from '../../..';
-import {
-    countryDetection,
-    shippingAddress,
-    billingAddress,
-    shippingDefaultAddress,
-    billingDefaultAddress,
-    AddressComponent,
-} from './functionsForDisplaingAddresses';
-import AddressComponentEditingForm from './functionsForEditingAddresses';
+import { AddressComponent } from './functionsForDisplaingAddresses';
 
-const { Header, Content, Sider } = Layout;
-const { Title } = Typography;
+const { Header } = Layout;
 let version = 0;
 
 export type Values = {
