@@ -25,6 +25,11 @@ const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.Se
     }) */
 }
 
+const clearBasketOnServer = async () => {
+    console.log('clear');
+
+}
+
 const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetStateAction<number>>) => {
     let costSummary: number = 0;
     const {token} = getLocalStorage();
@@ -47,6 +52,11 @@ const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetSt
         setSummaryCost(costSummary);
     }
 
+}
+
+const clearBasket = async () => {
+    console.log('clear Basket');
+    clearBasketOnServer();
 }
 
 
@@ -87,9 +97,11 @@ const BasketPage = () => {
 
     return (
         <div>
-            <h2>Basket page1111</h2>
-            <div>Поле для промокода</div>
-            <div>Очистить корзину</div>
+            <div className={classes.basketTitleBlock}>
+                <div>Поле для промокода</div>
+                <div onClick={() => clearBasket()} className={classes.clearBasketBtn}>Очистить корзину</div>
+            </div>
+
 
             <div className={classes.basketContainer}>
                 {
@@ -104,7 +116,7 @@ const BasketPage = () => {
 
             </div>
 
-            <div>Итого стоимость: {summaryCost}</div>
+            <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
 
 
 
