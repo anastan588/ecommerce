@@ -25,14 +25,41 @@ const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.Se
     }) */
 }
 
+const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetStateAction<number>>) => {
+    let costSummary: number = 0;
+    const {token} = getLocalStorage();
+    const mapToken = getLocalStorage();
+    const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
+    console.log('arrayProductCost')
+    
+    if(arrayProductInBasket) {
+        arrayProductInBasket.map(item => {
+            const price: number = item.price.discounted?.value.centAmount || 1;
+            const count: number = item.quantity;
+            const sum = price * count;
+            costSummary += sum;
+
+            
+            
+            return 1;
+        })
+
+        setSummaryCost(costSummary);
+    }
+
+}
+
 
 const BasketPage = () => {
     console.log('start Basket');
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
+    const [summaryCost, setSummaryCost] = useState(0);
 
     useEffect(() => {
         getProductsFromServer(setProductInBasket);
         /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
+        defineCostOfAllFlowers(setSummaryCost);
+
     }, [])
 
     console.log('productArrayInBasket');
@@ -77,7 +104,7 @@ const BasketPage = () => {
 
             </div>
 
-            <div>Итого стоимость</div>
+            <div>Итого стоимость: {summaryCost}</div>
 
 
 
