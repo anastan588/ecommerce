@@ -1,5 +1,6 @@
 import { Card, Avatar, Layout, Col } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Github from '../../../images/icon/github-512.webp';
 import we from '../we';
 
 const { Meta } = Card;
@@ -10,12 +11,45 @@ const SashaPage = () => {
         <div style={{ display: 'flex', gap: 50 }}>
             <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
                 <Col style={{ display: 'flex', flexDirection: 'column' }}>
-                    <Card hoverable style={{ width: 240 }} cover={<img alt="sasha" src={we.aleksandr.foto} />}>
-                        <Meta style={{ textAlign: 'center' }} title={we.aleksandr.name} description="Team Member" />
-                        <Content style={{ textAlign: 'center', fontSize: 16, lineHeight: '120%' }}>
-                            Наш рыцарь Александр взял на себя задачу роутинга магазина и релизацию страницы продукта
-                            магазина, а также реализацию корзины.
-                        </Content>
+                    <Card
+                        hoverable
+                        style={{
+                            width: 350,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 10,
+                        }}
+                        cover={<img alt="sasha" src={we.aleksandr.foto} />}
+                    >
+                        <Meta
+                            style={{ textAlign: 'center', marginBottom: 15 }}
+                            title={we.aleksandr.name}
+                            description="Team Member"
+                        />
+                        <Col
+                            style={{
+                                cursor: 'pointer',
+                                textAlign: 'center',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                gap: 10,
+                            }}
+                        >
+                            <Link
+                                className="header__item"
+                                style={{ transition: 'all 0.5s ease' }}
+                                to="https://github.com/FedAliaks"
+                                target="_blank"
+                            >
+                                <img src={Github} alt="GitHub" style={{ maxHeight: 30 }} />
+                            </Link>
+                            <Content style={{ textAlign: 'center', fontSize: 16, lineHeight: '120%' }}>
+                                Наш рыцарь Александр взял на себя задачу роутинга магазина и релизацию страницы продукта
+                                магазина, а также реализацию корзины.
+                            </Content>
+                        </Col>
                     </Card>
                 </Col>
             </div>
@@ -25,6 +59,11 @@ const SashaPage = () => {
                     flexDirection: 'column',
                     fontSize: 20,
                     lineHeight: '150%',
+                    position: 'relative',
+                    zIndex: 1,
+                    backgroundColor: 'rgba(250, 240, 190, 0.5)',
+                    padding: 5,
+                    borderRadius: 5,
                 }}
             >
                 <Content>

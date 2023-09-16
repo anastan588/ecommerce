@@ -6,6 +6,7 @@ import AllMembers from './ourCommand/allMembers';
 import NastyaPage from './ourCommand/nastya';
 import YuliaPage from './ourCommand/julia';
 import SashaPage from './ourCommand/sasha';
+import BackGround from '../../images/backgrounds/background3.jpg';
 import we from './we';
 
 const { Sider } = Layout;
@@ -14,40 +15,47 @@ function SideMenu() {
     const navigate = useNavigate();
 
     return (
-        <Sider
-            breakpoint="lg"
-            collapsedWidth="0"
-            onBreakpoint={(broken) => {
-                console.log(broken);
-            }}
-            onCollapse={(collapsed, type) => {
-                console.log(collapsed, type);
-            }}
-        >
-            <Menu
-                onClick={({ key }) => navigate(key)}
-                theme="dark"
-                mode="inline"
-                defaultSelectedKeys={['3']}
-                items={[
-                    {
-                        key: '/about/nastya',
-                        icon: React.createElement(UserOutlined),
-                        label: `Anastasiya`,
-                    },
-                    {
-                        key: '/about/aliaksandr',
-                        icon: React.createElement(UserOutlined),
-                        label: `Aliaksandr`,
-                    },
-                    {
-                        key: '/about/yulia',
-                        icon: React.createElement(UserOutlined),
-                        label: 'Yulia',
-                    },
-                ]}
+        <div>
+            <img
+                src={BackGround}
+                alt="mainPage"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
             />
-        </Sider>
+            <Sider
+                breakpoint="lg"
+                collapsedWidth="0"
+                onBreakpoint={(broken) => {
+                    console.log(broken);
+                }}
+                onCollapse={(collapsed, type) => {
+                    console.log(collapsed, type);
+                }}
+            >
+                <Menu
+                    onClick={({ key }) => navigate(key)}
+                    theme="dark"
+                    mode="inline"
+                    defaultSelectedKeys={['3']}
+                    items={[
+                        {
+                            key: '/about/nastya',
+                            icon: React.createElement(UserOutlined),
+                            label: `Anastasiya`,
+                        },
+                        {
+                            key: '/about/aliaksandr',
+                            icon: React.createElement(UserOutlined),
+                            label: `Aliaksandr`,
+                        },
+                        {
+                            key: '/about/yulia',
+                            icon: React.createElement(UserOutlined),
+                            label: 'Yulia',
+                        },
+                    ]}
+                />
+            </Sider>
+        </div>
     );
 }
 

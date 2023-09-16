@@ -1,6 +1,6 @@
-import nastyaImg from '../../images/icon/AnastasiyaAndronova.jpg';
-import sashaImg from '../../images/icon/sasha.png';
-import juliaImg from '../../images/icon/julia.png';
+import nastyaImg from '../../images/icon/AnastasiyaAndronova2.jpg';
+import sashaImg from '../../images/icon/sasha2.png';
+import juliaImg from '../../images/icon/yulia.jpg';
 
 const we = {
     nastya: {

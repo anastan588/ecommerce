@@ -1,5 +1,6 @@
 import { Card, Avatar, Layout, Col } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Github from '../../../images/icon/github-512.webp';
 import we from '../we';
 
 const { Meta } = Card;
@@ -12,14 +13,53 @@ const NastyaPage = () => {
                 <Col style={{ display: 'flex', flexDirection: 'column' }}>
                     <Card
                         hoverable
-                        style={{ width: 240, display: 'flex', flexDirection: 'column', gap: 15 }}
+                        style={{
+                            width: 350,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            gap: 10,
+                        }}
                         cover={<img alt="nastya" src={we.nastya.foto} />}
                     >
-                        <Meta style={{ textAlign: 'center' }} title={we.nastya.name} description="Team Lead" />
-                        <Content style={{ textAlign: 'center', fontSize: 16, lineHeight: '120%' }}>
-                            Team Lead Anаstasiya занималась реализацией страницы регистрации пользователя и страницы
-                            профиля пользователя, страницей информации о комманде и дизайном оформления магазина.{' '}
-                        </Content>
+                        <Meta
+                            style={{ textAlign: 'center', marginBottom: 15 }}
+                            title={we.nastya.name}
+                            description="Team Lead"
+                        />
+                        <Col
+                            style={{
+                                cursor: 'pointer',
+                                textAlign: 'center',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                gap: 10,
+                            }}
+                        >
+                            <Link
+                                className="header__item"
+                                style={{ transition: 'all 0.5s ease' }}
+                                to="https://github.com/anastan588"
+                                target="_blank"
+                            >
+                                <img src={Github} alt="GitHub" style={{ maxHeight: 30 }} />
+                            </Link>
+                            <Content
+                                style={{
+                                    textAlign: 'center',
+                                    fontSize: 16,
+                                    lineHeight: '120%',
+                                    position: 'relative',
+                                    zIndex: 1,
+                                }}
+                            >
+                                Team Lead Anаstasiya занималась реализацией страницы регистрации пользователя и страницы
+                                профиля пользователя, страницей информации о комманде и дизайном оформления магазина.{' '}
+                            </Content>
+                        </Col>
                     </Card>
                 </Col>
             </div>
@@ -29,6 +69,11 @@ const NastyaPage = () => {
                     flexDirection: 'column',
                     fontSize: 20,
                     lineHeight: '150%',
+                    position: 'relative',
+                    zIndex: 1,
+                    backgroundColor: 'rgba(250, 240, 190, 0.5)',
+                    padding: 5,
+                    borderRadius: 5,
                 }}
             >
                 <Content>

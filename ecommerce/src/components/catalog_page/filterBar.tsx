@@ -55,7 +55,7 @@ const FilterBar: React.FC = observer(() => {
         },
         {
             key: '3',
-            label: 'Фтльтр по цене',
+            label: 'Фильтр по цене',
             children: <PricesFilter />,
         },
     ];
@@ -67,9 +67,8 @@ const FilterBar: React.FC = observer(() => {
     return (
         <div className="filter">
             <Suspense>
-               <Collapse className="filter_bar" onChange={onChange} items={items} />
+                <Collapse className="filter_bar" onChange={onChange} items={items} />
             </Suspense>
-            
         </div>
     );
 });

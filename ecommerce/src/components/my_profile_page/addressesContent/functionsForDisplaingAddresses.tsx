@@ -4,7 +4,6 @@ import { EditOutlined, ScissorOutlined } from '@ant-design/icons';
 import { toast, ToastContainer } from 'react-toastify';
 import { Values } from './allAddresses';
 import { Context } from '../../..';
-import AddressComponentEditingForm from './functionsForEditingAddresses';
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -221,6 +220,7 @@ export function AddressComponent(element: Values) {
                     border: 'solid 1px #9a9a9a',
                     borderRadius: '15px',
                     padding: '10px 10px 10px 10px',
+                    background: 'rgba(250, 240, 190, 0.5)',
                 }}
             >
                 <Header
@@ -231,7 +231,7 @@ export function AddressComponent(element: Values) {
                         alignItems: 'center',
                         height: 'auto',
                         lineHeight: '1.0',
-                        background: '#9a9a9a',
+                        background: 'rgba(250, 240, 190, 1)',
                         borderRadius: 15,
                     }}
                 >
@@ -1049,6 +1049,7 @@ export function AddressComponent(element: Values) {
                     border: 'solid 1px #9a9a9a',
                     borderRadius: '15px',
                     padding: '10px 10px 10px 10px',
+                    background: 'rgba(250, 240, 190, 0.5)',
                 }}
             >
                 <Header
@@ -1059,7 +1060,7 @@ export function AddressComponent(element: Values) {
                         alignItems: 'center',
                         height: 'auto',
                         lineHeight: '1.0',
-                        background: '#9a9a9a',
+                        background: 'rgba(250, 240, 190, 1)',
                         borderRadius: 15,
                     }}
                 >

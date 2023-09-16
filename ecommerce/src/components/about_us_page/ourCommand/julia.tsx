@@ -1,5 +1,6 @@
 import { Card, Avatar, Layout, Col } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Github from '../../../images/icon/github-512.webp';
 import we from '../we';
 
 const { Meta } = Card;
@@ -10,13 +11,46 @@ const YuliaPage = () => {
         <div style={{ display: 'flex', gap: 50 }}>
             <div style={{ display: 'flex', justifyContent: 'space-around', flexWrap: 'wrap' }}>
                 <Col style={{ display: 'flex', flexDirection: 'column' }}>
-                    <Card hoverable style={{ width: 240 }} cover={<img alt="julia" src={we.julliya.foto} />}>
-                        <Meta style={{ textAlign: 'center' }} title={we.julliya.name} description="Team Member" />
-                        <Content style={{ textAlign: 'center', fontSize: 16, lineHeight: '120%' }}>
-                            Yulia, наш Team Member, взяла на себя задачу Log In пользователя, а также была очень
-                            увлечена реализацией страницы каталога, всеми возможными видами фильтров и сортировок,
-                            улучшениями данной страницы.
-                        </Content>
+                    <Card
+                        hoverable
+                        style={{
+                            width: 350,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            gap: 10,
+                        }}
+                        cover={<img alt="julia" src={we.julliya.foto} />}
+                    >
+                        <Meta
+                            style={{ textAlign: 'center', marginBottom: 15 }}
+                            title={we.julliya.name}
+                            description="Team Member"
+                        />
+                        <Col
+                            style={{
+                                cursor: 'pointer',
+                                textAlign: 'center',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                                gap: 10,
+                            }}
+                        >
+                            <Link
+                                className="header__item"
+                                style={{ transition: 'all 0.5s ease' }}
+                                to="https://github.com/Jjjulietta"
+                                target="_blank"
+                            >
+                                <img src={Github} alt="GitHub" style={{ maxHeight: 30 }} />
+                            </Link>
+                            <Content style={{ textAlign: 'center', fontSize: 16, lineHeight: '120%' }}>
+                                Yulia, наш Team Member, взяла на себя задачу Log In пользователя, а также была очень
+                                увлечена реализацией страницы каталога, всеми возможными видами фильтров и сортировок,
+                                улучшениями данной страницы.
+                            </Content>
+                        </Col>
                     </Card>
                 </Col>
             </div>
@@ -26,6 +60,11 @@ const YuliaPage = () => {
                     flexDirection: 'column',
                     fontSize: 20,
                     lineHeight: '150%',
+                    position: 'relative',
+                    zIndex: 1,
+                    backgroundColor: 'rgba(250, 240, 190, 0.5)',
+                    padding: 5,
+                    borderRadius: 5,
                 }}
             >
                 <Content>

@@ -1,4 +1,4 @@
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, Layout } from 'antd';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
@@ -6,6 +6,9 @@ import { Link } from 'react-router-dom';
 import RegistrationPage from '../registration_page/RegistrationPage';
 import { Context } from '../..';
 import Store from '../login_page/store';
+import BasketImg from '../../images/icon/shopping-cart-solid.svg';
+
+const { Content } = Layout;
 
 const Header = () => {
     const { store } = useContext(Context);
@@ -21,7 +24,12 @@ const Header = () => {
 
     // const { authed, logout } = UserAuth();
     return (
-        <Row className="header__container" justify="space-evenly" wrap={false}>
+        <Row
+            className="header__container"
+            justify="space-evenly"
+            wrap={false}
+            style={{ position: 'relative', zIndex: 2 }}
+        >
             <Col className="header__item" onClick={() => console.log('main page')}>
                 <Link to="/" className="header__item_link">
                     Main page
@@ -38,8 +46,12 @@ const Header = () => {
                 </Link>
             </Col>
             <Col className="header__item" onClick={() => console.log('basket page')}>
-                <Link className="header__item_link" to="/basket">
-                    Basket page
+                <Link className="header__item_link" to="/basket" style={{ display: 'flex', gap: 5 }}>
+                    <p style={{ fontSize: 18 }}>Basket page</p>
+                    <div style={{ position: 'relative', display: 'flex' }}>
+                        <img src={BasketImg} alt="basket" style={{ maxHeight: 25, minWidth: 40 }} />
+                        <p style={{ position: 'absolute', bottom: 0, right: 0 }}>1</p>
+                    </div>
                 </Link>
             </Col>
 

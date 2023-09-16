@@ -14,6 +14,7 @@ import FilterBar from './filterBar';
 import { AttributeType } from './productsStore';
 import SearchCompponent from './filter_components/Searсh';
 import { getLocalStorage } from '../login_page/BuildClient';
+import BackGround from '../../images/backgrounds/background3.jpg';
 
 const CatalogPage = observer(() => {
     const { products, cart, store } = useContext(Context);
@@ -120,8 +121,8 @@ const CatalogPage = observer(() => {
                     const { version } = body.body;
                     console.log(cartId);
                     console.log(version);
-                    const cartObj = []
-                    cartObj.push({cartId, version});
+                    const cartObj = [];
+                    cartObj.push({ cartId, version });
                     cart.setCart(cartObj);
                     const arr = body.body.lineItems;
                     console.log(arr);
@@ -134,14 +135,21 @@ const CatalogPage = observer(() => {
 
     return (
         <div className="catalog">
-            <h2 className="page_title main">Catalog</h2>
-            <div className="type-container">
+            <img
+                src={BackGround}
+                alt="mainPage"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
+            />
+            <h2 className="page_title main" style={{ position: 'relative', zIndex: 1 }}>
+                Catalog
+            </h2>
+            <div className="type-container" style={{ position: 'relative', zIndex: 1 }}>
                 <TypesBar />
                 <Sorting />
                 <SortingAl />
                 <SearchCompponent />
             </div>
-            <div className="catalog_container">
+            <div className="catalog_container" style={{ position: 'relative', zIndex: 1 }}>
                 <FilterBar />
                 <Catalog />
             </div>
