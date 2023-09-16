@@ -11,7 +11,7 @@ const style: React.CSSProperties = { background: '#0092ff', padding: '8px 0' };
 const Catalog: React.FC = observer(() => {
     const { products } = useContext(Context);
     return (
-        <Row className="cards-container">
+        <Row className="cards-container" data-testid='cards-test'>
             {products.getProducts().map((item) => (
                 <ProductsItem key={item.id} item={item} />
             ))}

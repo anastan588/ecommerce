@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../../App';
+import Login from './Login';
 import LogInPage from './login_page';
 
 window.matchMedia = (query) => ({
@@ -79,7 +80,6 @@ describe('events', () => {
         render(<App />);
         const linkElement = screen.getByText('Log In');
         fireEvent.click(linkElement);
-        screen.debug();
         expect(screen.getByText('Log In Page')).toBeInTheDocument();
         const linkReg = screen.getByText('Or register now!');
         expect(linkReg).toBeInTheDocument();
