@@ -50,14 +50,8 @@ const items: MenuItem[] = [
 const CategoryBar: React.FC = observer(() => {
     const { products } = useContext(Context);
 
-    /* const itemsMenu = () => {
-    const arr = products.category.map((item, i) => getItem(`${item}`, i));
-    return [getItem('Category', 'sub1', <AppstoreOutlined />, arr)];
-}; */
     const types = products.types.map((item, i) => getItem(`${item.name}`, item.id));
-    // const categories = products.category.map((item, i) => getItem(`${item}`, item));
-    // console.log(categories);
-    // const attributes = products.attributes.map((item, i) => getItem(`${item}`, item));
+
     const itemsMenu = [
         getItem('TYPE PRODUCTS', 'sub1', <AppstoreOutlined />, types),
         // getItem('Category', 'sub2', <AppstoreOutlined />, categories),

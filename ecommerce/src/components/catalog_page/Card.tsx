@@ -9,16 +9,15 @@ import { updateID } from '../product_page/ProductPage';
 import ButtonCarts from './Cart';
 import { getProductById } from './requests';
 import { Context } from '../..';
+import Plaseholder from '../../images/icon/Placeholder_view_vector.svg';
 
 const { Meta } = Card;
 
 const ProductsItem: React.FC<{ item: Obj }> = (props) => {
-    const { store, products } = useContext(Context);
+    const { products } = useContext(Context);
     const { ref, inView } = useInView({ threshold: 0.8, triggerOnce: true });
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
-    
-
 
     // eslint-disable-next-line @typescript-eslint/no-shadow
     async function openProductPage(idPlants: string) {
@@ -42,10 +41,18 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
         updateID(idPlants);
         navigate(`/productpage/${idPlants}`);
     }
-
     const names = Object.values(props.item.name);
     return (
-        <Col push={0.5} xs={24} sm={24} md={12} lg={8} xl={6} onClick={() => openProductPage(props.item.id)} >
+        <Col
+            push={0.5}
+            xs={24}
+            sm={24}
+            md={12}
+            lg={8}
+            xl={6}
+            onClick={() => openProductPage(props.item.id)}
+            data-testid="card-test"
+        >
             <Card
                 ref={ref}
                 className="card_style"
@@ -53,10 +60,9 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
                 style={{ width: 220 }}
                 cover={
                     inView ? (
-                        <img alt="example" src={props.item.images?.[0].url} />
+                        <img alt="example" src={props.item.images?.[0].url || Plaseholder} />
                     ) : (
                         <Skeleton loading={loading} avatar active>
-
                             <Meta avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />} />
                         </Skeleton>
                     )
