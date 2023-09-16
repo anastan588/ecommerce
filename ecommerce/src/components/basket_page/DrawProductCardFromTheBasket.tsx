@@ -1,5 +1,6 @@
 import { LineItem } from "@commercetools/platform-sdk";
 import { JsxElement } from "typescript";
+import classes from './DrawProductCard.module.css';
 
 
 type PropsInterface = {
@@ -34,16 +35,17 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
 
   return(
 
-      <div>
+      <div className={classes.myCard}>
           <div>
-              <img src={imageProduct} alt="image" />
+              <img src={imageProduct} alt="image" className={classes.imageCard} />
           </div>
           <div>
-              <p>{namePlants}</p>
-              <p>{priceProduct} EUR</p>
-              <p>Count: {countProduct}</p>
-              <button onClick={() => addProduct()}>Add product</button>
-              <button onClick={() => deleteProduct()}>Delete Product</button>
+              <p className={classes.cardTitle}>{namePlants}</p>
+              <p className={classes.cardContent}>Количество: {countProduct}</p>
+              <p className={classes.cardPrice}> Цена за штуку: {priceProduct} EUR</p>
+              
+              <button className={classes.cardButton} onClick={() => addProduct()}>Добавить</button>
+              <button className={classes.cardButton} onClick={() => deleteProduct()}>Уменьшить</button>
           </div> 
       </div>
   )
