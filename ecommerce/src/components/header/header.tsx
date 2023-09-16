@@ -73,6 +73,7 @@ const Header = () => {
                             to="/"
                             onClick={() => {
                                 store.logout();
+                                cart.setProducts([]);
                             }}
                         >
                             Log Out

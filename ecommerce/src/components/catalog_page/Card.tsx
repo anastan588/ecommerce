@@ -9,11 +9,12 @@ import { updateID } from '../product_page/ProductPage';
 import ButtonCarts from './Cart';
 import { getProductById } from './requests';
 import { Context } from '../..';
+import Plaseholder from '../../images/icon/Placeholder_view_vector.svg';
 
 const { Meta } = Card;
 
 const ProductsItem: React.FC<{ item: Obj }> = (props) => {
-    const { store, products } = useContext(Context);
+    const { products } = useContext(Context);
     const { ref, inView } = useInView({ threshold: 0.8, triggerOnce: true });
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
@@ -59,10 +60,7 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
                 style={{ width: 220 }}
                 cover={
                     inView ? (
-                        <img
-                            alt="example"
-                            src={props.item.images?.[0].url || '../../../image/icon/Placeholder_view_vector.svg'}
-                        />
+                        <img alt="example" src={props.item.images?.[0].url || Plaseholder} />
                     ) : (
                         <Skeleton loading={loading} avatar active>
                             <Meta avatar={<Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />} />
