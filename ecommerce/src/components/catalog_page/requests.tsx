@@ -669,16 +669,20 @@ export const createAnonimusCart = (prodId: string) => {
         });
 }; */
 
-export const getCartsAuth = (token: string) => {
+export const getCartsAuth = async (token: string) => {
+    console.log('getCartsAuth'); // это я добавил для тестирования
     const client = getClientWithToken(token);
     const apiRootToken = createApiBuilderFromCtpClient(client);
-    return apiRootToken
+    console.log('token bin getCartsAuth');
+    console.log(token);
+    const answer = await apiRootToken
         .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
         .me()
         .activeCart()
         .get()
         .execute()
         .then((body) => {
+            console.log('body');
             console.log(body);
             const cartId = body.body.id;
             const { version } = body.body;
@@ -689,6 +693,12 @@ export const getCartsAuth = (token: string) => {
         .catch((e) => {
             console.log(e);
         });
+
+
+        console.log('answer');
+        console.log(answer); // добавил для тесирования сам
+        return answer;
+
 };
 
 export const getCartsProduct = (token: string) => {
