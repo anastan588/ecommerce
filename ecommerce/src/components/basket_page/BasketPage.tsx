@@ -1,8 +1,6 @@
-
 import React, { useContext, useEffect, useState } from 'react';
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import BackGround from '../../images/backgrounds/background3.jpg';
-
 import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
 import { getLocalStorage } from '../login_page/BuildClient';
 import { getClientWithToken } from '../login_page/createClient';
@@ -17,37 +15,20 @@ const getProductsFromServerForAnonymUser = async () => {
     const getCartsAnonym = await getCartsAnonimus();
     console.log('in getProductFromServerForAnonymUser function');
     console.log(getCartsAnonym);
-    if (getCartsAnonym) {
-        const {id, version} = getCartsAnonym;
-        console.log(id);
-        console.log(version);
-    }
-
-
-
-
-    
-/*     if (getCartsAnonim) {
-        const itemsCart = await addProductItemAnonim(
-            getCartsAnonim.id,
-            props.item.id,
-            getCartsAnonim.version
-        ).finally(() => setLoading(false));
-        // console.log(itemsCart);
-        if (itemsCart) cart.setProducts(itemsCart);
-        setValue3('В корзине!');
-        setStyle('button_carts-changed');
-    } else {
-        const addProd = await createAnonimusCart(props.item.id).finally(() => setLoading(false));
-        if (addProd) cart.setProducts(addProd);
-        // console.log(addProd);
-        setValue3('В корзине!');
-        setStyle('button_carts-changed');
-    } */
+    const temp = await apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            console.log('the get Carts anonymousID from')
+            console.log(body.body);
+            const { id } = body.body;
+            const { version } = body.body;
+            return { id, version };
+        })
+        .catch((e) => console.log(e));
 }
-
-
-
 
 
 const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
@@ -69,7 +50,7 @@ const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.Se
 
 
 const clearBasketOnServer = async () => {
-    console.log('clear');
+    console.log('clear Basket on server');
 
 }
 
@@ -98,7 +79,6 @@ const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetSt
 }
 
 const clearBasket = async () => {
-    console.log('clear Basket');
     clearBasketOnServer();
 }
 
@@ -127,78 +107,37 @@ const BasketPage = () => {
     console.log(productsArrayInBasket);
 
 
-
-
-
-
-/*     console.log('token');
-    
-    console.log(token)
-    const obj = getCartsAuth(token);
-    console.log('obj');
-    console.log(obj); */
-
-
-
-
-
-
-
-
-
     return (
         <div>
-        
-                    <img
+            <img
                 src={BackGround}
                 alt="mainPage"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
             />
-        
-        
-        <div className="page_title main"
+
+            <div className="page_title main"
                 style={{
                     position: 'relative',
                     zIndex: 1,
                 }}>
-                      <div className={classes.basketTitleBlock}>
-                <div>Поле для промокода</div>
-                <div onClick={() => clearBasket()} className={classes.clearBasketBtn}>Очистить корзину</div>
+                <div className={classes.basketTitleBlock}>
+                    <div>Поле для промокода</div>
+                    <div onClick={() => clearBasket()} className={classes.clearBasketBtn}>Очистить корзину</div>
+                </div>
+
+                <div className={classes.basketContainer}>
+                    {
+                        productsArrayInBasket.map((product: LineItem) => {
+                            return (
+                                <div>
+                                    <DrawProductCardFromTheBasket product={product} />
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+                <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
             </div>
-
-
-            <div className={classes.basketContainer}>
-                {
-                    productsArrayInBasket.map((product: LineItem) => {
-                        return (
-                            <div>
-                                <DrawProductCardFromTheBasket product={product} />
-                            </div>
-                        )
-                    })
-                }
-
-            </div>
-
-            <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
-          
-          
-          
-          
-        </div>
-        
-
-
-
-
-
-
-
-
-
-
-
-            
         </div>
     )
 
