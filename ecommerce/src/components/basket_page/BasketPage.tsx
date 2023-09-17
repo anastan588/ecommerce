@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import BackGround from '../../images/backgrounds/background3.jpg';
 import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
@@ -7,6 +7,28 @@ import { getClientWithToken } from '../login_page/createClient';
 import RequestProductInBasketFromServer from './RequestProductInBasketFromServer';
 import DrawProductCardFromTheBasket from './DrawProductCardFromTheBasket';
 import classes from './BasketPage.module.css';
+import { Context } from '../..';
+import { getCartsAnonimus } from '../catalog_page/requests';
+
+
+const getProductsFromServerForAnonymUser = async () => {
+    const getCartsAnonym = await getCartsAnonimus();
+    console.log('in getProductFromServerForAnonymUser function');
+    console.log(getCartsAnonym);
+    const temp = await apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            console.log('the get Carts anonymousID from')
+            console.log(body.body);
+            const { id } = body.body;
+            const { version } = body.body;
+            return { id, version };
+        })
+        .catch((e) => console.log(e));
+}
 
 const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
     const { token } = getLocalStorage();
@@ -24,9 +46,11 @@ const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.Se
     }) */
 };
 
+
 const clearBasketOnServer = async () => {
-    console.log('clear');
-};
+    console.log('clear Basket on server');
+
+}
 
 const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetStateAction<number>>) => {
     let costSummary: number = 0;
@@ -50,30 +74,29 @@ const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetSt
 };
 
 const clearBasket = async () => {
-    console.log('clear Basket');
     clearBasketOnServer();
 };
 
 const BasketPage = () => {
+    const { store, cart } = useContext(Context);
     console.log('start Basket');
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
     const [summaryCost, setSummaryCost] = useState(0);
 
     useEffect(() => {
-        getProductsFromServer(setProductInBasket);
-        /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
-        defineCostOfAllFlowers(setSummaryCost);
-    }, []);
+        if (store.isAuth) {
+            getProductsFromServer(setProductInBasket);
+            /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
+            defineCostOfAllFlowers(setSummaryCost);
+        } else {
+            console.log('unauthorizated');
+            getProductsFromServerForAnonymUser();
+        }
 
+
+    }, [])
     console.log('productArrayInBasket');
     console.log(productsArrayInBasket);
-
-    /*     console.log('token');
-    
-    console.log(token)
-    const obj = getCartsAuth(token);
-    console.log('obj');
-    console.log(obj); */
 
     return (
         <div>
@@ -83,34 +106,32 @@ const BasketPage = () => {
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
             />
 
-            <div
-                className="page_title main"
+            <div className="page_title main"
                 style={{
                     position: 'relative',
                     zIndex: 1,
-                }}
-            >
+                }}>
                 <div className={classes.basketTitleBlock}>
                     <div>Поле для промокода</div>
-                    <div onClick={() => clearBasket()} className={classes.clearBasketBtn}>
-                        Очистить корзину
-                    </div>
+                    <div onClick={() => clearBasket()} className={classes.clearBasketBtn}>Очистить корзину</div>
                 </div>
 
                 <div className={classes.basketContainer}>
-                    {productsArrayInBasket.map((product: LineItem) => {
-                        return (
-                            <div>
-                                <DrawProductCardFromTheBasket product={product} />
-                            </div>
-                        );
-                    })}
+                    {
+                        productsArrayInBasket.map((product: LineItem) => {
+                            return (
+                                <div>
+                                    <DrawProductCardFromTheBasket product={product} />
+                                </div>
+                            )
+                        })
+                    }
                 </div>
-
                 <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
             </div>
         </div>
-    );
+    )
+
 };
 
 export default BasketPage;
