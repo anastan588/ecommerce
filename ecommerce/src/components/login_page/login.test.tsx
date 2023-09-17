@@ -41,7 +41,7 @@ describe('render input fields', () => {
     });
 });
 
-/* describe('log in input', () => {
+describe('log in input', () => {
     it('input to be in the Log In Page', () => {
         render(<App />);
         const linkElement = screen.getByText('Log In');
@@ -53,7 +53,7 @@ describe('render input fields', () => {
         userEvent.type(screen.getByLabelText('Password'), 'asddfffgg');
         expect(screen.getByLabelText('Password')).toBeValid();
     });
-}); */
+});
 
 describe('email input field', () => {
     it('email input is in the Log In Page', () => {

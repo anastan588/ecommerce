@@ -11,6 +11,15 @@ const LogInPage = () => {
                 alt="mainPage"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
             />
+            <h2
+                className="page_title main"
+                style={{
+                    position: 'relative',
+                    zIndex: 1,
+                }}
+            >
+                Log In Page
+            </h2>
             <Login />
         </div>
     );

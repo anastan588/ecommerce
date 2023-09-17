@@ -30,23 +30,21 @@ const getProductsFromServerForAnonymUser = async () => {
         .catch((e) => console.log(e));
 }
 
-
 const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
-    const {token} = getLocalStorage();
+    const { token } = getLocalStorage();
     const mapToken = getLocalStorage();
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
-    console.log('arrayProductInBasket')
+    console.log('arrayProductInBasket');
     console.log(arrayProductInBasket);
 
-    if(arrayProductInBasket) setProductInBasket(arrayProductInBasket);
+    if (arrayProductInBasket) setProductInBasket(arrayProductInBasket);
 
-
-/*     arrayProductInBasket?.forEach((item) => {
+    /*     arrayProductInBasket?.forEach((item) => {
         const newArrayWithProductsFromBasket = [...productsArrayInBasket, item];
         setProductInBasket(newArrayWithProductsFromBasket)
 
     }) */
-}
+};
 
 
 const clearBasketOnServer = async () => {
@@ -56,32 +54,28 @@ const clearBasketOnServer = async () => {
 
 const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetStateAction<number>>) => {
     let costSummary: number = 0;
-    const {token} = getLocalStorage();
+    const { token } = getLocalStorage();
     const mapToken = getLocalStorage();
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
-    console.log('arrayProductCost')
-    
-    if(arrayProductInBasket) {
-        arrayProductInBasket.map(item => {
+    console.log('arrayProductCost');
+
+    if (arrayProductInBasket) {
+        arrayProductInBasket.map((item) => {
             const price: number = item.price.discounted?.value.centAmount || 1;
             const count: number = item.quantity;
             const sum = price * count;
             costSummary += sum;
 
-            
-            
             return 1;
-        })
+        });
 
         setSummaryCost(costSummary);
     }
-
-}
+};
 
 const clearBasket = async () => {
     clearBasketOnServer();
-}
-
+};
 
 const BasketPage = () => {
     const { store, cart } = useContext(Context);
@@ -90,7 +84,6 @@ const BasketPage = () => {
     const [summaryCost, setSummaryCost] = useState(0);
 
     useEffect(() => {
-
         if (store.isAuth) {
             getProductsFromServer(setProductInBasket);
             /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
@@ -102,10 +95,8 @@ const BasketPage = () => {
 
 
     }, [])
-
     console.log('productArrayInBasket');
     console.log(productsArrayInBasket);
-
 
     return (
         <div>
@@ -144,5 +135,3 @@ const BasketPage = () => {
 };
 
 export default BasketPage;
-
-

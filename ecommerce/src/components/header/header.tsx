@@ -8,13 +8,10 @@ import { Context } from '../..';
 import Store from '../login_page/store';
 import BasketImg from '../../images/icon/shopping-cart-solid.svg';
 
-
-
 import { getLocalStorage } from '../login_page/BuildClient';
 import { getCartsProduct } from '../catalog_page/requests';
 
 const { Content } = Layout;
-
 
 const Header = () => {
     const { store, cart } = useContext(Context);
@@ -22,26 +19,26 @@ const Header = () => {
         if (localStorage.getItem('token')) {
             store.checkAuth();
             const tokenStore = getLocalStorage();
-    console.log(tokenStore);
-    const { refreshToken } = tokenStore;
-    if (refreshToken)
-            getCartsProduct(refreshToken)
-                .then((body) => {
-                    console.log(body);
-                    const cartId = body.body.id;
-                    const { version } = body.body;
-                    console.log(cartId);
-                    console.log(version);
-                    const cartObj = []
-                    cartObj.push({cartId, version});
-                    cart.setCart(cartObj);
-                    const arr = body.body.lineItems;
-                    console.log(arr);
-                    cart.setProducts(arr);
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
+            console.log(tokenStore);
+            const { refreshToken } = tokenStore;
+            if (refreshToken)
+                getCartsProduct(refreshToken)
+                    .then((body) => {
+                        console.log(body);
+                        const cartId = body.body.id;
+                        const { version } = body.body;
+                        console.log(cartId);
+                        console.log(version);
+                        const cartObj = [];
+                        cartObj.push({ cartId, version });
+                        cart.setCart(cartObj);
+                        const arr = body.body.lineItems;
+                        console.log(arr);
+                        cart.setProducts(arr);
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
         }
     }, []);
 
@@ -57,7 +54,7 @@ const Header = () => {
             wrap={false}
             style={{ position: 'relative', zIndex: 2 }}
         >
-            <Col className="header__item" onClick={() => console.log('main page')}>
+            <Col className="header__item" onClick={() => {}}>
                 <Link to="/" className="header__item_link">
                     Main page
                 </Link>
@@ -67,12 +64,12 @@ const Header = () => {
                     Catalog page
                 </Link>
             </Col>
-            <Col className="header__item" onClick={() => console.log('about us page')}>
+            <Col className="header__item" onClick={() => {}}>
                 <Link className="header__item_link" to="/about">
                     About Us
                 </Link>
             </Col>
-            <Col className="header__item" onClick={() => console.log('basket page')}>
+            <Col className="header__item" onClick={() => {}}>
                 <Link className="header__item_link" to="/basket" style={{ display: 'flex', gap: 5 }}>
                     <p style={{ fontSize: 18 }}>Basket page</p>
                     <div style={{ position: 'relative', display: 'flex' }}>
