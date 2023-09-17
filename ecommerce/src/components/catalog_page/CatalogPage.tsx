@@ -92,6 +92,7 @@ const CatalogPage = observer(() => {
                 }
             }
         });
+
         if (tokenStore) {
             const { refreshToken } = tokenStore;
             getCartsProduct(refreshToken)
