@@ -17,7 +17,7 @@ export function PassWord() {
                     style={{
                         padding: 24,
                         minHeight: 360,
-                        background: colorBgContainer,
+                        background: 'rgba(250, 240, 190, 0.5)',
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 20,
@@ -29,6 +29,7 @@ export function PassWord() {
                             display: 'flex',
                             flexDirection: 'column',
                             gap: 20,
+                            background: 'rgba(250, 240, 190, 0.5)',
                         }}
                     >
                         <PasswordChange />

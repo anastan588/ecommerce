@@ -1,16 +1,18 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter } from 'react-router-dom';
+
 import Header from './components/header/header';
-import RegistrationPage from './components/registration_page/RegistrationPage';
+import Footer from './components/footer/footer';
 import RouterComponent from './components/router/Router';
-import ModalWindow from './components/modal_window/ModalWindow';
 
 const App: React.FC = () => (
-    <div className="main_container">
+    <div className="main_container" style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
+        
         <BrowserRouter>
             <Header />
             <RouterComponent />
+            <Footer />
         </BrowserRouter>
     </div>
 );

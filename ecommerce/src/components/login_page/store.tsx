@@ -30,8 +30,34 @@ class Store {
         this.isAuth = bool;
     }
 
-    login(email: string, password: string) {
+    login(email: string, password: string, id?: string) {
         console.log(email);
+        if (id) {
+            return apiRoot
+                .login()
+                .post({
+                    body: {
+                        email: `${email}`,
+                        password: `${password}`,
+                        anonymousCartSignInMode: 'MergeWithExistingCustomerCart',
+                        anonymousCart: {
+                            id,
+                            typeId: 'cart',
+                        },
+                    },
+                })
+                .execute()
+                .then((body) => {
+                    // console.log(statusCode);
+                    this.setAuth(true);
+                    localStorage.removeItem('token');
+                    const customer = JSON.stringify(body);
+                    localStorage.setItem('currentCustomer', customer);
+                })
+                .catch((e) => {
+                    alert(e.message);
+                });
+        }
         return apiRoot
             .login()
             .post({

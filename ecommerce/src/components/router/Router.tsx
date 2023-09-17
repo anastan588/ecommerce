@@ -29,7 +29,7 @@ const RouterComponent = () => {
     }
 
     return (
-        <div>
+        <div style={{ flex: '1 1 auto' }}>
             <Routes>
                 <Route path="/" element={<MainPage />} />
                 <Route
@@ -40,7 +40,7 @@ const RouterComponent = () => {
                         </Suspense>
                     }
                 />
-                <Route path="/about" element={<AboutUsPage />} />
+                <Route path="/about/*" element={<AboutUsPage />} />
                 <Route path="/basket" element={<BasketPage />} />
                 <Route path="/productpage/*" element={<ProductPage />} />
                 <Route path="/registration" element={<RegistrationPage />} />

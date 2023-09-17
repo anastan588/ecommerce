@@ -1,4 +1,6 @@
+
 import React, { useEffect, useState } from 'react';
+        import BackGround from '../../images/backgrounds/background3.jpg';
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
 import { getLocalStorage } from '../login_page/BuildClient';
@@ -97,7 +99,20 @@ const BasketPage = () => {
 
     return (
         <div>
-            <div className={classes.basketTitleBlock}>
+        
+                    <img
+                src={BackGround}
+                alt="mainPage"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
+            />
+        
+        
+        <div className="page_title main"
+                style={{
+                    position: 'relative',
+                    zIndex: 1,
+                }}>
+                      <div className={classes.basketTitleBlock}>
                 <div>Поле для промокода</div>
                 <div onClick={() => clearBasket()} className={classes.clearBasketBtn}>Очистить корзину</div>
             </div>
@@ -117,6 +132,13 @@ const BasketPage = () => {
             </div>
 
             <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
+          
+          
+          
+          
+        </div>
+        
+
 
 
 
@@ -130,6 +152,7 @@ const BasketPage = () => {
             
         </div>
     )
+
 };
 
 export default BasketPage;

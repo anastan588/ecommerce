@@ -20,7 +20,17 @@ export function UserInformation() {
                     <Title level={3}>User Information</Title>
                 </div>
             </Header> */}
-            <Content style={{ margin: '24px 16px 0' }}>
+
+            <Content
+                style={{
+                    margin: '24px 16px 0',
+                    position: 'relative',
+                    zIndex: 1,
+                    backgroundColor: 'rgba(250, 240, 190, 0.5)',
+                    padding: 5,
+                    borderRadius: 5,
+                }}
+            >
                 <div
                     style={{
                         padding: 24,
@@ -37,6 +47,8 @@ export function UserInformation() {
                             display: 'flex',
                             flexDirection: 'column',
                             gap: 20,
+                            position: 'relative',
+                            backgroundColor: 'rgba(250, 240, 190, 0.5)',
                         }}
                     >
                         <FirstNameEdit />

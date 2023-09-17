@@ -8,7 +8,7 @@ import { ValidateErrorEntity } from 'rc-field-form/lib/interface';
 import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { observer } from 'mobx-react-lite';
 import { projectKey } from './BuildClient';
-import { apiRoot, getPasswordFlowClient } from './createClient';
+import { getPasswordFlowClient } from './createClient';
 import { Context } from '../..';
 
 type FieldType = {
@@ -23,26 +23,9 @@ type Values = {
     password: string;
 };
 
-type Error = {
-    errorFields: string[];
-};
-
-const getEndPoint = (email: string, password: string) => {
-    return apiRoot
-        .login()
-        .post({
-            body: {
-                email: `${email}`,
-                password: `${password}`,
-            },
-        })
-        .execute();
-};
-
 const Login: React.FC = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [formValid, setFormValid] = useState(false);
     const { store } = useContext(Context);
 
     /* const createCustomer = () => {
@@ -56,29 +39,18 @@ const Login: React.FC = () => {
                 },
             })
             .execute();
-    };
-
-    // Create the customer and output the Customer ID
-    createCustomer()
-        .then(({ body }) => {
-            console.log(body.customer.id);
-        })
-        .catch(console.error); */
-    /* class Token implements TokenCache {
-        tokenStore: TokenStore | undefined;
-
-        get() {
-            return this.tokenStore;
-        }
-
-        set(cache: TokenStore) {
-            this.tokenStore = cache;
-        }
-    } */
+    }; */
 
     const navigate = useNavigate();
     const onFinish = (values: Values) => {
-        const login = store.login(values.email, values.password);
+        const cartIdAnonim = localStorage.getItem('cartIdAnonim');
+        let login;
+        if (cartIdAnonim !== null) {
+            login = store.login(values.email, values.password, cartIdAnonim);
+            localStorage.removeItem('cartIdAnonim');
+        } else {
+            login = store.login(values.email, values.password);
+        }
         login.then(() => {
             console.log('sucsess');
             navigate('/');
@@ -98,78 +70,12 @@ const Login: React.FC = () => {
                     console.log(error);
                 });
         });
-        /* getEndPoint(values.email, values.password)
-            .then(({ body }) => {
-                console.log(body.customer.id);
-                const { id } = body.customer;
-                alert('Succsessfulu submited');
-                navigate('/');
-                const customer = getPasswordFlowClient(values.email, values.password);
-
-                /* const tokenCacheOptions: TokenCacheOptions = {
-                    clientId: `${ADMIN_CLIENT_ID}`,
-                    projectKey: `${CTP_PROJECT_KEY}`,
-                    host: `https://auth.${CTP_AUTH_URL}.commercetools.com`,
-                }; */
-
-        /* const passwordAuthMiddlewareOptions: PasswordAuthMiddlewareOptions = {
-                    host: `https://api.${CTP_AUTH_URL}.commercetools.com`,
-                    credentials: {
-                        clientId: `${ADMIN_CLIENT_ID}`,
-                        clientSecret: `${ADMIN_CLIENT_SECRET}`,
-                        user: {
-                            username: email,
-                            password,
-                        },
-                    },
-                    projectKey: `${CTP_PROJECT_KEY}`,
-                }; */
-        /* const apiRootClient = createApiBuilderFromCtpClient(customer);
-
-                const endPointPassword = () => {
-                    return apiRootClient.withProjectKey({ projectKey }).me().get().execute();
-                };
-                // eslint-disable-next-line @typescript-eslint/no-shadow
-                endPointPassword()
-                    // eslint-disable-next-line @typescript-eslint/no-shadow
-                    .then(({ body }) => {
-                        console.log(body);
-                    })
-                    .catch(({ error }) => {
-                        console.log(error);
-                    });
-            })
-            .catch(console.error); */
     };
     const onFinishFailed = (errorInfo: ValidateErrorEntity<Values>) => {
         const str1 = errorInfo.errorFields[0].errors.join(', ');
+        // eslint-disable-next-line no-alert
         alert(`${str1}`);
-        // console.log('Failed:', errorInfo);
     };
-    /* getProject().then(console.log).catch(console.error);
-
-    const returnCustomerByEmail = (customerEmail: string) => {
-        return apiRoot
-            .customers()
-            .get({
-                queryArgs: {
-                    where: `email="${customerEmail}"`,
-                },
-            })
-            .execute();
-    };
-    returnCustomerByEmail('sdk@example.com')
-        .then(({ body }) => {
-            // As email addresses must be unique, either 0 or 1 Customers will be returned.
-            // If 0, then no Customer exists with this email address.
-            if (body.results.length === 0) {
-                console.log('This email address has not been registered.');
-            } else {
-                // Since there can be only one Customer resource in the result, it must be the first entry of the results array. This outputs the Customer's id.
-                console.log(body.results[0].id);
-            }
-        })
-        .catch(console.error); */
 
     return (
         <Form
@@ -177,7 +83,14 @@ const Login: React.FC = () => {
             className="form"
             labelCol={{ span: 4 }}
             wrapperCol={{ span: 16 }}
-            style={{ maxWidth: 600 }}
+            style={{
+                maxWidth: 600,
+                position: 'relative',
+                zIndex: 1,
+                backgroundColor: 'rgba(250, 240, 190, 0.5)',
+                padding: 15,
+                borderRadius: 5,
+            }}
             initialValues={{ remember: true }}
             onFinish={onFinish}
             onFinishFailed={onFinishFailed}

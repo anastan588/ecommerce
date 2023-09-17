@@ -11,6 +11,7 @@ import ModalWindow, { setStartImageForModalWindow } from '../modal_window/ModalW
 import ButtonProduct from './Button_product';
 import { CategoryType, Obj } from '../catalog_page/productsStore';
 import { Context } from '../..';
+import BackGround from '../../images/backgrounds/background3.jpg';
 
 const { Meta } = Card;
 
@@ -168,6 +169,11 @@ const ProductPage: React.FC = observer(() => {
     }; */
     return (
         <div>
+            <img
+                src={BackGround}
+                alt="mainPage"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
+            />
             <ModalWindow active={modalActive} setActive={setModalActive} path={pathImageCurrent} />
             <Row className={classes.productBlock}>
                 <Col className={classes.cardBlock}>
@@ -227,7 +233,7 @@ const ProductPage: React.FC = observer(() => {
                                 <p className={classes.parameterPlants}>EUR</p>
                             </div>
                         </div>
-                        <ButtonProduct key={objItem.id} item={objItem}/>
+                        <ButtonProduct key={objItem.id} item={objItem} />
                     </Card>
                 </Col>
             </Row>

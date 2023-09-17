@@ -12,7 +12,15 @@ export function Addresses() {
 
     return (
         <Layout key={'/my-profile/addresses'}>
-            <Content style={{ margin: '0px 0px 0px 0px', padding: '0px 0px 0px 0px' }}>
+            <Content
+                style={{
+                    margin: '0px 0px 0px 0px',
+                    zIndex: 1,
+                    backgroundColor: 'rgba(250, 240, 190, 0.5)',
+                    padding: 5,
+                    borderRadius: 5,
+                }}
+            >
                 <div
                     style={{
                         background: colorBgContainer,
@@ -20,6 +28,7 @@ export function Addresses() {
                         flexDirection: 'column',
                         gap: 20,
                         padding: '0px 0px 0px 0px',
+                        backgroundColor: 'rgba(250, 240, 190, 0.5)',
                     }}
                 >
                     <AddRessesEdit />
