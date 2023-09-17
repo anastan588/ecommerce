@@ -11,7 +11,7 @@ import { Context } from '../..';
 import { getCartsAnonimus } from '../catalog_page/requests';
 
 
-const getProductsFromServerForAnonymUser = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
+const getProductsFromServerForAnonymUser = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>, setCountProduct: React.Dispatch<React.SetStateAction<number>>, setSummaryCost: React.Dispatch<React.SetStateAction<number>>) => {
     const getCartsAnonym = await getCartsAnonimus();
     console.log('in getProductFromServerForAnonymUser function');
     console.log(getCartsAnonym);
@@ -23,11 +23,28 @@ const getProductsFromServerForAnonymUser = async (setProductInBasket: React.Disp
         .then((body) => {
             console.log('the get Carts anonymousID from');
             console.log(body.body.lineItems);
-            setProductInBasket(body.body.lineItems);
-/*             console.log(body.body);
-            const { id } = body.body;
-            const { version } = body.body;
-            return { id, version }; */
+            const arr = body.body.lineItems;
+            setProductInBasket(arr);
+            const count = arr.reduce((acc, item) => acc + item.quantity, 0);
+            setCountProduct(count);
+
+            let costSummary: number = 0;
+            arr.map((item) => {
+                const price: number = item.price.discounted?.value.centAmount || 1;
+                const countFlower: number = item.quantity;
+                const sum = price * countFlower;
+                costSummary += sum;
+                return 1;
+            })
+
+            setSummaryCost(costSummary);
+            
+
+
+
+
+
+
         })
         .catch((e) => console.log(e));
 }
@@ -41,11 +58,7 @@ const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.Se
 
     if (arrayProductInBasket) setProductInBasket(arrayProductInBasket);
 
-    /*     arrayProductInBasket?.forEach((item) => {
-        const newArrayWithProductsFromBasket = [...productsArrayInBasket, item];
-        setProductInBasket(newArrayWithProductsFromBasket)
 
-    }) */
 };
 
 
@@ -54,8 +67,9 @@ const clearBasketOnServer = async () => {
 
 }
 
-const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetStateAction<number>>) => {
+const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetStateAction<number>>, setCountProduct: React.Dispatch<React.SetStateAction<number>>) => {
     let costSummary: number = 0;
+    let countProduct: number = 0;
     const { token } = getLocalStorage();
     const mapToken = getLocalStorage();
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
@@ -65,6 +79,7 @@ const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetSt
         arrayProductInBasket.map((item) => {
             const price: number = item.price.discounted?.value.centAmount || 1;
             const count: number = item.quantity;
+            countProduct += count;
             const sum = price * count;
             costSummary += sum;
 
@@ -72,6 +87,7 @@ const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetSt
         });
 
         setSummaryCost(costSummary);
+        setCountProduct(countProduct);
     }
 };
 
@@ -84,15 +100,16 @@ const BasketPage = () => {
     console.log('start Basket');
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
     const [summaryCost, setSummaryCost] = useState(0);
+    const [countOfProduct, setCountProduct] = useState(0)
 
     useEffect(() => {
         if (store.isAuth) {
             getProductsFromServer(setProductInBasket);
             /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
-            defineCostOfAllFlowers(setSummaryCost);
+            defineCostOfAllFlowers(setSummaryCost, setCountProduct);
         } else {
             console.log('unauthorizated1111');
-            getProductsFromServerForAnonymUser(setProductInBasket);
+            getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost);
         }
 
 
@@ -129,7 +146,10 @@ const BasketPage = () => {
                         })
                     }
                 </div>
-                <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
+                <div>
+                    <div className={classes.totalPrice}>Всего товаров: {countOfProduct}</div>
+                    <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
+                </div>
             </div>
         </div>
     )
