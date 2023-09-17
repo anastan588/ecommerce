@@ -8,7 +8,6 @@ import RouterComponent from './components/router/Router';
 
 const App: React.FC = () => (
     <div className="main_container" style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
-        
         <BrowserRouter>
             <Header />
             <RouterComponent />

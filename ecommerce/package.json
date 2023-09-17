@@ -35,7 +35,7 @@
     "scripts": {
         "start": "cross-env NODE_PATH=./src react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "react-scripts test --watchAll --collectCoverage",
         "eject": "react-scripts eject",
         "lint": "eslint . --ext .ts",
         "jest": "jest --verbose --runInBand --forceExit",

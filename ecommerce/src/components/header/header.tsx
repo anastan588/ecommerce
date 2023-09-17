@@ -53,7 +53,7 @@ const Header = () => {
             wrap={false}
             style={{ position: 'relative', zIndex: 2 }}
         >
-            <Col className="header__item" onClick={() => console.log('main page')}>
+            <Col className="header__item" onClick={() => {}}>
                 <Link to="/" className="header__item_link">
                     Main page
                 </Link>
@@ -63,12 +63,12 @@ const Header = () => {
                     Catalog page
                 </Link>
             </Col>
-            <Col className="header__item" onClick={() => console.log('about us page')}>
+            <Col className="header__item" onClick={() => {}}>
                 <Link className="header__item_link" to="/about">
                     About Us
                 </Link>
             </Col>
-            <Col className="header__item" onClick={() => console.log('basket page')}>
+            <Col className="header__item" onClick={() => {}}>
                 <Link className="header__item_link" to="/basket" style={{ display: 'flex', gap: 5 }}>
                     <p style={{ fontSize: 18 }}>Basket page</p>
                     <div style={{ position: 'relative', display: 'flex' }}>

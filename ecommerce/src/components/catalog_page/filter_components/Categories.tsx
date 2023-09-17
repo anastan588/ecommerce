@@ -26,7 +26,7 @@ const Categories: React.FC = observer(() => {
     const options = products.products.getCategory().map((item) => {
         return { value: item.name, label: item.name };
     });
-    console.log(options);
+    // console.log(options);
 
     const handleChange = async (value: string) => {
         console.log(`selected ${value}`);

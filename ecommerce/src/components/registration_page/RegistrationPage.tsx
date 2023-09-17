@@ -41,7 +41,7 @@ const addressBill: Address = {
     country: '',
 };
 
-function validateFormToSubmit() {
+export function validateFormToSubmit() {
     const formsCollection = document.querySelectorAll(`.${registyles.input}`) as NodeListOf<Element>;
     const submitTrueArray = [];
     for (let i = 0; i < formsCollection.length; i += 1) {
@@ -386,7 +386,7 @@ export function valiDateFirstName() {
     }
     return sucsess;
 }
-function valiDateSecondName() {
+export function valiDateSecondName() {
     const currentInput = document.querySelector(`.${registyles.input_surname}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_surname}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_secondname}`) as HTMLDivElement;
@@ -422,7 +422,7 @@ function valiDateSecondName() {
     }
 }
 
-function valiDateEmail() {
+export function valiDateEmail() {
     const currentInput = document.querySelector(`.${registyles.input_mail}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_email}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_mail}`) as HTMLDivElement;
@@ -458,7 +458,7 @@ function valiDateEmail() {
     }
 }
 
-function valiDatePassword() {
+export function valiDatePassword() {
     const currentInput = document.querySelector(`.${registyles.input_password}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_password}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_password}`) as HTMLDivElement;
@@ -508,7 +508,7 @@ function valiDatePassword() {
     }
 }
 
-function valiDatePasswordRepeat() {
+export function valiDatePasswordRepeat() {
     const currentInput = document.querySelector(`.${registyles.input_password_repeat}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_password_repeat}`) as HTMLParagraphElement;
     const passwordInput = document.querySelector(`.${registyles.input_password}`) as HTMLInputElement;
@@ -542,7 +542,7 @@ function valiDatePasswordRepeat() {
         currentFormInput.removeAttribute('submit');
     }
 }
-function valiDateBirth() {
+export function valiDateBirth() {
     const currentInput = document.querySelector(`.${registyles.input_birth}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_birth}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_birth}`) as HTMLDivElement;
@@ -580,7 +580,7 @@ function valiDateBirth() {
     }
 }
 
-function valiDateStreetShip() {
+export function valiDateStreetShip() {
     const currentInput = document.querySelector(`.${registyles.input_street_ship}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_street_ship}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_street_ship}`) as HTMLDivElement;
@@ -598,7 +598,7 @@ function valiDateStreetShip() {
     }
 }
 
-function valiDateCityShip() {
+export function valiDateCityShip() {
     const currentInput = document.querySelector(`.${registyles.input_city_ship}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_town_ship}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_city_ship}`) as HTMLDivElement;
@@ -634,7 +634,7 @@ function valiDateCityShip() {
     }
 }
 
-function valiDatePostCodeShip() {
+export function valiDatePostCodeShip() {
     const currentInput = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
     currentInput.removeAttribute('disabled');
     currentInput.classList.remove('ant-input-disabled');
@@ -676,17 +676,22 @@ function valiDatePostCodeShip() {
     }
 }
 
-function valiDateCountryChangeShip(option: string) {
+export function valiDateCountryChangeShip(option: string) {
     setTimeout(() => {
         const currentInput = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
+        console.log(currentInput);
         const selectCountryInput = currentInput.children[0].innerHTML;
         const currentErrorMessage = document.querySelector(`.${registyles.error_country_ship}`) as HTMLParagraphElement;
+        console.log(currentInput.children[1]);
         const input = currentInput.children[1].children[0].children[0] as HTMLInputElement;
+
         const currentFormInput = document.querySelector(`.${registyles.form_country_ship}`) as HTMLDivElement;
         const inputPostCodeShip = document.querySelector(`.${registyles.input_postcode_ship}`) as HTMLInputElement;
         const postErrorMessage = document.querySelector(`.${registyles.error_postcode_ship}`) as HTMLParagraphElement;
         inputPostCodeShip.removeAttribute('disabled');
         inputPostCodeShip.classList.remove('ant-input-disabled');
+        console.log(selectCountryInput);
+        console.log(input.value.length);
         if (selectCountryInput === 'Select your country' && input.value.length === 0) {
             currentErrorMessage.innerHTML = 'Your need to choose country';
             currentInput.style.border = '1px solid #ff4d4f';
@@ -759,7 +764,7 @@ function valiDateCountryChangeShip(option: string) {
     }, 500);
 }
 
-function valiDateCountryClickShip(event: React.MouseEvent<HTMLDivElement>) {
+export function valiDateCountryClickShip(event: React.MouseEvent<HTMLDivElement>) {
     const iventType = event.type;
     const targetElement = event.target as HTMLDivElement;
     if (
@@ -790,7 +795,7 @@ function valiDateCountryClickShip(event: React.MouseEvent<HTMLDivElement>) {
     }
 }
 
-function valiDateStreetBill() {
+export function valiDateStreetBill() {
     const currentInput = document.querySelector(`.${registyles.input_street_bill}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_street_bill}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_street_bil}`) as HTMLDivElement;
@@ -808,7 +813,7 @@ function valiDateStreetBill() {
     }
 }
 
-function valiDateCityBill() {
+export function valiDateCityBill() {
     const currentInput = document.querySelector(`.${registyles.input_city_bill}`) as HTMLInputElement;
     const currentErrorMessage = document.querySelector(`.${registyles.error_town_bill}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_city_bill}`) as HTMLDivElement;
@@ -844,7 +849,7 @@ function valiDateCityBill() {
     }
 }
 
-function valiDatePostCodeBill() {
+export function valiDatePostCodeBill() {
     const currentInput = document.querySelector(`.${registyles.input_postcode_bill}`) as HTMLInputElement;
     currentInput.removeAttribute('disabled');
     currentInput.classList.remove('ant-input-disabled');
@@ -889,7 +894,7 @@ function valiDatePostCodeBill() {
     }
 }
 
-function valiDateCountryChangeBill(option: string) {
+export function valiDateCountryChangeBill(option: string) {
     setTimeout(() => {
         const currentInput = document.querySelector(`.${registyles.input_country_bill}`) as HTMLElement;
         const selectCountryInput = currentInput.children[0].innerHTML;
@@ -973,7 +978,7 @@ function valiDateCountryChangeBill(option: string) {
     }, 500);
 }
 
-function valiDateCountryClickBill(event: React.MouseEvent<HTMLDivElement>) {
+export function valiDateCountryClickBill(event: React.MouseEvent<HTMLDivElement>) {
     const iventType = event.type;
     const targetElement = event.target as HTMLDivElement;
     if (
