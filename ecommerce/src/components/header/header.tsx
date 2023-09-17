@@ -7,9 +7,10 @@ import RegistrationPage from '../registration_page/RegistrationPage';
 import { Context } from '../..';
 import Store from '../login_page/store';
 import BasketImg from '../../images/icon/shopping-cart-solid.svg';
-const { Content } = Layout;
 import { getLocalStorage } from '../login_page/BuildClient';
 import { getCartsProduct } from '../catalog_page/requests';
+
+const { Content } = Layout;
 
 const Header = () => {
     const { store, cart } = useContext(Context);
@@ -17,26 +18,26 @@ const Header = () => {
         if (localStorage.getItem('token')) {
             store.checkAuth();
             const tokenStore = getLocalStorage();
-    console.log(tokenStore);
-    const { refreshToken } = tokenStore;
-    if (refreshToken)
-            getCartsProduct(refreshToken)
-                .then((body) => {
-                    console.log(body);
-                    const cartId = body.body.id;
-                    const { version } = body.body;
-                    console.log(cartId);
-                    console.log(version);
-                    const cartObj = []
-                    cartObj.push({cartId, version});
-                    cart.setCart(cartObj);
-                    const arr = body.body.lineItems;
-                    console.log(arr);
-                    cart.setProducts(arr);
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
+            console.log(tokenStore);
+            const { refreshToken } = tokenStore;
+            if (refreshToken)
+                getCartsProduct(refreshToken)
+                    .then((body) => {
+                        console.log(body);
+                        const cartId = body.body.id;
+                        const { version } = body.body;
+                        console.log(cartId);
+                        console.log(version);
+                        const cartObj = [];
+                        cartObj.push({ cartId, version });
+                        cart.setCart(cartObj);
+                        const arr = body.body.lineItems;
+                        console.log(arr);
+                        cart.setProducts(arr);
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
         }
     }, []);
 
