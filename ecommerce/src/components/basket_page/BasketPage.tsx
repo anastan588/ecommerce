@@ -1,5 +1,5 @@
 
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import BackGround from '../../images/backgrounds/background3.jpg';
 
@@ -9,6 +9,7 @@ import { getClientWithToken } from '../login_page/createClient';
 import RequestProductInBasketFromServer from './RequestProductInBasketFromServer';
 import DrawProductCardFromTheBasket from './DrawProductCardFromTheBasket';
 import classes from './BasketPage.module.css';
+import { Context } from '../..';
 
 
 const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
@@ -64,14 +65,21 @@ const clearBasket = async () => {
 
 
 const BasketPage = () => {
+    const { store, cart } = useContext(Context);
     console.log('start Basket');
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
     const [summaryCost, setSummaryCost] = useState(0);
 
     useEffect(() => {
-        getProductsFromServer(setProductInBasket);
-        /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
-        defineCostOfAllFlowers(setSummaryCost);
+
+        if (store.isAuth) {
+            getProductsFromServer(setProductInBasket);
+            /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
+            defineCostOfAllFlowers(setSummaryCost);
+        } else {
+            console.log('unauthorizated');
+        }
+
 
     }, [])
 
