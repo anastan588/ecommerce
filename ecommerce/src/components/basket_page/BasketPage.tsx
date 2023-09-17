@@ -11,7 +11,7 @@ import { Context } from '../..';
 import { getCartsAnonimus } from '../catalog_page/requests';
 
 
-const getProductsFromServerForAnonymUser = async () => {
+const getProductsFromServerForAnonymUser = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
     const getCartsAnonym = await getCartsAnonimus();
     console.log('in getProductFromServerForAnonymUser function');
     console.log(getCartsAnonym);
@@ -21,11 +21,13 @@ const getProductsFromServerForAnonymUser = async () => {
         .get()
         .execute()
         .then((body) => {
-            console.log('the get Carts anonymousID from')
-            console.log(body.body);
+            console.log('the get Carts anonymousID from');
+            console.log(body.body.lineItems);
+            setProductInBasket(body.body.lineItems);
+/*             console.log(body.body);
             const { id } = body.body;
             const { version } = body.body;
-            return { id, version };
+            return { id, version }; */
         })
         .catch((e) => console.log(e));
 }
@@ -89,8 +91,8 @@ const BasketPage = () => {
             /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
             defineCostOfAllFlowers(setSummaryCost);
         } else {
-            console.log('unauthorizated');
-            getProductsFromServerForAnonymUser();
+            console.log('unauthorizated1111');
+            getProductsFromServerForAnonymUser(setProductInBasket);
         }
 
 
