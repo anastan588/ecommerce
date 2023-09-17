@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import BackGround from '../../images/backgrounds/background3.jpg';
 import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
@@ -11,7 +13,9 @@ import { Context } from '../..';
 import { getCartsAnonimus } from '../catalog_page/requests';
 
 
-const getProductsFromServerForAnonymUser = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>, setCountProduct: React.Dispatch<React.SetStateAction<number>>, setSummaryCost: React.Dispatch<React.SetStateAction<number>>) => {
+
+
+const getProductsFromServerForAnonymUser = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>, setCountProduct: React.Dispatch<React.SetStateAction<number>>, setSummaryCost: React.Dispatch<React.SetStateAction<number>>, setBasketEmpty: React.Dispatch<React.SetStateAction<boolean>>) => {
     const getCartsAnonym = await getCartsAnonimus();
     console.log('in getProductFromServerForAnonymUser function');
     console.log(getCartsAnonym);
@@ -24,7 +28,9 @@ const getProductsFromServerForAnonymUser = async (setProductInBasket: React.Disp
             console.log('the get Carts anonymousID from');
             console.log(body.body.lineItems);
             const arr = body.body.lineItems;
+
             setProductInBasket(arr);
+            setBasketEmpty(arr.length === 0);
             const count = arr.reduce((acc, item) => acc + item.quantity, 0);
             setCountProduct(count);
 
@@ -49,14 +55,20 @@ const getProductsFromServerForAnonymUser = async (setProductInBasket: React.Disp
         .catch((e) => console.log(e));
 }
 
-const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
+const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>, setBasketEmpty: React.Dispatch<React.SetStateAction<boolean>>) => {
     const { token } = getLocalStorage();
     const mapToken = getLocalStorage();
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
+    
+    
     console.log('arrayProductInBasket');
     console.log(arrayProductInBasket);
 
-    if (arrayProductInBasket) setProductInBasket(arrayProductInBasket);
+    if (arrayProductInBasket) {
+        setProductInBasket(arrayProductInBasket);
+        setBasketEmpty(arrayProductInBasket.length === 0)
+
+    }
 
 
 };
@@ -100,16 +112,17 @@ const BasketPage = () => {
     console.log('start Basket');
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
     const [summaryCost, setSummaryCost] = useState(0);
-    const [countOfProduct, setCountProduct] = useState(0)
+    const [countOfProduct, setCountProduct] = useState(0);
+    const [basketEmpty, setBasketEmpty] = useState(true)
 
     useEffect(() => {
         if (store.isAuth) {
-            getProductsFromServer(setProductInBasket);
+            getProductsFromServer(setProductInBasket, setBasketEmpty);
             /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
             defineCostOfAllFlowers(setSummaryCost, setCountProduct);
         } else {
             console.log('unauthorizated1111');
-            getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost);
+            getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost, setBasketEmpty);
         }
 
 
@@ -125,7 +138,17 @@ const BasketPage = () => {
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
             />
 
-            <div className="page_title main"
+            <div className=  {basketEmpty ? ['page_title main', classes.displayBlock].join (' ') : classes.displayNone }
+                    style={{
+                    position: 'relative',
+                    zIndex: 1,
+                }}>
+                    
+                    <Link to="/catalog"> К сожалению, корзина пуста. Добавить товар можно в странице Каталога</Link>
+
+            </div>
+
+            <div className={!basketEmpty ? ['page_title main', classes.displayBlock].join (' ') : classes.displayNone }
                 style={{
                     position: 'relative',
                     zIndex: 1,

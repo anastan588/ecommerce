@@ -23,3 +23,11 @@
   text-align: center;
   font-size: 22px;
 }
+
+.displayBlock {
+  display: block;
+}
+
+.displayNone {
+  display: none;
+}
