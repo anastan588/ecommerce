@@ -7,9 +7,14 @@ import RegistrationPage from '../registration_page/RegistrationPage';
 import { Context } from '../..';
 import Store from '../login_page/store';
 import BasketImg from '../../images/icon/shopping-cart-solid.svg';
-const { Content } = Layout;
+
+
+
 import { getLocalStorage } from '../login_page/BuildClient';
 import { getCartsProduct } from '../catalog_page/requests';
+
+const { Content } = Layout;
+
 
 const Header = () => {
     const { store, cart } = useContext(Context);

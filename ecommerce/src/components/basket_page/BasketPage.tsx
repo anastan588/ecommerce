@@ -1,7 +1,8 @@
 
 import React, { useEffect, useState } from 'react';
-        import BackGround from '../../images/backgrounds/background3.jpg';
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import BackGround from '../../images/backgrounds/background3.jpg';
+
 import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
 import { getLocalStorage } from '../login_page/BuildClient';
 import { getClientWithToken } from '../login_page/createClient';
