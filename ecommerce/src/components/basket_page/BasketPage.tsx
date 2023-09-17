@@ -10,6 +10,44 @@ import RequestProductInBasketFromServer from './RequestProductInBasketFromServer
 import DrawProductCardFromTheBasket from './DrawProductCardFromTheBasket';
 import classes from './BasketPage.module.css';
 import { Context } from '../..';
+import { getCartsAnonimus } from '../catalog_page/requests';
+
+
+const getProductsFromServerForAnonymUser = async () => {
+    const getCartsAnonym = await getCartsAnonimus();
+    console.log('in getProductFromServerForAnonymUser function');
+    console.log(getCartsAnonym);
+    if (getCartsAnonym) {
+        const {id, version} = getCartsAnonym;
+        console.log(id);
+        console.log(version);
+    }
+
+
+
+
+    
+/*     if (getCartsAnonim) {
+        const itemsCart = await addProductItemAnonim(
+            getCartsAnonim.id,
+            props.item.id,
+            getCartsAnonim.version
+        ).finally(() => setLoading(false));
+        // console.log(itemsCart);
+        if (itemsCart) cart.setProducts(itemsCart);
+        setValue3('В корзине!');
+        setStyle('button_carts-changed');
+    } else {
+        const addProd = await createAnonimusCart(props.item.id).finally(() => setLoading(false));
+        if (addProd) cart.setProducts(addProd);
+        // console.log(addProd);
+        setValue3('В корзине!');
+        setStyle('button_carts-changed');
+    } */
+}
+
+
+
 
 
 const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
@@ -28,6 +66,7 @@ const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.Se
 
     }) */
 }
+
 
 const clearBasketOnServer = async () => {
     console.log('clear');
@@ -78,6 +117,7 @@ const BasketPage = () => {
             defineCostOfAllFlowers(setSummaryCost);
         } else {
             console.log('unauthorizated');
+            getProductsFromServerForAnonymUser();
         }
 
 
