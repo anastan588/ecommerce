@@ -19,6 +19,12 @@ const MainPage = () => {
                 alt="mainPage"
                 style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
             />
+            <p
+                className="page_title"
+                style={{ justifyContent: 'start', alignItems: 'start', fontSize: 32, position: 'relative', zIndex: 3 }}
+            >
+                Promo Code: Fall10
+            </p>
             <div className="area">
                 <ul className="flowers">
                     <li>

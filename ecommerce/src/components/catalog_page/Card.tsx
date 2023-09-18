@@ -57,7 +57,7 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
                 ref={ref}
                 className="card_style"
                 hoverable
-                style={{ maxWidth: 340 }}
+                style={{ maxWidth: 220 }}
                 cover={
                     inView ? (
                         <img alt="example" src={props.item.images?.[0].url || Plaseholder} />
