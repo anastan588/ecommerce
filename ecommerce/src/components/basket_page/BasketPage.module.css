@@ -31,3 +31,8 @@
 .displayNone {
   display: none;
 }
+
+.promoCodeBlock {
+  display: flex;
+  gap: 10px;
+}

@@ -113,7 +113,9 @@ const BasketPage = () => {
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
     const [summaryCost, setSummaryCost] = useState(0);
     const [countOfProduct, setCountProduct] = useState(0);
-    const [basketEmpty, setBasketEmpty] = useState(true)
+    const [basketEmpty, setBasketEmpty] = useState(true);
+    const [promoCode, setPromoCodeValue] = useState('');
+     
 
     useEffect(() => {
         if (store.isAuth) {
@@ -154,7 +156,14 @@ const BasketPage = () => {
                     zIndex: 1,
                 }}>
                 <div className={classes.basketTitleBlock}>
-                    <div>Поле для промокода</div>
+                    <div className={classes.promoCodeBlock}>
+                        <p>Введи промокод:</p>
+                        <input type='text' onChange={event => {
+
+                            
+                            setPromoCodeValue(event.target.value)
+                        }}></input>
+                    </div>
                     <div onClick={() => clearBasket()} className={classes.clearBasketBtn}>Очистить корзину</div>
                 </div>
 
