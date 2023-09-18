@@ -10,6 +10,7 @@ import RequestProductInBasketFromServer from './RequestProductInBasketFromServer
 import DrawProductCardFromTheBasket from './DrawProductCardFromTheBasket';
 import classes from './BasketPage.module.css';
 import { Context } from '../..';
+
 import { addCodeAnonim, addCodeAuth, getCartsAnonimus } from '../catalog_page/requests';
 
 const getProductsFromServerForAnonymUser = async (
@@ -18,6 +19,7 @@ const getProductsFromServerForAnonymUser = async (
     setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
     setBasketEmpty: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
+
     const getCartsAnonym = await getCartsAnonimus();
     console.log('in getProductFromServerForAnonymUser function');
     console.log(getCartsAnonym);
@@ -28,7 +30,7 @@ const getProductsFromServerForAnonymUser = async (
         .execute()
         .then((body) => {
             console.log('the get Carts anonymousID from');
-            console.log(body.body.lineItems);
+           console.log(body.body.lineItems);
             const arr = body.body.lineItems;
 
             setProductInBasket(arr);
@@ -75,6 +77,7 @@ const defineCostOfAllFlowers = async (
     setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
     setCountProduct: React.Dispatch<React.SetStateAction<number>>
 ) => {
+
     let costSummary: number = 0;
     let countProduct: number = 0;
     const { token } = getLocalStorage();

@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from '@testing-library/react';
+import React, { useState } from 'react';
 import { BrowserRouter, MemoryRouter } from 'react-router-dom';
 import Header from './components/header/header';
 import RegistrationPage, {
@@ -19,6 +20,7 @@ import { MyProfilePage } from './components/my_profile_page/MyProfilePage';
 import AllMembers from './components/about_us_page/ourCommand/allMembers';
 import UserInformation from './components/my_profile_page/UserIInformation';
 import FirstNameEdit from './components/my_profile_page/userInformation/userFirstName';
+
 // Using render and screen from test-utils.js instead of
 // @testing-library/react
 window.matchMedia = (query) => ({
@@ -517,3 +519,39 @@ describe('AllMembers', () => {
         expect(screen.getByText('Aliaksandr Fedukovich')).toBeInTheDocument();
     });
 });
+
+// const newCustomer = {
+//     body: {
+//         email: '',
+//         password: '',
+//         firstName: '',
+//         lastName: '',
+//         dateOfBirth: '',
+//         addresses: [[{ street: '', city: '', postalcode: '', country: '' }]],
+//         defaultShippingAddress: undefined,
+//         shippingAddresses: [],
+//         defaultBillingAddress: undefined,
+//         billingAddresses: [],
+//     },
+// };
+
+// describe('UserInformation', () => {
+//     const setText = jest.fn();
+//     const setIsEdit = jest.fn();
+//     // jest.mock('react', () => ({
+//     //     ...jest.requireActual('react'),
+//     //     useState: jest.fn(),
+//     // }));
+//     // const setState = jest.fn();
+//     test('renders PassWord component for "/change-password" path', () => {
+//         jest.spyOn(React, 'useState').mockImplementationOnce(() => [newCustomer, setText]);
+//         jest.spyOn(React, 'useState').mockImplementationOnce(() => [false, setIsEdit]);
+//         render(
+//             <BrowserRouter>
+//                 <UserInformation />
+//             </BrowserRouter>
+//         );
+
+//         expect(screen.getByText('Change Password')).toBeInTheDocument();
+//     });
+// });
