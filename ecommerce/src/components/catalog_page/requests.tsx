@@ -805,3 +805,75 @@ export const deleteAuth = (token: string) => {
             console.log(e);
         });
 };
+
+export const changeProductAnonim = (prodId: string, quantity: number) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .post({ body: { version, actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            console.log(body);
+                            console.log(body.body.lineItems[0].quantity);
+                            return body.body.lineItems[0].quantity;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            console.log(arr());
+            return arr();
+        })
+        .catch((e) => console.log(e));
+};
+
+export const changeProductAuth = (token: string, prodId: string, quantity: number) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    console.log(token);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            }; console.log(arr());
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
