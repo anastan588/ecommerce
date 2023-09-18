@@ -1,25 +1,30 @@
 .basketContainer {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 10px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
-.basketTitleBlock{
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  padding: 10px;
+.basketTitleBlock {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px;
 }
 
-.clearBasketBtn{
-  padding: 10px;
-  border: 2px solid green;
-  border-radius: 5px;
+.clearBasketBtn {
+    padding: 10px;
+    border: 2px solid green;
+    border-radius: 5px;
 }
 
 .totalPrice {
-  padding: 10px;
-  text-align: center;
-  font-size: 22px;
+    padding: 10px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.promoCodeBlock {
+    display: flex;
+    gap: 10px;
 }

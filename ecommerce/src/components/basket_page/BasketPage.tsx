@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import BackGround from '../../images/backgrounds/background3.jpg';
 import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
@@ -8,9 +10,16 @@ import RequestProductInBasketFromServer from './RequestProductInBasketFromServer
 import DrawProductCardFromTheBasket from './DrawProductCardFromTheBasket';
 import classes from './BasketPage.module.css';
 import { Context } from '../..';
-import { getCartsAnonimus } from '../catalog_page/requests';
 
-const getProductsFromServerForAnonymUser = async () => {
+import { addCodeAnonim, addCodeAuth, getCartsAnonimus } from '../catalog_page/requests';
+
+const getProductsFromServerForAnonymUser = async (
+    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
+    setCountProduct: React.Dispatch<React.SetStateAction<number>>,
+    setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
+    setBasketEmpty: React.Dispatch<React.SetStateAction<boolean>>
+) => {
+
     const getCartsAnonym = await getCartsAnonimus();
     console.log('in getProductFromServerForAnonymUser function');
     console.log(getCartsAnonym);
@@ -21,36 +30,56 @@ const getProductsFromServerForAnonymUser = async () => {
         .execute()
         .then((body) => {
             console.log('the get Carts anonymousID from');
-            console.log(body.body);
-            const { id } = body.body;
-            const { version } = body.body;
-            return { id, version };
+           console.log(body.body.lineItems);
+            const arr = body.body.lineItems;
+
+            setProductInBasket(arr);
+            setBasketEmpty(arr.length === 0);
+            const count = arr.reduce((acc, item) => acc + item.quantity, 0);
+            setCountProduct(count);
+
+            let costSummary: number = 0;
+            arr.map((item) => {
+                const price: number = item.price.discounted?.value.centAmount || 1;
+                const countFlower: number = item.quantity;
+                const sum = price * countFlower;
+                costSummary += sum;
+                return 1;
+            });
+
+            setSummaryCost(costSummary);
         })
         .catch((e) => console.log(e));
 };
 
-const getProductsFromServer = async (setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
+const getProductsFromServer = async (
+    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
+    setBasketEmpty: React.Dispatch<React.SetStateAction<boolean>>
+) => {
     const { token } = getLocalStorage();
     const mapToken = getLocalStorage();
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
+
     console.log('arrayProductInBasket');
     console.log(arrayProductInBasket);
 
-    if (arrayProductInBasket) setProductInBasket(arrayProductInBasket);
-
-    /*     arrayProductInBasket?.forEach((item) => {
-        const newArrayWithProductsFromBasket = [...productsArrayInBasket, item];
-        setProductInBasket(newArrayWithProductsFromBasket)
-
-    }) */
+    if (arrayProductInBasket) {
+        setProductInBasket(arrayProductInBasket);
+        setBasketEmpty(arrayProductInBasket.length === 0);
+    }
 };
 
 const clearBasketOnServer = async () => {
     console.log('clear Basket on server');
 };
 
-const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetStateAction<number>>) => {
+const defineCostOfAllFlowers = async (
+    setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
+    setCountProduct: React.Dispatch<React.SetStateAction<number>>
+) => {
+
     let costSummary: number = 0;
+    let countProduct: number = 0;
     const { token } = getLocalStorage();
     const mapToken = getLocalStorage();
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
@@ -60,6 +89,7 @@ const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetSt
         arrayProductInBasket.map((item) => {
             const price: number = item.price.discounted?.value.centAmount || 1;
             const count: number = item.quantity;
+            countProduct += count;
             const sum = price * count;
             costSummary += sum;
 
@@ -67,6 +97,7 @@ const defineCostOfAllFlowers = async (setSummaryCost: React.Dispatch<React.SetSt
         });
 
         setSummaryCost(costSummary);
+        setCountProduct(countProduct);
     }
 };
 
@@ -74,20 +105,39 @@ const clearBasket = async () => {
     clearBasketOnServer();
 };
 
+const lineItemsDiscountAnonim = async (code: string) => {
+    const arr = await addCodeAnonim(code);
+}
+
+const lineItemsDiscountAuth = async (token: string, code: string) => {
+    const arr = await addCodeAuth(token, code);
+}
+
+const deleteAnonim = async () => {
+    const arr = await deleteAnonim();
+}
+
+const deleteAuth = async () => {
+    const arr = await deleteAuth();
+}
+
 const BasketPage = () => {
     const { store, cart } = useContext(Context);
     console.log('start Basket');
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
     const [summaryCost, setSummaryCost] = useState(0);
+    const [countOfProduct, setCountProduct] = useState(0);
+    const [basketEmpty, setBasketEmpty] = useState(true);
+    const [promoCode, setPromoCodeValue] = useState('');
 
     useEffect(() => {
         if (store.isAuth) {
-            getProductsFromServer(setProductInBasket);
+            getProductsFromServer(setProductInBasket, setBasketEmpty);
             /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
-            defineCostOfAllFlowers(setSummaryCost);
+            defineCostOfAllFlowers(setSummaryCost, setCountProduct);
         } else {
-            console.log('unauthorizated');
-            getProductsFromServerForAnonymUser();
+            console.log('unauthorizated1111');
+            getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost, setBasketEmpty);
         }
     }, []);
     console.log('productArrayInBasket');
@@ -102,15 +152,43 @@ const BasketPage = () => {
             />
 
             <div
-                className="page_title main"
+                className={basketEmpty ? ['page_title main', classes.displayBlock].join(' ') : classes.displayNone}
+                style={{
+                    position: 'relative',
+                    zIndex: 1,
+                }}
+            >
+                <Link to="/catalog"> К сожалению, корзина пуста. Добавить товар можно в странице Каталога</Link>
+            </div>
+
+            <div
+                className={!basketEmpty ? ['page_title main', classes.displayBlock].join(' ') : classes.displayNone}
                 style={{
                     position: 'relative',
                     zIndex: 1,
                 }}
             >
                 <div className={classes.basketTitleBlock}>
-                    <div>Поле для промокода</div>
-                    <div onClick={() => clearBasket()} className={classes.clearBasketBtn}>
+                    <div className={classes.promoCodeBlock}>
+                        <p>Введи промокод:</p>
+                        <input
+                            type="text"
+                            value={promoCode}
+                            onChange={(event) => {
+                                setPromoCodeValue(event.target.value);
+                            }}
+                        ></input>
+
+                        <button
+                            onClick={() => {
+                                console.log(promoCode);
+                                lineItemsDiscountAnonim(promoCode);
+                            }}
+                        >
+                            Add PromoCode
+                        </button>
+                    </div>
+                    <div onClick={deleteAnonim} className={classes.clearBasketBtn}>
                         Очистить корзину
                     </div>
                 </div>
@@ -124,7 +202,10 @@ const BasketPage = () => {
                         );
                     })}
                 </div>
-                <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
+                <div>
+                    <div className={classes.totalPrice}>Всего товаров: {countOfProduct}</div>
+                    <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
+                </div>
             </div>
         </div>
     );
