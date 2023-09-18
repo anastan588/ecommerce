@@ -53,11 +53,25 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
                     getCartsCastomer.version
                 ).finally(() => setLoading(false));
                 console.log(itemsCart);
-                if (itemsCart) cart.setProducts(itemsCart);
+                if (itemsCart) {
+                    cart.setProducts(itemsCart);
+                    const arr = itemsCart.slice(0);
+                    const lengthArr = arr.map((item) => item.quantity);
+                    const length = lengthArr.reduce((acc, item) => {
+                        return acc + item;
+                    }, 0);
+                    cart.setQuantity(length);
+                }
             } else {
                 const addProd = await createCartAuth(refreshToken, props.item.id).finally(() => setLoading(false));
-                if (addProd) cart.setProducts(addProd);
+                if (addProd) { cart.setProducts(addProd);
                 console.log(addProd);
+                const array = addProd.slice(0);
+                    const lengthArr = array.map((item) => item.quantity);
+                    const length = lengthArr.reduce((acc, item) => {
+                        return acc + item;
+                    }, 0);
+                    cart.setQuantity(length); }
                 const getCarts = await getCartsAuth(refreshToken);
                 if (getCarts) {
                     const arr: CartType[] = [];
@@ -76,14 +90,28 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
                     props.item.id,
                     getCartsAnonim.version
                 ).finally(() => setLoading(false));
-                if (itemsCart) cart.setProducts(itemsCart);
-                console.log(itemsCart);
+                if (itemsCart) {
+                    cart.setProducts(itemsCart);
+                    console.log(itemsCart);
+                    const arr = itemsCart.slice(0);
+                    const lengthArr = arr.map((item) => item.quantity);
+                    const length = lengthArr.reduce((acc, item) => {
+                        return acc + item;
+                    }, 0);
+                    cart.setQuantity(length);
+                }
                 setValue3('В корзине!');
                 setStyle('button_carts-changed');
                 setDisabled(false);
             } else {
                 const addProd = await createAnonimusCart(props.item.id).finally(() => setLoading(false));
-                if (addProd) cart.setProducts(addProd);
+                if (addProd) { cart.setProducts(addProd);
+                    const array = addProd.slice(0);
+                    const lengthArr = array.map((item) => item.quantity);
+                    const length = lengthArr.reduce((acc, item) => {
+                        return acc + item;
+                    }, 0);
+                    cart.setQuantity(length); }
                 console.log(addProd);
                 setValue3('В корзине!');
                 setStyle('button_carts-changed');
@@ -101,9 +129,16 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
                 if (value) {
                     const id = value?.id;
                     const itemsCart = await removeProductItemCastomer(refreshToken, cartId, id, version);
-                    if (itemsCart && !itemsCart.find((item) => item.productId === props.item.id))
+                    if (itemsCart && !itemsCart.find((item) => item.productId === props.item.id)) {
                         cart.setProducts(itemsCart);
-                    console.log(itemsCart);
+                        const arr = itemsCart.slice(0);
+                        const lengthArr = arr.map((item) => item.quantity);
+                        const length = lengthArr.reduce((acc, item) => {
+                            return acc + item;
+                        }, 0);
+                        cart.setQuantity(length);
+                        console.log(itemsCart);
+                    }
                     setValue3('В корзину');
                     setStyle('button_carts');
                     setDisabled(true);
@@ -114,8 +149,14 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
             if (getCartsAnonim && value) {
                 const id = value?.id;
                 const itemsCart = await removeProductItemAnonim(getCartsAnonim.id, id, getCartsAnonim.version);
-                if (itemsCart) cart.setProducts(itemsCart);
+                if (itemsCart) { cart.setProducts(itemsCart);
                 console.log(itemsCart);
+                const arr = itemsCart.slice(0);
+                    const lengthArr = arr.map((item) => item.quantity);
+                    const length = lengthArr.reduce((acc, item) => {
+                        return acc + item;
+                    }, 0);
+                    cart.setQuantity(length);}
                 setValue3('В корзину');
                 setStyle('button_carts');
                 setDisabled(true);

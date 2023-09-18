@@ -50,10 +50,24 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
                     getCartsCastomer.version
                 ).finally(() => setLoading(false));
                 // console.log(itemsCart);
-                if (itemsCart) cart.setProducts(itemsCart);
+                if (itemsCart) {
+                    cart.setProducts(itemsCart);
+                    const arr = itemsCart.slice(0);
+                    const lengthArr = arr.map((item) => item.quantity);
+                    const length = lengthArr.reduce((acc, item) => {
+                        return acc + item;
+                    }, 0);
+                    cart.setQuantity(length);
+                }
             } else {
                 const addProd = await createCartAuth(refreshToken, props.item.id).finally(() => setLoading(false));
-                if (addProd) cart.setProducts(addProd);
+                if (addProd) { cart.setProducts(addProd);
+                    const array = addProd.slice(0);
+                    const lengthArr = array.map((item) => item.quantity);
+                    const length = lengthArr.reduce((acc, item) => {
+                        return acc + item;
+                    }, 0);
+                    cart.setQuantity(length); }
                 // console.log(addProd);
                 const getCarts = await getCartsAuth(refreshToken);
                 if (getCarts) {
@@ -73,12 +87,26 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
                     getCartsAnonim.version
                 ).finally(() => setLoading(false));
                 // console.log(itemsCart);
-                if (itemsCart) cart.setProducts(itemsCart);
+                if (itemsCart) {
+                    cart.setProducts(itemsCart);
+                    const arr = itemsCart.slice(0);
+                    const lengthArr = arr.map((item) => item.quantity);
+                    const length = lengthArr.reduce((acc, item) => {
+                        return acc + item;
+                    }, 0);
+                    cart.setQuantity(length);
+                }
                 setValue3('В корзине!');
                 setStyle('button_carts-changed');
             } else {
                 const addProd = await createAnonimusCart(props.item.id).finally(() => setLoading(false));
-                if (addProd) cart.setProducts(addProd);
+                if (addProd) { cart.setProducts(addProd);
+                const arr = addProd.slice(0);
+                    const lengthArr = arr.map((item) => item.quantity);
+                    const length = lengthArr.reduce((acc, item) => {
+                        return acc + item;
+                    }, 0);
+                    cart.setQuantity(length); }
                 // console.log(addProd);
                 setValue3('В корзине!');
                 setStyle('button_carts-changed');

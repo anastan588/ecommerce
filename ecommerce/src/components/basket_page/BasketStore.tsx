@@ -15,10 +15,13 @@ export class BasketStore {
 
     public productItem: Obj[];
 
+    public quantity: number;
+
     constructor() {
         this.cart = [];
         this.product = [];
         this.productItem = [];
+        this.quantity = 0;
         // this.categoryActive = [];
         makeAutoObservable(this);
     }
@@ -27,14 +30,9 @@ export class BasketStore {
         this.cart = cart;
     }
 
-    /* setCategoryActive(categoryActive: CategoryType) {
-      this.categoryActive.push(categoryActive);
-  }
-
-  delCategoryActive(categoryActive: CategoryType) {
-      const i = this.categoryActive.indexOf(categoryActive);
-      this.categoryActive.splice(i, 1);
-  } */
+    setQuantity(n: number) {
+        this.quantity = n;
+    }
 
     setProducts(product: LineItem[]) {
         this.product = product;
@@ -48,15 +46,15 @@ export class BasketStore {
         return this.cart;
     }
 
-    /* getCategoryActive() {
-        return this.categoryActive;
-    } */
-
     getProducts() {
         return this.product;
     }
 
     getProductItem() {
         return this.productItem;
+    }
+
+    getQuantity() {
+        return this.quantity;
     }
 }
