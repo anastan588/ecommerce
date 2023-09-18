@@ -35,6 +35,10 @@ const Header = () => {
                         const arr = body.body.lineItems;
                         console.log(arr);
                         cart.setProducts(arr);
+                        const lengthArr = arr.map((item) => item.quantity);
+                        const length = lengthArr.reduce((acc, item) => { return acc + item}, 0);
+                        cart.setQuantity(length);
+
                     })
                     .catch((e) => {
                         console.log(e);
@@ -74,7 +78,7 @@ const Header = () => {
                     <p style={{ fontSize: 18 }}>Basket page</p>
                     <div style={{ position: 'relative', display: 'flex' }}>
                         <img src={BasketImg} alt="basket" style={{ maxHeight: 25, minWidth: 40 }} />
-                        <p style={{ position: 'absolute', bottom: 0, right: 0 }}>1</p>
+                        <p style={{ position: 'absolute', bottom: 0, right: 0 }}>{cart.getQuantity()}</p>
                     </div>
                 </Link>
             </Col>
