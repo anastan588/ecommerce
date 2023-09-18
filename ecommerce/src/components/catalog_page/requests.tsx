@@ -475,11 +475,9 @@ export const getCartsAuth = async (token: string) => {
             console.log(e);
         });
 
-
-        console.log('answer');
-        console.log(answer); // добавил для тесирования сам
-        return answer;
-
+    console.log('answer');
+    console.log(answer); // добавил для тесирования сам
+    return answer;
 };
 
 export const getCartsProduct = (token: string) => {
@@ -653,6 +651,155 @@ export const removeProductItemAnonim = (cartId: string, prodId: string, version:
         .execute()
         .then((body) => {
             return body.body.lineItems;
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const addCodeAnonim = (code: string) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            console.log(body);
+            console.log(body.body.anonymousId);
+            console.log(code);
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            console.log(body);
+                            console.log(body.body.lineItems);
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            console.log(arr());
+            return arr();
+        })
+        .catch((e) => console.log(e));
+};
+
+export const deleteAnonim = () => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            console.log(body);
+            console.log(body.body.anonymousId);
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .delete({ queryArgs: { version } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            console.log(body.statusCode);
+                            console.log(body.body.lineItems);
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            arr();
+        })
+        .catch((e) => console.log(e));
+};
+
+export const addCodeAuth = (token: string, code: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    console.log(token);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            }; console.log(arr());
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const deleteAuth = (token: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    console.log(token);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .delete({ queryArgs: { version } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            console.log(body.body.lineItems);
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            }; console.log(arr());
+            return arr();
         })
         .catch((e) => {
             console.log(e);
