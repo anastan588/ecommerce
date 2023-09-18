@@ -1,20 +1,23 @@
 import { LineItem } from '@commercetools/platform-sdk';
+import { useState } from 'react';
 import { JsxElement } from 'typescript';
+import { changeProductAnonim, changeProductAuth } from '../catalog_page/requests';
 import classes from './DrawProductCard.module.css';
 
 type PropsInterface = {
     product: LineItem;
 };
 
-const addProduct = () => {
+/* const addProduct = () => {
     console.log('add product');
-};
+}; */
 
 const deleteProduct = () => {
     console.log('product less');
 };
 
 const DrawProductCardFromTheBasket = (props: PropsInterface) => {
+    const [quantity, setQuantity] = useState(props.product.quantity);
     // name of flowers
     const namePlants = props.product.name.ru;
 
@@ -28,7 +31,22 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
     /* console.log(priceProduct); */
 
     // count in basket
-    const countProduct = props.product.quantity;
+    let countProduct = props.product.quantity;
+    const addProduct = () => {
+        console.log('add product');
+        countProduct += 1;
+        console.log(countProduct);
+        setQuantity(countProduct);
+    };
+
+    const changeProductsAnonim = async (idProd: string, q: number) => {
+        const quant = await changeProductAnonim(idProd, q);
+        return quant;
+    }
+    
+    const changeProductsAuth = async (token: string, idProd: string, q: number) => {
+        const quant = await changeProductAuth(token, idProd, q);
+    }
 
     return (
         <div className={classes.myCard}>
@@ -37,10 +55,10 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
             </div>
             <div>
                 <p className={classes.cardTitle}>{namePlants}</p>
-                <p className={classes.cardContent}>Количество: {countProduct}</p>
+                <p className={classes.cardContent}>Количество: {quantity}</p>
                 <p className={classes.cardPrice}> Цена за штуку: {priceProduct} EUR</p>
 
-                <button className={classes.cardButton} onClick={() => addProduct()}>
+                <button className={classes.cardButton} onClick={() => { addProduct(); changeProductsAnonim(props.product.id, quantity)} }>
                     Добавить
                 </button>
                 <button className={classes.cardButton} onClick={() => deleteProduct()}>
