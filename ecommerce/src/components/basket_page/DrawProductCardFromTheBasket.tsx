@@ -15,6 +15,7 @@ const deleteProduct = () => {
 };
 
 const DrawProductCardFromTheBasket = (props: PropsInterface) => {
+  console.log('in drawProductCard')
     // name of flowers
     const namePlants = props.product.name.ru;
 
@@ -29,6 +30,11 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
 
     // count in basket
     const countProduct = props.product.quantity;
+
+    // promoCode
+    if (props.product.discountedPricePerQuantity) {
+      console.log(props.product.discountedPricePerQuantity);
+    }
 
     return (
         <div className={classes.myCard}>
