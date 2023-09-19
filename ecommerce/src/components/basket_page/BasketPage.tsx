@@ -181,6 +181,70 @@ const lineItemsDiscountAuth = async (token: string, code: string) => {
     const arr = await addCodeAuth(token, code);
 }
 
+const lineItemsDiscountAuth1 = async (code: string, setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
+    /* const arr = await addCodeAuth(token, code); */
+    const { token, refreshToken } = getLocalStorage();
+    const client = getClientWithToken(refreshToken);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    console.log(token);
+    const arrTemp = apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            console.log('i am in then of lineItemsDiscountAuth1')
+                            const arrayProductAfterPromoCode = body.body.lineItems;
+                            console.log('arrayAfterPromoCode');
+    
+                            setProductInBasket(arrayProductAfterPromoCode);
+    
+    
+    
+                            arrayProductAfterPromoCode.map((item) => {
+                                console.log(item);
+                                console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount)
+                                
+                                return 1;
+                            })
+
+
+
+
+
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            }; console.log(arr());
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+
+
+
+
+
+}
+
 const deleteAnonim = async () => {
     const arr = await deleteAnonim();
 }
@@ -250,7 +314,15 @@ const BasketPage = () => {
                         <button
                             onClick={() => {
                                 console.log(promoCode);
-                                lineItemsDiscountAnonim(promoCode, setProductInBasket);
+                                if(!store.isAuth) {
+                                    lineItemsDiscountAnonim(promoCode, setProductInBasket);
+                                } else {
+                                    lineItemsDiscountAuth1(promoCode, setProductInBasket)
+
+
+
+                                }
+                                
                             }}
                         >
                             Add PromoCode
