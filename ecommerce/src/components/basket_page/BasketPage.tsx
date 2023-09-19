@@ -126,13 +126,140 @@ const clearBasket = async () => {
     clearBasketOnServer();
 };
 
-const lineItemsDiscountAnonim = async (code: string) => {
-    const arr = await addCodeAnonim(code);
+const lineItemsDiscountAnonim = async (code: string, setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
+    const arr1 = await addCodeAnonim(code);
+
+    apiRootAnonimusClientCastomer
+    .me()
+    .activeCart()
+    .get()
+    .execute()
+    .then((body) => {
+        /* console.log(body);
+        console.log(body.body.anonymousId);
+        console.log(code); */
+        const { id } = body.body;
+        const { version } = body.body;
+        const arr = () => {
+            return (
+                apiRootAnonimusClientCastomer
+                    .me()
+                    .carts()
+                    .withId({ ID: id })
+                    .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
+                    .execute()
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
+                    .then((body) => {
+                        /* console.log(body);
+                        console.log(body.body.lineItems); */
+
+                        const arrayProductAfterPromoCode = body.body.lineItems;
+                        console.log('arrayAfterPromoCode');
+
+                        setProductInBasket(arrayProductAfterPromoCode);
+
+
+
+                        arrayProductAfterPromoCode.map((item) => {
+                            /* console.log(item);
+                            console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount) */
+                            
+                            return 1;
+                        })
+
+
+
+
+
+
+
+
+                        return body.body.lineItems;
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    })
+            );
+        };
+        console.log(arr());
+        return arr();
+    })
+    .catch((e) => console.log(e));
+
+
+
+
+
+
+
 };
 
-const lineItemsDiscountAuth = async (token: string, code: string) => {
-    const arr = await addCodeAuth(token, code);
+const lineItemsDiscountAuth = async (code: string, setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
+    const tokenStore = getLocalStorage();
+    const { refreshToken } = tokenStore;
+    const arr1 = await addCodeAuth(refreshToken, code);
+
+    const client = getClientWithToken(refreshToken);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    /* console.log(token); */
+    const arrTemp = apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            /* console.log('i am in then of lineItemsDiscountAuth1') */
+                            const arrayProductAfterPromoCode = body.body.lineItems;
+                            /* console.log('arrayAfterPromoCode'); */
+    
+                            setProductInBasket(arrayProductAfterPromoCode);
+    
+    
+    
+                            arrayProductAfterPromoCode.map((item) => {
+                                /* console.log(item);
+                                console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount) */
+                                
+                                return 1;
+                            })
+
+
+
+
+
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            }; console.log(arr());
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+
+
+
+
 };
+
+
 
 const BasketPage = () => {
     const { store, cart } = useContext(Context);
@@ -243,7 +370,7 @@ const BasketPage = () => {
                                 if(!store.isAuth) {
                                     lineItemsDiscountAnonim(promoCode, setProductInBasket);
                                 } else {
-                                    lineItemsDiscountAuth1(promoCode, setProductInBasket);
+                                    lineItemsDiscountAuth(promoCode, setProductInBasket);
                                     defineCostOfAllFlowers(setSummaryCost, setCountProduct);
 
 

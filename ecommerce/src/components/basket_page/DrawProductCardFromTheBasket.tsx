@@ -48,6 +48,28 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
     /* console.log(priceProduct); */
 
     // count in basket
+    const countProduct1 = props.product.quantity;
+
+    // promoCode
+
+    let priceAfterPromoCode: number | undefined;
+
+    /* console.log('in object for promoCode'); */
+    const arrTemp = props.product.discountedPricePerQuantity;
+    /* console.log(arrTemp);
+    console.log(Array.isArray(arrTemp)); */
+    if (arrTemp.length > 0) {
+        /* console.log(arrTemp[0].discountedPrice.value.centAmount);
+        console.log(typeof arrTemp[0].discountedPrice.value.centAmount) */
+        priceAfterPromoCode = arrTemp[0].discountedPrice.value.centAmount;
+    }
+
+    console.log('priceAfterPromoCode');
+    console.log(priceAfterPromoCode);
+
+    /* console.log(priceProduct); */
+
+    // count in basket
     // let countProduct = props.product.quantity;
     let countProduct = quantity;
     const handleEvent = async () => {
@@ -106,6 +128,19 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
 
                 <p className={classes.cardContent}>Количество: {quantity}</p>
                 <p className={classes.cardPrice}> Цена за штуку: {priceProduct} EUR</p>
+
+
+
+                <div className={classes.priceContainer}>
+                    <p className={priceAfterPromoCode ? [classes.oldPrice].join(' ') : [classes.cardPrice].join(' ')}> {priceProduct}</p>
+                    <p className={priceAfterPromoCode ? [classes.pricePromoCode].join(' ') : [classes.displayNone].join(' ')}> {priceAfterPromoCode}</p>
+                    <p className={classes.cardPrice}>EUR</p>
+                </div>
+
+
+
+
+
 
                 <button
                     className={classes.cardButton}
