@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MainPageBackGround from '../../images/backgrounds/mainBackGround2.jpg';
 import Rose1 from '../../images/icon/rose1.png';
 import Rose2 from '../../images/icon/rose2.png';
@@ -10,8 +10,23 @@ import Rose7 from '../../images/icon/rose7.png';
 import Rose8 from '../../images/icon/rose8.png';
 import Rose9 from '../../images/icon/rose9.png';
 import Rose10 from '../../images/icon/rose10.png';
+import { getDiscountCode } from '../catalog_page/requests';
 
 const MainPage = () => {
+    const [promoCode, setPromoCode] = useState('');
+    useEffect(() => {
+        getDiscountCode()
+            .then((body) => {
+                console.log(body.body.results[0].code);
+                const { code } = body.body.results[0];
+                const {id} = body.body.results[0];
+                setPromoCode(code);
+                console.log(code);
+                localStorage.setItem('promoCode', id );
+            })
+            .catch((e) => console.log(e));
+    }, []);
+    console.log(promoCode);
     return (
         <div>
             <img
@@ -23,8 +38,13 @@ const MainPage = () => {
                 className="page_title"
                 style={{ justifyContent: 'start', alignItems: 'start', fontSize: 32, position: 'relative', zIndex: 3 }}
             >
-                Promo Code: Fall10
+                Promo Code
             </p>
+            <div className="page_title"
+                style={{ justifyContent: 'start', alignItems: 'start', fontSize: 32, position: 'relative', zIndex: 3 }}
+            >
+                {promoCode}
+            </div>
             <div className="area">
                 <ul className="flowers">
                     <li>

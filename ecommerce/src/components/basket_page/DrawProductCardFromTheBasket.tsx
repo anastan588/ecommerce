@@ -1,21 +1,40 @@
 import { LineItem } from '@commercetools/platform-sdk';
+import { useContext, useEffect, useState } from 'react';
 import { JsxElement } from 'typescript';
+import { Context } from '../..';
+import {
+    addProductItemAnonim,
+    addProductItemCastomer,
+    changeProductAnonim,
+    changeProductAuth,
+    createAnonimusCart,
+    createCartAuth,
+    getCartsAnonimus,
+    getCartsAuth,
+    getQuantityAnonimus,
+    getQuantityAuth,
+} from '../catalog_page/requests';
+import { getLocalStorage } from '../login_page/BuildClient';
+import { CartType } from './BasketStore';
 import classes from './DrawProductCard.module.css';
 
 type PropsInterface = {
     product: LineItem;
 };
 
-const addProduct = () => {
+/* const addProduct = () => {
     console.log('add product');
-};
+}; */
 
-const deleteProduct = () => {
+/* const deleteProduct = () => {
     console.log('product less');
-};
+}; */
 
-const DrawProductCardFromTheBasket = (props: PropsInterface) => {
-  /* console.log('in drawProductCard') */
+
+const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: PropsInterface) => {
+    const { store, cart } = useContext(Context);
+    const [quantity, setQuantity] = useState(props.product.quantity);
+
     // name of flowers
     const namePlants = props.product.name.ru;
 
@@ -29,23 +48,53 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
     /* console.log(priceProduct); */
 
     // count in basket
-    const countProduct = props.product.quantity;
+    // let countProduct = props.product.quantity;
+    let countProduct = quantity;
+    const handleEvent = async () => {
+        if (store.isAuth) {
+            const tokenStore = getLocalStorage();
+            const { refreshToken } = tokenStore;
+            // const getCartsCastomer = await getCartsAuth(refreshToken);
+            const quant = await changeProductAuth(refreshToken, props.product.id, countProduct);
+            console.log(quant);
+            const quantTotal = await getQuantityAuth(refreshToken);
+            if (quantTotal) cart.setQuantity(quantTotal);
+        } else {
+            const quant = await changeProductAnonim(props.product.id, countProduct);
+            console.log(quant);
+            const quantTotal = await getQuantityAnonimus();
+            if (quantTotal) cart.setQuantity(quantTotal);
+        }
+    };
 
-    // promoCode
+    console.log(countProduct);
+    const addProduct = () => {
+        console.log('add product');
+        console.log(countProduct);
+        countProduct += 1;
+        console.log(countProduct);
+        setQuantity(countProduct);
+        console.log(quantity);
+        handleEvent();
+    };
 
-    let priceAfterPromoCode: number | undefined;
+    const deleteProduct = () => {
+        console.log('product less');
+        console.log(countProduct);
+        countProduct -= 1;
+        console.log(countProduct);
+        setQuantity(countProduct);
+        console.log(quantity);
+        handleEvent();
+    };
+    /* const changeProductsAnonim = async (idProd: string, q: number) => {
+        const quant = await changeProductAnonim(idProd, q);
+        return quant;
+    } */
 
-    /* console.log('in object for promoCode'); */
-    const arrTemp = props.product.discountedPricePerQuantity;
-    /* console.log(arrTemp);
-    console.log(Array.isArray(arrTemp)); */
-    if (arrTemp.length > 0) {
-        /* console.log(arrTemp[0].discountedPrice.value.centAmount);
-        console.log(typeof arrTemp[0].discountedPrice.value.centAmount) */
-        priceAfterPromoCode = arrTemp[0].discountedPrice.value.centAmount;
-    }
-
-
+    /* const changeProductsAuth = async (token: string, idProd: string, q: number) => {
+        const quant = await changeProductAuth(token, idProd, q);
+    } */
 
     return (
         <div className={classes.myCard}>
@@ -54,16 +103,16 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
             </div>
             <div>
                 <p className={classes.cardTitle}>{namePlants}</p>
-                <p className={classes.cardContent}>Количество: {countProduct}</p>
-                <p className={classes.cardPrice}> Цена за штуку:</p>
-                <div className={classes.priceContainer}>
-                    <p className={priceAfterPromoCode ? [classes.oldPrice].join(' ') : [classes.cardPrice].join(' ')}> {priceProduct}</p>
-                    <p className={priceAfterPromoCode ? [classes.pricePromoCode].join(' ') : [classes.displayNone].join(' ')}> {priceAfterPromoCode}</p>
-                    <p className={classes.cardPrice}>EUR</p>
-                </div>
-                
 
-                <button className={classes.cardButton} onClick={() => addProduct()}>
+                <p className={classes.cardContent}>Количество: {quantity}</p>
+                <p className={classes.cardPrice}> Цена за штуку: {priceProduct} EUR</p>
+
+                <button
+                    className={classes.cardButton}
+                    onClick={() => {
+                        addProduct();
+                    }}
+                >
                     Добавить
                 </button>
                 <button className={classes.cardButton} onClick={() => deleteProduct()}>

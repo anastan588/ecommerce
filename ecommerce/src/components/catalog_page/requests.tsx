@@ -688,7 +688,6 @@ export const addCodeAnonim = (code: string) => {
                         })
                 );
             };
-            console.log(arr());
             return arr();
         })
         .catch((e) => console.log(e));
@@ -724,7 +723,7 @@ export const deleteAnonim = () => {
                         })
                 );
             };
-            arr();
+            return arr();
         })
         .catch((e) => console.log(e));
 };
@@ -759,7 +758,7 @@ export const addCodeAuth = (token: string, code: string) => {
                             console.log(e);
                         })
                 );
-            }; console.log(arr());
+            };
             return arr();
         })
         .catch((e) => {
@@ -798,10 +797,215 @@ export const deleteAuth = (token: string) => {
                             console.log(e);
                         })
                 );
-            }; console.log(arr());
+            };
             return arr();
         })
         .catch((e) => {
             console.log(e);
         });
+};
+
+export const changeProductAnonim = (prodId: string, quantity: number) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .post({
+                            body: {
+                                version,
+                                actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }],
+                            },
+                        })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            console.log(body);
+                            console.log(body.body.lineItems[0].quantity);
+                            return body.body.lineItems[0].quantity;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            // console.log(arr());
+            return arr();
+        })
+        .catch((e) => console.log(e));
+};
+
+export const changeProductAuth = (token: string, prodId: string, quantity: number) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    console.log(token);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({
+                            body: {
+                                version,
+                                actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }],
+                            },
+                        })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const getQuantityAuth = (token: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const arr = body.body.lineItems;
+            const lengthArr = arr.map((item) => item.quantity);
+            const length = lengthArr.reduce((acc, item) => {
+                return acc + item;
+            }, 0);
+            return length;
+        })
+        .catch((e) => console.log(e));
+};
+
+export const getQuantityAnonimus = () => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const arr = body.body.lineItems;
+            const lengthArr = arr.map((item) => item.quantity);
+            const length = lengthArr.reduce((acc, item) => {
+                return acc + item;
+            }, 0);
+            return length;
+        })
+        .catch((e) => console.log(e));
+};
+
+export const getDiscountCode = () => {
+    return apiRoot
+        .discountCodes()
+        .get()
+        .execute()
+        /* .then((body) => {
+            console.log(body.body.results[0].code);
+            const { code } = body.body.results[0];
+            return code;
+        }).catch((e) => console.log(e)) */
+};
+
+getDiscountCode();
+
+export const removeCodeAuth = (token: string, codeId: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    console.log(token);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'removeDiscountCode', discountCode: { typeId: 'discount-code', id: codeId} }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const removeCodeAnonim = (codeId: string) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            console.log(body);
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .post({ body: { version, actions: [{ action: 'removeDiscountCode', discountCode: { typeId: 'discount-code', id: codeId} }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            console.log(body);
+                            console.log(body.body.lineItems);
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => console.log(e));
 };
