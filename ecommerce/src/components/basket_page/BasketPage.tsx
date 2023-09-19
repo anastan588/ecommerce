@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { observer } from 'mobx-react-lite';
 import { Button } from 'antd';
+import { toast, ToastContainer } from 'react-toastify';
 import BackGround from '../../images/backgrounds/background3.jpg';
 import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
 import { getLocalStorage } from '../login_page/BuildClient';
@@ -12,6 +13,7 @@ import RequestProductInBasketFromServer from './RequestProductInBasketFromServer
 import DrawProductCardFromTheBasket from './DrawProductCardFromTheBasket';
 import classes from './BasketPage.module.css';
 import { Context } from '../..';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
     addCodeAnonim,
@@ -93,17 +95,14 @@ const defineCostOfAllFlowers = async (
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
     console.log('arrayProductCost');
 
-    
-
     if (arrayProductInBasket) {
         arrayProductInBasket.map((item) => {
-
             let price: number | undefined;
 
             if (item.discountedPricePerQuantity.length > 0) {
                 price = item.discountedPricePerQuantity[0].discountedPrice.value.centAmount;
             } else {
-                price = item.price.discounted?.value.centAmount || 0
+                price = item.price.discounted?.value.centAmount || 0;
             }
             /* const price: number = item.price.discounted?.value.centAmount || 1; */
             const count: number = item.quantity;
@@ -114,7 +113,7 @@ const defineCostOfAllFlowers = async (
             return 1;
         });
 
-        console.log('costSummary')
+        console.log('costSummary');
         console.log(costSummary);
 
         setSummaryCost(costSummary);
@@ -126,75 +125,65 @@ const clearBasket = async () => {
     clearBasketOnServer();
 };
 
-const lineItemsDiscountAnonim = async (code: string, setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
+const lineItemsDiscountAnonim = async (
+    code: string,
+    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>
+) => {
     const arr1 = await addCodeAnonim(code);
 
     apiRootAnonimusClientCastomer
-    .me()
-    .activeCart()
-    .get()
-    .execute()
-    .then((body) => {
-        /* console.log(body);
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            /* console.log(body);
         console.log(body.body.anonymousId);
         console.log(code); */
-        const { id } = body.body;
-        const { version } = body.body;
-        const arr = () => {
-            return (
-                apiRootAnonimusClientCastomer
-                    .me()
-                    .carts()
-                    .withId({ ID: id })
-                    .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
-                    .execute()
-                    // eslint-disable-next-line @typescript-eslint/no-shadow
-                    .then((body) => {
-                        /* console.log(body);
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            /* console.log(body);
                         console.log(body.body.lineItems); */
 
-                        const arrayProductAfterPromoCode = body.body.lineItems;
-                        console.log('arrayAfterPromoCode');
+                            const arrayProductAfterPromoCode = body.body.lineItems;
+                            console.log('arrayAfterPromoCode');
 
-                        setProductInBasket(arrayProductAfterPromoCode);
+                            setProductInBasket(arrayProductAfterPromoCode);
 
-
-
-                        arrayProductAfterPromoCode.map((item) => {
-                            /* console.log(item);
+                            arrayProductAfterPromoCode.map((item) => {
+                                /* console.log(item);
                             console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount) */
-                            
-                            return 1;
+
+                                return 1;
+                            });
+
+                            return body.body.lineItems;
                         })
-
-
-
-
-
-
-
-
-                        return body.body.lineItems;
-                    })
-                    .catch((e) => {
-                        console.log(e);
-                    })
-            );
-        };
-        console.log(arr());
-        return arr();
-    })
-    .catch((e) => console.log(e));
-
-
-
-
-
-
-
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            console.log(arr());
+            return arr();
+        })
+        .catch((e) => console.log(e));
 };
 
-const lineItemsDiscountAuth = async (code: string, setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
+const lineItemsDiscountAuth = async (
+    code: string,
+    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>
+) => {
     const tokenStore = getLocalStorage();
     const { refreshToken } = tokenStore;
     const arr1 = await addCodeAuth(refreshToken, code);
@@ -225,21 +214,15 @@ const lineItemsDiscountAuth = async (code: string, setProductInBasket: React.Dis
                             /* console.log('i am in then of lineItemsDiscountAuth1') */
                             const arrayProductAfterPromoCode = body.body.lineItems;
                             /* console.log('arrayAfterPromoCode'); */
-    
+
                             setProductInBasket(arrayProductAfterPromoCode);
-    
-    
-    
+
                             arrayProductAfterPromoCode.map((item) => {
                                 /* console.log(item);
                                 console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount) */
-                                
+
                                 return 1;
-                            })
-
-
-
-
+                            });
 
                             return body.body.lineItems;
                         })
@@ -247,19 +230,14 @@ const lineItemsDiscountAuth = async (code: string, setProductInBasket: React.Dis
                             console.log(e);
                         })
                 );
-            }; console.log(arr());
+            };
+            console.log(arr());
             return arr();
         })
         .catch((e) => {
             console.log(e);
         });
-
-
-
-
 };
-
-
 
 const BasketPage = () => {
     const { store, cart } = useContext(Context);
@@ -272,6 +250,19 @@ const BasketPage = () => {
     const [loading, setLoading] = useState(false);
     let quantity = cart.getQuantity();
 
+    const notifyEmptyCart = () => {
+        toast.success('Корзина была очищена', {
+            position: 'top-center',
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: 'colored',
+        });
+    };
+
     useEffect(() => {
         if (store.isAuth) {
             getProductsFromServer(setProductInBasket, setBasketEmpty);
@@ -280,7 +271,6 @@ const BasketPage = () => {
         } else {
             /* console.log('unauthorizated1111'); */
             getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost, setBasketEmpty);
-           
         }
 
         quantity = cart.getQuantity();
@@ -294,14 +284,20 @@ const BasketPage = () => {
             const tokenStore = getLocalStorage();
             const { refreshToken } = tokenStore;
             // const getCartsCastomer = await getCartsAuth(refreshToken);
-            const arr = await deleteAuth(refreshToken).finally(() => setLoading(false));
+            const arr = await deleteAuth(refreshToken).finally(() => {
+                setLoading(false);
+                notifyEmptyCart();
+            });
             if (arr) setProductInBasket(arr);
             setProductInBasket([]);
             cart.setQuantity(0);
             cart.setProducts([]);
             setSummaryCost(0);
         } else {
-            const arr = await deleteAnonim().finally(() => setLoading(false));
+            const arr = await deleteAnonim().finally(() => {
+                setLoading(false);
+                notifyEmptyCart();
+            });
             if (arr) setProductInBasket(arr);
             setProductInBasket([]);
             console.log(productsArrayInBasket);
@@ -318,10 +314,16 @@ const BasketPage = () => {
                 const tokenStore = getLocalStorage();
                 const { refreshToken } = tokenStore;
                 const cartCastomer = await removeCodeAuth(refreshToken, codeId);
-                if (cartCastomer) { cart.setProducts(cartCastomer); setProductInBasket(cartCastomer)}
+                if (cartCastomer) {
+                    cart.setProducts(cartCastomer);
+                    setProductInBasket(cartCastomer);
+                }
             } else {
                 const cartAnonim = await removeCodeAnonim(codeId);
-                if (cartAnonim) { cart.setProducts(cartAnonim); setProductInBasket(cartAnonim)}
+                if (cartAnonim) {
+                    cart.setProducts(cartAnonim);
+                    setProductInBasket(cartAnonim);
+                }
             }
         }
     };
@@ -341,7 +343,9 @@ const BasketPage = () => {
                     zIndex: 1,
                 }}
             >
-               <p>Корзина пуста. Добавить товар можно в странице Каталога<Link to="/catalog"> ЗДЕСЬ</Link></p> 
+                <p>
+                    Корзина пуста. Добавить товар можно в странице Каталога<Link to="/catalog"> ЗДЕСЬ</Link>
+                </p>
             </div>
 
             <div
@@ -367,16 +371,12 @@ const BasketPage = () => {
                             type="default"
                             onClick={() => {
                                 /* console.log(promoCode); */
-                                if(!store.isAuth) {
+                                if (!store.isAuth) {
                                     lineItemsDiscountAnonim(promoCode, setProductInBasket);
                                 } else {
                                     lineItemsDiscountAuth(promoCode, setProductInBasket);
                                     defineCostOfAllFlowers(setSummaryCost, setCountProduct);
-
-
-
                                 }
-                                
                             }}
                         >
                             Add PromoCode
@@ -404,6 +404,7 @@ const BasketPage = () => {
                     <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
                 </div>
             </div>
+            <ToastContainer />
         </div>
     );
 };
