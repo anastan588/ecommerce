@@ -105,8 +105,76 @@ const clearBasket = async () => {
     clearBasketOnServer();
 };
 
-const lineItemsDiscountAnonim = async (code: string) => {
-    const arr = await addCodeAnonim(code);
+const lineItemsDiscountAnonim = async (code: string, setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>) => {
+   apiRootAnonimusClientCastomer
+    .me()
+    .activeCart()
+    .get()
+    .execute()
+    .then((body) => {
+        console.log(body);
+        console.log(body.body.anonymousId);
+        console.log(code);
+        const { id } = body.body;
+        const { version } = body.body;
+        const arr = () => {
+            return (
+                apiRootAnonimusClientCastomer
+                    .me()
+                    .carts()
+                    .withId({ ID: id })
+                    .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
+                    .execute()
+                    // eslint-disable-next-line @typescript-eslint/no-shadow
+                    .then((body) => {
+                        /* console.log(body);
+                        console.log(body.body.lineItems); */
+
+                        const arrayProductAfterPromoCode = body.body.lineItems;
+                        console.log('arrayAfterPromoCode');
+
+                        setProductInBasket(arrayProductAfterPromoCode);
+
+
+
+                        arrayProductAfterPromoCode.map((item) => {
+                            console.log(item);
+                            console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount)
+                            
+                            return 1;
+                        })
+
+
+
+
+
+
+
+
+                        return body.body.lineItems;
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    })
+            );
+        };
+        console.log(arr());
+        return arr();
+    })
+    .catch((e) => console.log(e));
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
 
 const lineItemsDiscountAuth = async (token: string, code: string) => {
@@ -182,7 +250,7 @@ const BasketPage = () => {
                         <button
                             onClick={() => {
                                 console.log(promoCode);
-                                lineItemsDiscountAnonim(promoCode);
+                                lineItemsDiscountAnonim(promoCode, setProductInBasket);
                             }}
                         >
                             Add PromoCode

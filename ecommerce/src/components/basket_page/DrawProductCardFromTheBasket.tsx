@@ -32,9 +32,7 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
     const countProduct = props.product.quantity;
 
     // promoCode
-    if (props.product.discountedPricePerQuantity) {
-      console.log(props.product.discountedPricePerQuantity);
-    }
+
 
     return (
         <div className={classes.myCard}>
