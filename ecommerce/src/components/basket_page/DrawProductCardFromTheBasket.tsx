@@ -15,7 +15,7 @@ const deleteProduct = () => {
 };
 
 const DrawProductCardFromTheBasket = (props: PropsInterface) => {
-  console.log('in drawProductCard')
+  /* console.log('in drawProductCard') */
     // name of flowers
     const namePlants = props.product.name.ru;
 
@@ -35,13 +35,13 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
 
     let priceAfterPromoCode: number | undefined;
 
-    console.log('in object for promoCode');
+    /* console.log('in object for promoCode'); */
     const arrTemp = props.product.discountedPricePerQuantity;
-    console.log(arrTemp);
-    console.log(Array.isArray(arrTemp));
+    /* console.log(arrTemp);
+    console.log(Array.isArray(arrTemp)); */
     if (arrTemp.length > 0) {
-        console.log(arrTemp[0].discountedPrice.value.centAmount);
-        console.log(typeof arrTemp[0].discountedPrice.value.centAmount)
+        /* console.log(arrTemp[0].discountedPrice.value.centAmount);
+        console.log(typeof arrTemp[0].discountedPrice.value.centAmount) */
         priceAfterPromoCode = arrTemp[0].discountedPrice.value.centAmount;
     }
 

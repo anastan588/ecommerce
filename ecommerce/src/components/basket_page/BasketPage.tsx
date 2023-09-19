@@ -21,16 +21,16 @@ const getProductsFromServerForAnonymUser = async (
 ) => {
 
     const getCartsAnonym = await getCartsAnonimus();
-    console.log('in getProductFromServerForAnonymUser function');
-    console.log(getCartsAnonym);
+    /* console.log('in getProductFromServerForAnonymUser function');
+    console.log(getCartsAnonym); */
     const temp = await apiRootAnonimusClientCastomer
         .me()
         .activeCart()
         .get()
         .execute()
         .then((body) => {
-            console.log('the get Carts anonymousID from');
-           console.log(body.body.lineItems);
+            /* console.log('the get Carts anonymousID from');
+           console.log(body.body.lineItems); */
             const arr = body.body.lineItems;
 
             setProductInBasket(arr);
@@ -85,9 +85,19 @@ const defineCostOfAllFlowers = async (
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
     console.log('arrayProductCost');
 
+    
+
     if (arrayProductInBasket) {
         arrayProductInBasket.map((item) => {
-            const price: number = item.price.discounted?.value.centAmount || 1;
+
+            let price: number | undefined;
+
+            if (item.discountedPricePerQuantity.length > 0) {
+                price = item.discountedPricePerQuantity[0].discountedPrice.value.centAmount;
+            } else {
+                price = item.price.discounted?.value.centAmount || 0
+            }
+            /* const price: number = item.price.discounted?.value.centAmount || 1; */
             const count: number = item.quantity;
             countProduct += count;
             const sum = price * count;
@@ -95,6 +105,9 @@ const defineCostOfAllFlowers = async (
 
             return 1;
         });
+
+        console.log('costSummary')
+        console.log(costSummary);
 
         setSummaryCost(costSummary);
         setCountProduct(countProduct);
@@ -112,9 +125,9 @@ const lineItemsDiscountAnonim = async (code: string, setProductInBasket: React.D
     .get()
     .execute()
     .then((body) => {
-        console.log(body);
+        /* console.log(body);
         console.log(body.body.anonymousId);
-        console.log(code);
+        console.log(code); */
         const { id } = body.body;
         const { version } = body.body;
         const arr = () => {
@@ -138,8 +151,8 @@ const lineItemsDiscountAnonim = async (code: string, setProductInBasket: React.D
 
 
                         arrayProductAfterPromoCode.map((item) => {
-                            console.log(item);
-                            console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount)
+                            /* console.log(item);
+                            console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount) */
                             
                             return 1;
                         })
@@ -186,7 +199,7 @@ const lineItemsDiscountAuth1 = async (code: string, setProductInBasket: React.Di
     const { token, refreshToken } = getLocalStorage();
     const client = getClientWithToken(refreshToken);
     const apiRootToken = createApiBuilderFromCtpClient(client);
-    console.log(token);
+    /* console.log(token); */
     const arrTemp = apiRootToken
         .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
         .me()
@@ -207,17 +220,17 @@ const lineItemsDiscountAuth1 = async (code: string, setProductInBasket: React.Di
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            console.log('i am in then of lineItemsDiscountAuth1')
+                            /* console.log('i am in then of lineItemsDiscountAuth1') */
                             const arrayProductAfterPromoCode = body.body.lineItems;
-                            console.log('arrayAfterPromoCode');
+                            /* console.log('arrayAfterPromoCode'); */
     
                             setProductInBasket(arrayProductAfterPromoCode);
     
     
     
                             arrayProductAfterPromoCode.map((item) => {
-                                console.log(item);
-                                console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount)
+                                /* console.log(item);
+                                console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount) */
                                 
                                 return 1;
                             })
@@ -255,7 +268,7 @@ const deleteAuth = async () => {
 
 const BasketPage = () => {
     const { store, cart } = useContext(Context);
-    console.log('start Basket');
+    /* console.log('start Basket'); */
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
     const [summaryCost, setSummaryCost] = useState(0);
     const [countOfProduct, setCountProduct] = useState(0);
@@ -268,12 +281,13 @@ const BasketPage = () => {
             /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
             defineCostOfAllFlowers(setSummaryCost, setCountProduct);
         } else {
-            console.log('unauthorizated1111');
+            /* console.log('unauthorizated1111'); */
             getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost, setBasketEmpty);
+           
         }
     }, []);
-    console.log('productArrayInBasket');
-    console.log(productsArrayInBasket);
+    /* console.log('productArrayInBasket');
+    console.log(productsArrayInBasket); */
 
     return (
         <div>
@@ -313,11 +327,12 @@ const BasketPage = () => {
 
                         <button
                             onClick={() => {
-                                console.log(promoCode);
+                                /* console.log(promoCode); */
                                 if(!store.isAuth) {
                                     lineItemsDiscountAnonim(promoCode, setProductInBasket);
                                 } else {
-                                    lineItemsDiscountAuth1(promoCode, setProductInBasket)
+                                    lineItemsDiscountAuth1(promoCode, setProductInBasket);
+                                    defineCostOfAllFlowers(setSummaryCost, setCountProduct);
 
 
 
