@@ -128,6 +128,11 @@ const clearBasket = async () => {
 
 const lineItemsDiscountAnonim = async (code: string) => {
     const arr = await addCodeAnonim(code);
+
+
+
+
+    
 };
 
 const lineItemsDiscountAuth = async (code: string) => {
