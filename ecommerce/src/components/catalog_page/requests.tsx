@@ -688,7 +688,6 @@ export const addCodeAnonim = (code: string) => {
                         })
                 );
             };
-            console.log(arr());
             return arr();
         })
         .catch((e) => console.log(e));
@@ -724,7 +723,7 @@ export const deleteAnonim = () => {
                         })
                 );
             };
-            arr();
+            return arr();
         })
         .catch((e) => console.log(e));
 };
@@ -759,7 +758,7 @@ export const addCodeAuth = (token: string, code: string) => {
                             console.log(e);
                         })
                 );
-            }; console.log(arr());
+            };
             return arr();
         })
         .catch((e) => {
@@ -798,7 +797,7 @@ export const deleteAuth = (token: string) => {
                             console.log(e);
                         })
                 );
-            }; console.log(arr());
+            };
             return arr();
         })
         .catch((e) => {
@@ -821,7 +820,12 @@ export const changeProductAnonim = (prodId: string, quantity: number) => {
                         .me()
                         .carts()
                         .withId({ ID: id })
-                        .post({ body: { version, actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }] } })
+                        .post({
+                            body: {
+                                version,
+                                actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }],
+                            },
+                        })
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
@@ -834,7 +838,7 @@ export const changeProductAnonim = (prodId: string, quantity: number) => {
                         })
                 );
             };
-            console.log(arr());
+            // console.log(arr());
             return arr();
         })
         .catch((e) => console.log(e));
@@ -860,7 +864,12 @@ export const changeProductAuth = (token: string, prodId: string, quantity: numbe
                         .me()
                         .carts()
                         .withId({ ID: cartId })
-                        .post({ body: { version, actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }] } })
+                        .post({
+                            body: {
+                                version,
+                                actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }],
+                            },
+                        })
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
@@ -870,10 +879,61 @@ export const changeProductAuth = (token: string, prodId: string, quantity: numbe
                             console.log(e);
                         })
                 );
-            }; console.log(arr());
+            };
             return arr();
         })
         .catch((e) => {
             console.log(e);
         });
 };
+
+export const getQuantityAuth = (token: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const arr = body.body.lineItems;
+            const lengthArr = arr.map((item) => item.quantity);
+            const length = lengthArr.reduce((acc, item) => {
+                return acc + item;
+            }, 0);
+            return length;
+        })
+        .catch((e) => console.log(e));
+};
+
+export const getQuantityAnonimus = () => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const arr = body.body.lineItems;
+            const lengthArr = arr.map((item) => item.quantity);
+            const length = lengthArr.reduce((acc, item) => {
+                return acc + item;
+            }, 0);
+            return length;
+        })
+        .catch((e) => console.log(e));
+};
+
+export const getDiscountCode = () => {
+    return apiRoot
+        .discountCodes()
+        .get()
+        .execute()
+        /* .then((body) => {
+            console.log(body.body.results[0].code);
+            const { code } = body.body.results[0];
+            return code;
+        }).catch((e) => console.log(e)) */
+};
+
+getDiscountCode();
