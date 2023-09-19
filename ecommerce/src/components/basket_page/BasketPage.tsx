@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { observer } from 'mobx-react-lite';
+import { Button } from 'antd';
 import BackGround from '../../images/backgrounds/background3.jpg';
 import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
 import { getLocalStorage } from '../login_page/BuildClient';
@@ -11,7 +13,7 @@ import DrawProductCardFromTheBasket from './DrawProductCardFromTheBasket';
 import classes from './BasketPage.module.css';
 import { Context } from '../..';
 
-import { addCodeAnonim, addCodeAuth, getCartsAnonimus } from '../catalog_page/requests';
+import { addCodeAnonim, addCodeAuth, deleteAnonim, deleteAuth, getCartsAnonimus } from '../catalog_page/requests';
 
 const getProductsFromServerForAnonymUser = async (
     setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
@@ -19,7 +21,6 @@ const getProductsFromServerForAnonymUser = async (
     setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
     setBasketEmpty: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
-
     const getCartsAnonym = await getCartsAnonimus();
     console.log('in getProductFromServerForAnonymUser function');
     console.log(getCartsAnonym);
@@ -30,7 +31,7 @@ const getProductsFromServerForAnonymUser = async (
         .execute()
         .then((body) => {
             console.log('the get Carts anonymousID from');
-           console.log(body.body.lineItems);
+            console.log(body.body.lineItems);
             const arr = body.body.lineItems;
 
             setProductInBasket(arr);
@@ -77,7 +78,6 @@ const defineCostOfAllFlowers = async (
     setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
     setCountProduct: React.Dispatch<React.SetStateAction<number>>
 ) => {
-
     let costSummary: number = 0;
     let countProduct: number = 0;
     const { token } = getLocalStorage();
@@ -107,19 +107,19 @@ const clearBasket = async () => {
 
 const lineItemsDiscountAnonim = async (code: string) => {
     const arr = await addCodeAnonim(code);
-}
+};
 
 const lineItemsDiscountAuth = async (token: string, code: string) => {
     const arr = await addCodeAuth(token, code);
-}
+};
 
-const deleteAnonim = async () => {
+/* const deleteAnonimous = async () => {
     const arr = await deleteAnonim();
-}
+};
 
-const deleteAuth = async () => {
-    const arr = await deleteAuth();
-}
+const deleteAuthCastomer = async (token:string) => {
+    const arr = await deleteAuth(token);
+}; */
 
 const BasketPage = () => {
     const { store, cart } = useContext(Context);
@@ -129,6 +129,8 @@ const BasketPage = () => {
     const [countOfProduct, setCountProduct] = useState(0);
     const [basketEmpty, setBasketEmpty] = useState(true);
     const [promoCode, setPromoCodeValue] = useState('');
+    const [loading, setLoading] = useState(false);
+    let quantity = cart.getQuantity();
 
     useEffect(() => {
         if (store.isAuth) {
@@ -139,9 +141,33 @@ const BasketPage = () => {
             console.log('unauthorizated1111');
             getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost, setBasketEmpty);
         }
-    }, []);
+        quantity = cart.getQuantity();
+        console.log(quantity);
+    }, [quantity]);
     console.log('productArrayInBasket');
     console.log(productsArrayInBasket);
+
+    const handleEvent = async () => {
+        if (store.isAuth) {
+            const tokenStore = getLocalStorage();
+            const { refreshToken } = tokenStore;
+            // const getCartsCastomer = await getCartsAuth(refreshToken);
+            const arr = await deleteAuth(refreshToken).finally(() => setLoading(false));
+            if (arr) setProductInBasket(arr);
+            setProductInBasket([]);
+            cart.setQuantity(0);
+            cart.setProducts([]);
+            setSummaryCost(0);
+        } else {
+            const arr = await deleteAnonim().finally(() => setLoading(false));
+            if (arr) setProductInBasket(arr);
+            setProductInBasket([]);
+            console.log(productsArrayInBasket);
+            cart.setQuantity(0);
+            cart.setProducts([]);
+            setSummaryCost(0);
+        }
+    };
 
     return (
         <div>
@@ -173,24 +199,25 @@ const BasketPage = () => {
                         <p>Введи промокод:</p>
                         <input
                             type="text"
+                            className={classes.inputPromoCode}
                             value={promoCode}
                             onChange={(event) => {
                                 setPromoCodeValue(event.target.value);
                             }}
                         ></input>
 
-                        <button
+                        <Button type='default'
                             onClick={() => {
                                 console.log(promoCode);
                                 lineItemsDiscountAnonim(promoCode);
                             }}
                         >
                             Add PromoCode
-                        </button>
+                        </Button>
                     </div>
-                    <div onClick={deleteAnonim} className={classes.clearBasketBtn}>
+                    <Button  type='primary' loading={loading} onClick={handleEvent} className={classes.clearBasketBtn}>
                         Очистить корзину
-                    </div>
+                    </Button>
                 </div>
 
                 <div className={classes.basketContainer}>
@@ -203,7 +230,7 @@ const BasketPage = () => {
                     })}
                 </div>
                 <div>
-                    <div className={classes.totalPrice}>Всего товаров: {countOfProduct}</div>
+                    <div className={classes.totalPrice}>Всего товаров: {cart.getQuantity()}</div>
                     <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
                 </div>
             </div>
@@ -211,4 +238,4 @@ const BasketPage = () => {
     );
 };
 
-export default BasketPage;
+export default observer(BasketPage);
