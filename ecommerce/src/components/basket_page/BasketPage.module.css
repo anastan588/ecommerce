@@ -38,3 +38,11 @@
     width: 20%;
     height: 25px;
 }
+
+.displayBlock{
+    display: block;
+}
+
+.displayNone{
+    display: none;
+}

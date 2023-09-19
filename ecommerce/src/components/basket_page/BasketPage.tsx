@@ -30,8 +30,8 @@ const getProductsFromServerForAnonymUser = async (
     setBasketEmpty: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
     const getCartsAnonym = await getCartsAnonimus();
-    console.log('in getProductFromServerForAnonymUser function');
-    console.log(getCartsAnonym);
+    /* console.log('in getProductFromServerForAnonymUser function');
+    console.log(getCartsAnonym); */
     const temp = await apiRootAnonimusClientCastomer
         .me()
         .activeCart()
@@ -93,9 +93,19 @@ const defineCostOfAllFlowers = async (
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
     console.log('arrayProductCost');
 
+    
+
     if (arrayProductInBasket) {
         arrayProductInBasket.map((item) => {
-            const price: number = item.price.discounted?.value.centAmount || 1;
+
+            let price: number | undefined;
+
+            if (item.discountedPricePerQuantity.length > 0) {
+                price = item.discountedPricePerQuantity[0].discountedPrice.value.centAmount;
+            } else {
+                price = item.price.discounted?.value.centAmount || 0
+            }
+            /* const price: number = item.price.discounted?.value.centAmount || 1; */
             const count: number = item.quantity;
             countProduct += count;
             const sum = price * count;
@@ -103,6 +113,9 @@ const defineCostOfAllFlowers = async (
 
             return 1;
         });
+
+        console.log('costSummary')
+        console.log(costSummary);
 
         setSummaryCost(costSummary);
         setCountProduct(countProduct);
@@ -123,7 +136,7 @@ const lineItemsDiscountAuth = async (token: string, code: string) => {
 
 const BasketPage = () => {
     const { store, cart } = useContext(Context);
-    console.log('start Basket');
+    /* console.log('start Basket'); */
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
     const [summaryCost, setSummaryCost] = useState(0);
     const [countOfProduct, setCountProduct] = useState(0);
@@ -138,9 +151,11 @@ const BasketPage = () => {
             /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
             defineCostOfAllFlowers(setSummaryCost, setCountProduct);
         } else {
-            console.log('unauthorizated1111');
+            /* console.log('unauthorizated1111'); */
             getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost, setBasketEmpty);
+           
         }
+
         quantity = cart.getQuantity();
         console.log(quantity);
     }, [quantity]);
@@ -199,7 +214,7 @@ const BasketPage = () => {
                     zIndex: 1,
                 }}
             >
-                <Link to="/catalog"> К сожалению, корзина пуста. Добавить товар можно в странице Каталога</Link>
+               <p>Корзина пуста. Добавить товар можно в странице Каталога<Link to="/catalog"> ЗДЕСЬ</Link></p> 
             </div>
 
             <div
@@ -224,8 +239,17 @@ const BasketPage = () => {
                         <Button
                             type="default"
                             onClick={() => {
-                                console.log(promoCode);
-                                lineItemsDiscountAnonim(promoCode);
+                                /* console.log(promoCode); */
+                                if(!store.isAuth) {
+                                    lineItemsDiscountAnonim(promoCode, setProductInBasket);
+                                } else {
+                                    lineItemsDiscountAuth1(promoCode, setProductInBasket);
+                                    defineCostOfAllFlowers(setSummaryCost, setCountProduct);
+
+
+
+                                }
+                                
                             }}
                         >
                             Add PromoCode

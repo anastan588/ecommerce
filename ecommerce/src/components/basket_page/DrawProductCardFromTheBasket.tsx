@@ -30,9 +30,11 @@ type PropsInterface = {
     console.log('product less');
 }; */
 
+
 const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: PropsInterface) => {
     const { store, cart } = useContext(Context);
     const [quantity, setQuantity] = useState(props.product.quantity);
+
     // name of flowers
     const namePlants = props.product.name.ru;
 
@@ -93,6 +95,7 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
     /* const changeProductsAuth = async (token: string, idProd: string, q: number) => {
         const quant = await changeProductAuth(token, idProd, q);
     } */
+
     return (
         <div className={classes.myCard}>
             <div>
@@ -100,6 +103,7 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
             </div>
             <div>
                 <p className={classes.cardTitle}>{namePlants}</p>
+
                 <p className={classes.cardContent}>Количество: {quantity}</p>
                 <p className={classes.cardPrice}> Цена за штуку: {priceProduct} EUR</p>
 
