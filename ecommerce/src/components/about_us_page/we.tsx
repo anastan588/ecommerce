@@ -1,5 +1,5 @@
 import nastyaImg from '../../images/icon/AnastasiyaAndronova2.jpg';
-import sashaImg from '../../images/icon/sasha2.png';
+import sashaImg from '../../images/icon/sasha.jpg';
 import juliaImg from '../../images/icon/yulia.jpg';
 
 const we = {

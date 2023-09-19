@@ -2,7 +2,7 @@ import React, { createContext } from 'react';
 import ReactDOM from 'react-dom/client';
 
 import './index.css';
-import './images/icon/AnastasiyaAndronova.jpg';
+import Alert from 'antd/es/alert/Alert';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Store from './components/login_page/store';

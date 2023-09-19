@@ -71,11 +71,11 @@ const SashaPage = () => {
                         <b>Soft skills:</b>
                     </p>
                     <ul>
-                        <li>Communication</li>
+                        <li>Communicable</li>
                         <li>Teamwork</li>
-                        <li>Big data analytics</li>
-                        <li>Stress resistance</li>
-                        <li>Adaptability</li>
+                        <li>Easy-going</li>
+                        <li>Stress-resistant</li>
+                        <li>Responsible</li>
                     </ul>
                 </Content>
                 <Content>
@@ -84,7 +84,7 @@ const SashaPage = () => {
                     </p>
                     <ul>
                         <li>Knowledge of HTML5, CSS, Javascript, TypeScript</li>
-                        <li>Skills in Chrome DevTools, Git, VS Code, Webpack, React</li>
+                        <li>Skills in Chrome DevTools, Git, VS Code, Webpack, React, Sass</li>
                     </ul>
                 </Content>
                 <Content>
@@ -92,8 +92,8 @@ const SashaPage = () => {
                         <b>Courses:</b>
                     </p>
                     <ul>
-                        <li>2023 – present time – "JavaScript/Front-end 2023Q1", Rolling Scopes school.</li>
-                        <li>2022 – 2023 – "JavaScript/Front-end Pre-school 2022Q4", Rolling Scopes school.</li>
+                        <li>March 2023 – September – "JavaScript/Front-end 2023Q1", Rolling Scopes school.</li>
+                        <li>December 2022 – March 2023 – "JavaScript/Front-end Pre-school 2022Q4", Rolling Scopes s</li>
                     </ul>
                 </Content>
                 <Content>
@@ -102,7 +102,7 @@ const SashaPage = () => {
                     </p>
                     <ul>
                         <li>English – B1</li>
-                        <li>Russian – native</li>
+                        <li>Belarussian/Russian – native</li>
                     </ul>
                 </Content>
                 <Content>
@@ -110,7 +110,7 @@ const SashaPage = () => {
                         <b>Higher Education:</b>
                     </p>
                     <ul>
-                        <li>Belarus State Economic University</li>
+                        <li>Polotsk State University (master's degree)</li>
                     </ul>
                 </Content>
             </Content>
