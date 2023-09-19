@@ -13,7 +13,15 @@ import DrawProductCardFromTheBasket from './DrawProductCardFromTheBasket';
 import classes from './BasketPage.module.css';
 import { Context } from '../..';
 
-import { addCodeAnonim, addCodeAuth, deleteAnonim, deleteAuth, getCartsAnonimus } from '../catalog_page/requests';
+import {
+    addCodeAnonim,
+    addCodeAuth,
+    deleteAnonim,
+    deleteAuth,
+    getCartsAnonimus,
+    removeCodeAnonim,
+    removeCodeAuth,
+} from '../catalog_page/requests';
 
 const getProductsFromServerForAnonymUser = async (
     setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
@@ -113,14 +121,6 @@ const lineItemsDiscountAuth = async (token: string, code: string) => {
     const arr = await addCodeAuth(token, code);
 };
 
-/* const deleteAnonimous = async () => {
-    const arr = await deleteAnonim();
-};
-
-const deleteAuthCastomer = async (token:string) => {
-    const arr = await deleteAuth(token);
-}; */
-
 const BasketPage = () => {
     const { store, cart } = useContext(Context);
     console.log('start Basket');
@@ -169,6 +169,21 @@ const BasketPage = () => {
         }
     };
 
+    const removePromoCode = async () => {
+        const codeId = localStorage.getItem('promoCode');
+        if (codeId) {
+            if (store.isAuth) {
+                const tokenStore = getLocalStorage();
+                const { refreshToken } = tokenStore;
+                const cartCastomer = await removeCodeAuth(refreshToken, codeId);
+                if (cartCastomer) { cart.setProducts(cartCastomer); setProductInBasket(cartCastomer)}
+            } else {
+                const cartAnonim = await removeCodeAnonim(codeId);
+                if (cartAnonim) { cart.setProducts(cartAnonim); setProductInBasket(cartAnonim)}
+            }
+        }
+    };
+
     return (
         <div>
             <img
@@ -206,7 +221,8 @@ const BasketPage = () => {
                             }}
                         ></input>
 
-                        <Button type='default'
+                        <Button
+                            type="default"
                             onClick={() => {
                                 console.log(promoCode);
                                 lineItemsDiscountAnonim(promoCode);
@@ -214,8 +230,11 @@ const BasketPage = () => {
                         >
                             Add PromoCode
                         </Button>
+                        <Button type="default" onClick={removePromoCode}>
+                            Remove PromoCode
+                        </Button>
                     </div>
-                    <Button  type='primary' loading={loading} onClick={handleEvent} className={classes.clearBasketBtn}>
+                    <Button type="primary" loading={loading} onClick={handleEvent} className={classes.clearBasketBtn}>
                         Очистить корзину
                     </Button>
                 </div>

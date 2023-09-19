@@ -19,8 +19,10 @@ const MainPage = () => {
             .then((body) => {
                 console.log(body.body.results[0].code);
                 const { code } = body.body.results[0];
+                const {id} = body.body.results[0];
                 setPromoCode(code);
                 console.log(code);
+                localStorage.setItem('promoCode', id );
             })
             .catch((e) => console.log(e));
     }, []);
