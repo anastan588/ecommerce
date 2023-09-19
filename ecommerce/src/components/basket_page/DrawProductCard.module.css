@@ -23,7 +23,13 @@
 }
 
 .cardPrice{
-  padding: 0 0 10px;
+  font-size: 25px;
+}
+
+.oldPrice {
+  font-size: 20px;
+  color: red;
+  text-decoration: line-through;
 }
 
 .cardButton {
@@ -35,6 +41,18 @@
 }
 
 .pricePromoCode {
-  font-size: 22px;
+  font-size: 25px;
   color: green;
+}
+
+.priceContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+}
+
+.displayNone {
+  display: none;
 }

@@ -33,6 +33,19 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
 
     // promoCode
 
+    let priceAfterPromoCode: number | undefined;
+
+    console.log('in object for promoCode');
+    const arrTemp = props.product.discountedPricePerQuantity;
+    console.log(arrTemp);
+    console.log(Array.isArray(arrTemp));
+    if (arrTemp.length > 0) {
+        console.log(arrTemp[0].discountedPrice.value.centAmount);
+        console.log(typeof arrTemp[0].discountedPrice.value.centAmount)
+        priceAfterPromoCode = arrTemp[0].discountedPrice.value.centAmount;
+    }
+
+
 
     return (
         <div className={classes.myCard}>
@@ -42,7 +55,13 @@ const DrawProductCardFromTheBasket = (props: PropsInterface) => {
             <div>
                 <p className={classes.cardTitle}>{namePlants}</p>
                 <p className={classes.cardContent}>Количество: {countProduct}</p>
-                <p className={classes.cardPrice}> Цена за штуку: {priceProduct} EUR</p>
+                <p className={classes.cardPrice}> Цена за штуку:</p>
+                <div className={classes.priceContainer}>
+                    <p className={priceAfterPromoCode ? [classes.oldPrice].join(' ') : [classes.cardPrice].join(' ')}> {priceProduct}</p>
+                    <p className={priceAfterPromoCode ? [classes.pricePromoCode].join(' ') : [classes.displayNone].join(' ')}> {priceAfterPromoCode}</p>
+                    <p className={classes.cardPrice}>EUR</p>
+                </div>
+                
 
                 <button className={classes.cardButton} onClick={() => addProduct()}>
                     Добавить
