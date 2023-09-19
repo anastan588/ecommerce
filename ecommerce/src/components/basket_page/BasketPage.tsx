@@ -130,8 +130,10 @@ const lineItemsDiscountAnonim = async (code: string) => {
     const arr = await addCodeAnonim(code);
 };
 
-const lineItemsDiscountAuth = async (token: string, code: string) => {
-    const arr = await addCodeAuth(token, code);
+const lineItemsDiscountAuth = async (code: string) => {
+    const tokenStore = getLocalStorage();
+    const { refreshToken } = tokenStore;
+    const arr = await addCodeAuth(refreshToken, code);
 };
 
 const BasketPage = () => {
@@ -241,9 +243,9 @@ const BasketPage = () => {
                             onClick={() => {
                                 /* console.log(promoCode); */
                                 if(!store.isAuth) {
-                                    lineItemsDiscountAnonim(promoCode, setProductInBasket);
+                                    lineItemsDiscountAnonim(promoCode);
                                 } else {
-                                    lineItemsDiscountAuth1(promoCode, setProductInBasket);
+                                    lineItemsDiscountAuth(promoCode);
                                     defineCostOfAllFlowers(setSummaryCost, setCountProduct);
 
 
