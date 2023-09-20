@@ -193,8 +193,8 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
                 <button className={classes.cardButton} onClick={() => deleteProduct()}>
                     Уменьшить
                 </button>
-                <Button type="primary" onClick={deleteItem}>
-                    Удалить товар из корзины
+                <Button style={{}} type="primary" onClick={deleteItem}>
+                    Удалить товар
                 </Button>
             </div>
         </div>
