@@ -831,9 +831,7 @@ export const changeProductAnonim = (prodId: string, quantity: number) => {
                         .then((body) => {
                             console.log(body);
                             console.log(body.body.lineItems[0].quantity);
-                            const quant = body.body.lineItems[0].quantity;
-                            const items = body.body.lineItems;
-                            return { quant, items};
+                            return body.body.lineItems;
                         })
                         .catch((e) => {
                             console.log(e);
@@ -876,9 +874,7 @@ export const changeProductAuth = (token: string, prodId: string, quantity: numbe
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
                             console.log(body.body.lineItems);
-                            const quant = body.body.lineItems[0].quantity;
-                            const items = body.body.lineItems;
-                            return { quant, items };
+                            return body.body.lineItems;
                         })
                         .catch((e) => {
                             console.log(e);
@@ -930,8 +926,11 @@ export const getQuantityAnonimus = () => {
 };
 
 export const getDiscountCode = () => {
-    return apiRoot.discountCodes().get().execute();
-    /* .then((body) => {
+    return apiRoot
+        .discountCodes()
+        .get()
+        .execute()
+        /* .then((body) => {
             console.log(body.body.results[0].code);
             const { code } = body.body.results[0];
             return code;
@@ -960,17 +959,7 @@ export const removeCodeAuth = (token: string, codeId: string) => {
                         .me()
                         .carts()
                         .withId({ ID: cartId })
-                        .post({
-                            body: {
-                                version,
-                                actions: [
-                                    {
-                                        action: 'removeDiscountCode',
-                                        discountCode: { typeId: 'discount-code', id: codeId },
-                                    },
-                                ],
-                            },
-                        })
+                        .post({ body: { version, actions: [{ action: 'removeDiscountCode', discountCode: { typeId: 'discount-code', id: codeId} }] } })
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
@@ -1004,17 +993,7 @@ export const removeCodeAnonim = (codeId: string) => {
                         .me()
                         .carts()
                         .withId({ ID: id })
-                        .post({
-                            body: {
-                                version,
-                                actions: [
-                                    {
-                                        action: 'removeDiscountCode',
-                                        discountCode: { typeId: 'discount-code', id: codeId },
-                                    },
-                                ],
-                            },
-                        })
+                        .post({ body: { version, actions: [{ action: 'removeDiscountCode', discountCode: { typeId: 'discount-code', id: codeId} }] } })
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
