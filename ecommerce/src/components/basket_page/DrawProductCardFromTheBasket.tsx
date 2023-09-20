@@ -1,4 +1,5 @@
 import { LineItem } from '@commercetools/platform-sdk';
+import { Button } from 'antd';
 import { useContext, useEffect, useState } from 'react';
 import { JsxElement } from 'typescript';
 import { Context } from '../..';
@@ -13,6 +14,10 @@ import {
     getCartsAuth,
     getQuantityAnonimus,
     getQuantityAuth,
+    removeItemAnonim,
+    removeItemCastomer,
+    removeProductItemAnonim,
+    removeProductItemCastomer,
 } from '../catalog_page/requests';
 import { getLocalStorage } from '../login_page/BuildClient';
 import { CartType } from './BasketStore';
@@ -78,11 +83,13 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
             // const getCartsCastomer = await getCartsAuth(refreshToken);
             const quant = await changeProductAuth(refreshToken, props.product.id, countProduct);
             console.log(quant);
+            if(quant) {cart.setProducts(quant)}
             const quantTotal = await getQuantityAuth(refreshToken);
             if (quantTotal) cart.setQuantity(quantTotal);
         } else {
             const quant = await changeProductAnonim(props.product.id, countProduct);
             console.log(quant);
+            if(quant) {cart.setProducts(quant)}
             const quantTotal = await getQuantityAnonimus();
             if (quantTotal) cart.setQuantity(quantTotal);
         }
@@ -110,6 +117,37 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
             handleEvent();
         }
     };
+
+    const deleteItem = async () => {
+        if (store.isAuth) {
+            const tokenStore = getLocalStorage();
+            const { refreshToken } = tokenStore;
+            // const getCartsCastomer = await getCartsAuth(refreshToken);
+            const itemProduct = await removeItemCastomer(refreshToken, props.product.id);
+            console.log(itemProduct);
+            if (itemProduct) {
+                cart.setProducts(itemProduct);
+                const arr = itemProduct.slice(0);
+                const lengthArr = arr.map((item) => item.quantity);
+                const length = lengthArr.reduce((acc, item) => {
+                    return acc + item;
+                }, 0);
+                cart.setQuantity(length);
+            }
+        } else {
+            const itemProduct = await removeItemAnonim(props.product.id);
+            console.log(itemProduct);
+            if (itemProduct) {
+                cart.setProducts(itemProduct);
+                const arr = itemProduct.slice(0);
+                const lengthArr = arr.map((item) => item.quantity);
+                const length = lengthArr.reduce((acc, item) => {
+                    return acc + item;
+                }, 0);
+                cart.setQuantity(length);
+            }
+        }
+    };
     /* const changeProductsAnonim = async (idProd: string, q: number) => {
         const quant = await changeProductAnonim(idProd, q);
         return quant;
@@ -128,7 +166,7 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
                 <p className={classes.cardTitle}>{namePlants}</p>
 
                 <p className={classes.cardContent}>Количество: {quantity}</p>
-                <p className={classes.cardPrice}> Цена за штуку: {priceProduct} EUR</p>
+
 
                 <div className={classes.priceContainer}>
                     <p className={priceAfterPromoCode ? [classes.oldPrice].join(' ') : [classes.cardPrice].join(' ')}>
@@ -155,6 +193,9 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
                 <button className={classes.cardButton} onClick={() => deleteProduct()}>
                     Уменьшить
                 </button>
+                <Button type="primary" onClick={deleteItem}>
+                    Удалить товар из корзины
+                </Button>
             </div>
         </div>
     );

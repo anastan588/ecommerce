@@ -255,6 +255,7 @@ const BasketPage = () => {
     const [loading, setLoading] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     let quantity = cart.getQuantity();
+    let products = cart.getProducts();
 
     const notifyEmptyCart = () => {
         toast.success('Корзина была очищена', {
@@ -278,10 +279,10 @@ const BasketPage = () => {
             /* console.log('unauthorizated1111'); */
             getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost, setBasketEmpty);
         }
-
+        products = cart.getProducts();
         quantity = cart.getQuantity();
         console.log(quantity);
-    }, [quantity]);
+    }, [quantity, products]);
     console.log('productArrayInBasket');
     console.log(productsArrayInBasket);
 
