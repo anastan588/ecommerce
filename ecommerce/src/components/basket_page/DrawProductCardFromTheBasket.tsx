@@ -30,7 +30,6 @@ type PropsInterface = {
     console.log('product less');
 }; */
 
-
 const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: PropsInterface) => {
     const { store, cart } = useContext(Context);
     const [quantity, setQuantity] = useState(props.product.quantity);
@@ -103,11 +102,13 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
     const deleteProduct = () => {
         console.log('product less');
         console.log(countProduct);
-        countProduct -= 1;
-        console.log(countProduct);
-        setQuantity(countProduct);
-        console.log(quantity);
-        handleEvent();
+        if (countProduct > 0) {
+            countProduct -= 1;
+            console.log(countProduct);
+            setQuantity(countProduct);
+            console.log(quantity);
+            handleEvent();
+        }
     };
     /* const changeProductsAnonim = async (idProd: string, q: number) => {
         const quant = await changeProductAnonim(idProd, q);
@@ -129,18 +130,21 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
                 <p className={classes.cardContent}>Количество: {quantity}</p>
                 <p className={classes.cardPrice}> Цена за штуку: {priceProduct} EUR</p>
 
-
-
                 <div className={classes.priceContainer}>
-                    <p className={priceAfterPromoCode ? [classes.oldPrice].join(' ') : [classes.cardPrice].join(' ')}> {priceProduct}</p>
-                    <p className={priceAfterPromoCode ? [classes.pricePromoCode].join(' ') : [classes.displayNone].join(' ')}> {priceAfterPromoCode}</p>
+                    <p className={priceAfterPromoCode ? [classes.oldPrice].join(' ') : [classes.cardPrice].join(' ')}>
+                        {' '}
+                        {priceProduct}
+                    </p>
+                    <p
+                        className={
+                            priceAfterPromoCode ? [classes.pricePromoCode].join(' ') : [classes.displayNone].join(' ')
+                        }
+                    >
+                        {' '}
+                        {priceAfterPromoCode}
+                    </p>
                     <p className={classes.cardPrice}>EUR</p>
                 </div>
-
-
-
-
-
 
                 <button
                     className={classes.cardButton}
