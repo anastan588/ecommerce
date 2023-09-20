@@ -94,27 +94,29 @@ const defineCostOfAllFlowers = async (
     const mapToken = getLocalStorage();
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
     console.log('arrayProductCost');
+    console.log(arrayProductInBasket);
 
     if (arrayProductInBasket) {
         arrayProductInBasket.map((item) => {
-            let price: number | undefined;
+            const price: number = item.totalPrice.centAmount;
 
-            if (item.discountedPricePerQuantity.length > 0) {
+            /* if (item.discountedPricePerQuantity.length > 0) {
                 price = item.discountedPricePerQuantity[0].discountedPrice.value.centAmount;
             } else {
                 price = item.price.discounted?.value.centAmount || 0;
-            }
+            } */
             /* const price: number = item.price.discounted?.value.centAmount || 1; */
             const count: number = item.quantity;
             countProduct += count;
-            const sum = price * count;
-            costSummary += sum;
+            /* const sum = price * count; */
+            costSummary += price;
 
             return 1;
         });
 
         console.log('costSummary');
         console.log(costSummary);
+
 
         setSummaryCost(costSummary);
         setCountProduct(countProduct);
@@ -157,8 +159,8 @@ const lineItemsDiscountAnonim = async (
                         console.log(body.body.lineItems); */
 
                             const arrayProductAfterPromoCode = body.body.lineItems;
-                            console.log('arrayAfterPromoCode');
-                            console.log(body.body.totalPrice.centAmount);
+                            /* console.log('arrayAfterPromoCode');
+                            console.log(body.body.totalPrice.centAmount); */
                             setSummaryCost(body.body.totalPrice.centAmount);
 
                             setProductInBasket(arrayProductAfterPromoCode);
