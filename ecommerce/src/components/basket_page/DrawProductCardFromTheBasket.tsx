@@ -167,9 +167,9 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
 
                 <p className={classes.cardContent}>Количество: {quantity}</p>
 
+
                 <div className={classes.priceContainer}>
                     <p className={priceAfterPromoCode ? [classes.oldPrice].join(' ') : [classes.cardPrice].join(' ')}>
-                        {' '}
                         {priceProduct}
                     </p>
                     <p
@@ -177,7 +177,6 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
                             priceAfterPromoCode ? [classes.pricePromoCode].join(' ') : [classes.displayNone].join(' ')
                         }
                     >
-                        {' '}
                         {priceAfterPromoCode}
                     </p>
                     <p className={classes.cardPrice}>EUR</p>

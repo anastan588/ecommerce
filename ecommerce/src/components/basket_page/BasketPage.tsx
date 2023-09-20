@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 import { LineItem, createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
 import { observer } from 'mobx-react-lite';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import { toast, ToastContainer } from 'react-toastify';
 import BackGround from '../../images/backgrounds/background3.jpg';
 import { apiRootAnonimusClientCastomer } from '../catalog_page/ClientsBuilderCastomer';
@@ -127,7 +127,8 @@ const clearBasket = async () => {
 
 const lineItemsDiscountAnonim = async (
     code: string,
-    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>
+    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
+    setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
 ) => {
     const arr1 = await addCodeAnonim(code);
 
@@ -157,6 +158,8 @@ const lineItemsDiscountAnonim = async (
 
                             const arrayProductAfterPromoCode = body.body.lineItems;
                             console.log('arrayAfterPromoCode');
+                            console.log(body.body.totalPrice.centAmount);
+                            setSummaryCost(body.body.totalPrice.centAmount);
 
                             setProductInBasket(arrayProductAfterPromoCode);
 
@@ -182,7 +185,8 @@ const lineItemsDiscountAnonim = async (
 
 const lineItemsDiscountAuth = async (
     code: string,
-    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>
+    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
+    setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
 ) => {
     const tokenStore = getLocalStorage();
     const { refreshToken } = tokenStore;
@@ -216,6 +220,7 @@ const lineItemsDiscountAuth = async (
                             /* console.log('arrayAfterPromoCode'); */
 
                             setProductInBasket(arrayProductAfterPromoCode);
+                            setSummaryCost(body.body.totalPrice.centAmount);
 
                             arrayProductAfterPromoCode.map((item) => {
                                 /* console.log(item);
@@ -248,6 +253,7 @@ const BasketPage = () => {
     const [basketEmpty, setBasketEmpty] = useState(true);
     const [promoCode, setPromoCodeValue] = useState('');
     const [loading, setLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     let quantity = cart.getQuantity();
     let products = cart.getProducts();
 
@@ -294,6 +300,7 @@ const BasketPage = () => {
             cart.setQuantity(0);
             cart.setProducts([]);
             setSummaryCost(0);
+            setIsModalOpen(false);
         } else {
             const arr = await deleteAnonim().finally(() => {
                 setLoading(false);
@@ -305,15 +312,11 @@ const BasketPage = () => {
             cart.setQuantity(0);
             cart.setProducts([]);
             setSummaryCost(0);
+            setIsModalOpen(false);
         }
-
 
         console.log('clear basket');
         setBasketEmpty(true);
-
-
-
-        
     };
 
     const removePromoCode = async () => {
@@ -335,6 +338,20 @@ const BasketPage = () => {
                 }
             }
         }
+    };
+
+    
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
     };
 
     return (
@@ -381,9 +398,9 @@ const BasketPage = () => {
                             onClick={() => {
                                 /* console.log(promoCode); */
                                 if (!store.isAuth) {
-                                    lineItemsDiscountAnonim(promoCode, setProductInBasket);
+                                    lineItemsDiscountAnonim(promoCode, setProductInBasket, setSummaryCost);
                                 } else {
-                                    lineItemsDiscountAuth(promoCode, setProductInBasket);
+                                    lineItemsDiscountAuth(promoCode, setProductInBasket, setSummaryCost);
                                     defineCostOfAllFlowers(setSummaryCost, setCountProduct);
                                 }
                             }}
@@ -394,7 +411,7 @@ const BasketPage = () => {
                             Remove PromoCode
                         </Button>
                     </div>
-                    <Button type="primary" loading={loading} onClick={handleEvent} className={classes.clearBasketBtn}>
+                    <Button type="primary" loading={loading} onClick={showModal} className={classes.clearBasketBtn}>
                         Очистить корзину
                     </Button>
                 </div>
@@ -412,6 +429,9 @@ const BasketPage = () => {
                     <div className={classes.totalPrice}>Всего товаров: {cart.getQuantity()}</div>
                     <div className={classes.totalPrice}>Итого стоимость: {summaryCost} EUR</div>
                 </div>
+                <Modal open={isModalOpen} onOk={handleEvent} onCancel={handleCancel}>
+                    <p>Вы уверены, что хотите очистить корзину?</p>
+                </Modal>
             </div>
             <ToastContainer />
         </div>
