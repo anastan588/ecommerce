@@ -309,6 +309,14 @@ const BasketPage = () => {
             cart.setProducts([]);
             setSummaryCost(0);
         }
+
+
+        console.log('clear basket');
+        setBasketEmpty(true);
+
+
+
+        
     };
 
     const removePromoCode = async () => {
