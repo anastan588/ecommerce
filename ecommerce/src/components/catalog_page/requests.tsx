@@ -831,7 +831,7 @@ export const changeProductAnonim = (prodId: string, quantity: number) => {
                         .then((body) => {
                             console.log(body);
                             console.log(body.body.lineItems[0].quantity);
-                            return body.body.lineItems[0].quantity;
+                            return body.body.lineItems;
                         })
                         .catch((e) => {
                             console.log(e);
@@ -873,6 +873,7 @@ export const changeProductAuth = (token: string, prodId: string, quantity: numbe
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
+                            console.log(body.body.lineItems);
                             return body.body.lineItems;
                         })
                         .catch((e) => {
@@ -1008,4 +1009,70 @@ export const removeCodeAnonim = (codeId: string) => {
             return arr();
         })
         .catch((e) => console.log(e));
+};
+
+export const removeItemCastomer = (token: string, prodId: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'removeLineItem', lineItemId: prodId }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            console.log(body.body.lineItems);
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        });
+};
+
+export const removeItemAnonim = (prodId: string) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            console.log(body);
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'removeLineItem', lineItemId: prodId }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        });
 };
