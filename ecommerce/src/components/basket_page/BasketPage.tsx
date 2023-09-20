@@ -127,7 +127,8 @@ const clearBasket = async () => {
 
 const lineItemsDiscountAnonim = async (
     code: string,
-    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>
+    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
+    setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
 ) => {
     const arr1 = await addCodeAnonim(code);
 
@@ -157,6 +158,8 @@ const lineItemsDiscountAnonim = async (
 
                             const arrayProductAfterPromoCode = body.body.lineItems;
                             console.log('arrayAfterPromoCode');
+                            console.log(body.body.totalPrice.centAmount);
+                            setSummaryCost(body.body.totalPrice.centAmount);
 
                             setProductInBasket(arrayProductAfterPromoCode);
 
@@ -182,7 +185,8 @@ const lineItemsDiscountAnonim = async (
 
 const lineItemsDiscountAuth = async (
     code: string,
-    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>
+    setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
+    setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
 ) => {
     const tokenStore = getLocalStorage();
     const { refreshToken } = tokenStore;
@@ -216,6 +220,7 @@ const lineItemsDiscountAuth = async (
                             /* console.log('arrayAfterPromoCode'); */
 
                             setProductInBasket(arrayProductAfterPromoCode);
+                            setSummaryCost(body.body.totalPrice.centAmount);
 
                             arrayProductAfterPromoCode.map((item) => {
                                 /* console.log(item);
@@ -380,9 +385,9 @@ const BasketPage = () => {
                             onClick={() => {
                                 /* console.log(promoCode); */
                                 if (!store.isAuth) {
-                                    lineItemsDiscountAnonim(promoCode, setProductInBasket);
+                                    lineItemsDiscountAnonim(promoCode, setProductInBasket, setSummaryCost);
                                 } else {
-                                    lineItemsDiscountAuth(promoCode, setProductInBasket);
+                                    lineItemsDiscountAuth(promoCode, setProductInBasket, setSummaryCost);
                                     defineCostOfAllFlowers(setSummaryCost, setCountProduct);
                                 }
                             }}
