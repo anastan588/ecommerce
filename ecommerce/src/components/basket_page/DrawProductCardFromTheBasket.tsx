@@ -81,15 +81,14 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
             const tokenStore = getLocalStorage();
             const { refreshToken } = tokenStore;
             // const getCartsCastomer = await getCartsAuth(refreshToken);
-            const quant = await changeProductAuth(refreshToken, props.product.id, countProduct);
-            console.log(quant);
-            if(quant) {cart.setProducts(quant)}
+            const obj = await changeProductAuth(refreshToken, props.product.id, countProduct);
+            if(obj) {cart.setProducts(obj.items); setQuantity(obj.quant)}
             const quantTotal = await getQuantityAuth(refreshToken);
             if (quantTotal) cart.setQuantity(quantTotal);
         } else {
-            const quant = await changeProductAnonim(props.product.id, countProduct);
-            console.log(quant);
-            if(quant) {cart.setProducts(quant)}
+            const obj = await changeProductAnonim(props.product.id, countProduct);
+            console.log(obj);
+            if(obj) {cart.setProducts(obj.items); setQuantity(obj.quant)}
             const quantTotal = await getQuantityAnonimus();
             if (quantTotal) cart.setQuantity(quantTotal);
         }
@@ -101,7 +100,7 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
         console.log(countProduct);
         countProduct += 1;
         console.log(countProduct);
-        setQuantity(countProduct);
+        // setQuantity(countProduct);
         console.log(quantity);
         handleEvent();
     };
@@ -112,7 +111,7 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
         if (countProduct > 0) {
             countProduct -= 1;
             console.log(countProduct);
-            setQuantity(countProduct);
+            // setQuantity(countProduct);
             console.log(quantity);
             handleEvent();
         }
