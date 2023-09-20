@@ -30,6 +30,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 10px;
     margin-right: 20px;
 }
@@ -46,3 +47,22 @@
 .displayNone{
     display: none;
 }
+
+@media (max-width: 500px) {
+    .basketContainer {
+        gap: 5px;
+    }
+    
+    .basketTitleBlock {
+        padding: 5px;
+    }
+    
+    .clearBasketBtn {
+        padding: 5px;
+    }
+    
+    .totalPrice {
+        padding: 5px;
+    }
+    
+  }

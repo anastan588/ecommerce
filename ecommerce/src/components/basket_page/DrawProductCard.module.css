@@ -56,3 +56,33 @@
 .displayNone {
   display: none;
 }
+
+@media (max-width: 500px) {
+  .myCard {
+    padding: 5px;
+    max-width: 450px;
+    width: 100%;
+  }
+  .cardTitle {
+    font-size: 16px;
+  }
+  
+  .cardContent {
+    font-size: 14px;
+    padding: 5px 0;
+  }
+  
+  .cardPrice{
+    font-size: 18px;
+  }
+  
+  .oldPrice {
+    font-size: 16px;
+  }
+  
+    
+  .pricePromoCode {
+    font-size: 18px;
+  }
+  
+}
