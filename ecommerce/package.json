@@ -24,6 +24,7 @@
         "rc-field-form": "^1.37.0",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
+        "react-intersection-observer": "^9.5.2",
         "react-router": "^6.15.0",
         "react-router-dom": "^6.14.2",
         "react-scripts": "^5.0.1",
@@ -34,7 +35,7 @@
     "scripts": {
         "start": "cross-env NODE_PATH=./src react-scripts start",
         "build": "react-scripts build",
-        "test": "react-scripts test",
+        "test": "react-scripts test --watchAll --collectCoverage",
         "eject": "react-scripts eject",
         "lint": "eslint . --ext .ts",
         "jest": "jest --verbose --runInBand --forceExit",

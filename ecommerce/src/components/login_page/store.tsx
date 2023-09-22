@@ -30,8 +30,32 @@ class Store {
         this.isAuth = bool;
     }
 
-    login(email: string, password: string) {
-        console.log(email);
+    login(email: string, password: string, id?: string) {
+        if (id) {
+            return apiRoot
+                .login()
+                .post({
+                    body: {
+                        email: `${email}`,
+                        password: `${password}`,
+                        anonymousCartSignInMode: 'MergeWithExistingCustomerCart',
+                        anonymousCart: {
+                            id,
+                            typeId: 'cart',
+                        },
+                    },
+                })
+                .execute()
+                .then((body) => {
+                    this.setAuth(true);
+                    localStorage.removeItem('token');
+                    const customer = JSON.stringify(body);
+                    localStorage.setItem('currentCustomer', customer);
+                })
+                .catch((e) => {
+                    alert(e.message);
+                });
+        }
         return apiRoot
             .login()
             .post({
@@ -42,7 +66,6 @@ class Store {
             })
             .execute()
             .then((body) => {
-                // console.log(statusCode);
                 this.setAuth(true);
                 localStorage.removeItem('token');
                 const customer = JSON.stringify(body);
@@ -68,8 +91,6 @@ class Store {
             })
             .execute()
             .then((body) => {
-                console.log(body.statusCode);
-                console.log(body.statusCode === 201);
                 alert('Customer has been created');
                 this.setAuth(true);
                 localStorage.removeItem('token');
@@ -82,7 +103,6 @@ class Store {
                 endPointPassword()
                     // eslint-disable-next-line @typescript-eslint/no-shadow
                     .then(({ body }) => {
-                        console.log(body);
                         localStorage.setItem('id', body.id);
                     })
                     .catch(({ error }) => {
@@ -110,11 +130,9 @@ class Store {
         };
         endPointToken()
             /* .then(({ statusCode }) => {
-                    console.log(statusCode);
                 }) */
             .then(({ statusCode }) => {
                 if (statusCode === 200) {
-                    console.log(statusCode);
                     this.setAuth(true);
                     this.receiveCustomerById();
                 }
@@ -130,7 +148,6 @@ class Store {
             .get()
             .execute()
             .then((body) => {
-                console.log(body);
                 const customer = JSON.stringify(body);
                 localStorage.setItem('currentCustomer', customer);
             });

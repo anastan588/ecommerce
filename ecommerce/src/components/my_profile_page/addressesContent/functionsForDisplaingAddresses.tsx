@@ -4,7 +4,6 @@ import { EditOutlined, ScissorOutlined } from '@ant-design/icons';
 import { toast, ToastContainer } from 'react-toastify';
 import { Values } from './allAddresses';
 import { Context } from '../../..';
-import AddressComponentEditingForm from './functionsForEditingAddresses';
 
 const { Header, Content, Sider } = Layout;
 const { Title } = Typography;
@@ -32,7 +31,6 @@ export function shippingAddress(el: Values) {
     if (customer.body.shippingAddressIds.length !== 0) {
         return shipId;
     }
-    console.log(shipId);
     return false;
 }
 
@@ -49,7 +47,6 @@ export function billingAddress(el: Values) {
     if (customer.body.billingAddressIds.length !== 0) {
         return billId;
     }
-    console.log(billId);
     return false;
 }
 export function shippingDefaultAddress(el: Values) {
@@ -97,7 +94,6 @@ export function countryDetection(el: Values) {
 
 export function AddressComponent(element: Values) {
     const notifyAddress = () => {
-        console.log('notify');
         toast.success('Address was updated', {
             position: 'top-center',
             autoClose: 2000,
@@ -110,7 +106,6 @@ export function AddressComponent(element: Values) {
         });
     };
     const notifyAddresDelete = () => {
-        console.log('notify');
         toast.success('Address was deleted', {
             position: 'top-center',
             autoClose: 2000,
@@ -123,7 +118,6 @@ export function AddressComponent(element: Values) {
         });
     };
     const notifyNewShipAdd = () => {
-        console.log('notify');
         toast.success('New shipping address was added', {
             position: 'top-left',
             autoClose: 2000,
@@ -136,7 +130,6 @@ export function AddressComponent(element: Values) {
         });
     };
     const notifyNewBillAdd = () => {
-        console.log('notify');
         toast.success('New billing address was added', {
             position: 'top-left',
             autoClose: 2000,
@@ -149,7 +142,6 @@ export function AddressComponent(element: Values) {
         });
     };
     const notifyNewShipAddDef = () => {
-        console.log('notify');
         toast.info('Default shipping address was update', {
             position: 'top-left',
             autoClose: 2000,
@@ -162,7 +154,6 @@ export function AddressComponent(element: Values) {
         });
     };
     const notifyNewBillAddDef = () => {
-        console.log('notify');
         toast.info('Default billing address was update', {
             position: 'top-left',
             autoClose: 2000,
@@ -175,7 +166,6 @@ export function AddressComponent(element: Values) {
         });
     };
     const notifyNewShipDel = () => {
-        console.log('notify');
         toast.success('Shipping address was removed', {
             position: 'top-left',
             autoClose: 2000,
@@ -188,7 +178,6 @@ export function AddressComponent(element: Values) {
         });
     };
     const notifyNewBillDel = () => {
-        console.log('notify');
         toast.success('Billing address was removed', {
             position: 'top-left',
             autoClose: 2000,
@@ -203,7 +192,6 @@ export function AddressComponent(element: Values) {
     const customerJSON = localStorage.getItem('currentCustomer') as string;
     const customer = JSON.parse(customerJSON);
     const newElement = element;
-    // console.log(newElement);
     const { store } = useContext(Context);
     const [text, setText] = useState(newElement);
     const [isEdit, setIsEdit] = useState(false);
@@ -221,6 +209,7 @@ export function AddressComponent(element: Values) {
                     border: 'solid 1px #9a9a9a',
                     borderRadius: '15px',
                     padding: '10px 10px 10px 10px',
+                    background: 'rgba(250, 240, 190, 0.5)',
                 }}
             >
                 <Header
@@ -231,7 +220,7 @@ export function AddressComponent(element: Values) {
                         alignItems: 'center',
                         height: 'auto',
                         lineHeight: '1.0',
-                        background: '#9a9a9a',
+                        background: 'rgba(250, 240, 190, 1)',
                         borderRadius: 15,
                     }}
                 >
@@ -461,7 +450,6 @@ export function AddressComponent(element: Values) {
                                 }
                                 update = 0;
                                 updateCheckBox = 0;
-                                console.log(isEdit);
                             }}
                         >
                             Save
@@ -495,7 +483,6 @@ export function AddressComponent(element: Values) {
                         // addressID = text.id;
                         // store.changeAddress(version, addressID, text).then(() => notifyAddress());
                         // setIsEdit(false);
-                        console.log(isEdit);
                     }}
                 >
                     <div
@@ -541,12 +528,9 @@ export function AddressComponent(element: Values) {
                                         type="text"
                                         value={text.streetName}
                                         onChange={(event) => {
-                                            console.log(event.target.value);
                                             newElement.streetName = event.target.value;
                                             setText(newElement);
-                                            console.log(newElement);
                                             text.streetName = newElement.streetName;
-                                            console.log(text);
                                             version = customer.body.version;
                                             for (let i = 0; i < customer.body.addresses.length; i += 1) {
                                                 if (customer.body.addresses[i].id === event.target.id) {
@@ -632,12 +616,9 @@ export function AddressComponent(element: Values) {
                                         type="text"
                                         value={text.city}
                                         onChange={(event) => {
-                                            console.log(event.target.value);
                                             newElement.city = event.target.value;
                                             setText(newElement);
-                                            console.log(newElement);
                                             text.city = newElement.city;
-                                            console.log(text);
                                             version = customer.body.version;
                                             for (let i = 0; i < customer.body.addresses.length; i += 1) {
                                                 if (customer.body.addresses[i].id === event.target.id) {
@@ -671,7 +652,6 @@ export function AddressComponent(element: Values) {
                                         {
                                             message: `You entered an invalid postcode!`,
                                             validator: (_, value) => {
-                                                console.log(countryForValidation);
                                                 let postcodeTemplateAll: RegExp =
                                                     /^([0-9]{5,6}|[a-zA-Z][a-zA-Z ]{0,49})$/;
                                                 if (countryForValidation === 'BL') {
@@ -687,7 +667,6 @@ export function AddressComponent(element: Values) {
                                                 } else if (countryForValidation === 'UA') {
                                                     postcodeTemplateAll = /\b\d\d\d\d\d\b/;
                                                 }
-                                                console.log(postcodeTemplateAll);
                                                 if (postcodeTemplateAll.test(value) === false) {
                                                     return Promise.reject(
                                                         new Error(`You entered an invalid postcode!`)
@@ -704,12 +683,9 @@ export function AddressComponent(element: Values) {
                                         type="text"
                                         value={text.postalCode}
                                         onChange={(event) => {
-                                            console.log(event.target.value);
                                             newElement.postalCode = event.target.value;
                                             setText(newElement);
-                                            console.log(newElement);
                                             text.postalCode = newElement.postalCode;
-                                            console.log(text);
                                             version = customer.body.version;
                                             for (let i = 0; i < customer.body.addresses.length; i += 1) {
                                                 if (customer.body.addresses[i].id === event.target.id) {
@@ -753,13 +729,10 @@ export function AddressComponent(element: Values) {
                                         ]}
                                         value={text.country}
                                         onChange={(value) => {
-                                            console.log(value);
                                             newElement.country = value.slice(0, 2);
                                             setText(newElement);
                                             setState(value.slice(0, 2));
-                                            console.log(newElement);
                                             text.country = newElement.country;
-                                            console.log(text);
                                             version = customer.body.version;
                                             for (let i = 0; i < customer.body.addresses.length; i += 1) {
                                                 if (customer.body.addresses[i].id === value.slice(2)) {
@@ -813,7 +786,6 @@ export function AddressComponent(element: Values) {
                                             onChange={(event) => {
                                                 event.stopPropagation();
                                                 const check = event.target.checked;
-                                                console.log(check);
                                                 version = customer.body.version;
                                                 if (check === true) {
                                                     let checkIsAddressPresent = 0;
@@ -848,7 +820,6 @@ export function AddressComponent(element: Values) {
                                                         }
                                                     }
                                                 }
-                                                console.log(customer);
                                                 const customerUpdate = JSON.stringify(customer);
                                                 localStorage.removeItem('currentCustomer');
                                                 localStorage.setItem('currentCustomer', customerUpdate);
@@ -876,7 +847,6 @@ export function AddressComponent(element: Values) {
                                             onChange={(event) => {
                                                 event.stopPropagation();
                                                 const check = event.target.checked;
-                                                console.log(check);
                                                 version = customer.body.version;
                                                 if (check === true) {
                                                     if (customer.body.defaultShippingAddressId !== text.id) {
@@ -940,7 +910,6 @@ export function AddressComponent(element: Values) {
                                             onChange={(event) => {
                                                 event.stopPropagation();
                                                 const check = event.target.checked;
-                                                console.log(check);
                                                 version = customer.body.version;
                                                 if (check === true) {
                                                     let checkIsAddressPresent = 0;
@@ -975,7 +944,6 @@ export function AddressComponent(element: Values) {
                                                         }
                                                     }
                                                 }
-                                                console.log(customer);
                                                 const customerUpdate = JSON.stringify(customer);
                                                 localStorage.removeItem('currentCustomer');
                                                 localStorage.setItem('currentCustomer', customerUpdate);
@@ -1003,9 +971,7 @@ export function AddressComponent(element: Values) {
                                             onChange={(event) => {
                                                 event.stopPropagation();
                                                 const check = event.target.checked;
-                                                console.log(check);
                                                 version = customer.body.version;
-                                                console.log(customer);
                                                 if (check === true) {
                                                     if (customer.body.defaultBillingAddressId !== text.id) {
                                                         customer.body.defaultBillingAddressId = text.id;
@@ -1049,6 +1015,7 @@ export function AddressComponent(element: Values) {
                     border: 'solid 1px #9a9a9a',
                     borderRadius: '15px',
                     padding: '10px 10px 10px 10px',
+                    background: 'rgba(250, 240, 190, 0.5)',
                 }}
             >
                 <Header
@@ -1059,7 +1026,7 @@ export function AddressComponent(element: Values) {
                         alignItems: 'center',
                         height: 'auto',
                         lineHeight: '1.0',
-                        background: '#9a9a9a',
+                        background: 'rgba(250, 240, 190, 1)',
                         borderRadius: 15,
                     }}
                 >
@@ -1077,29 +1044,10 @@ export function AddressComponent(element: Values) {
                         </div>
                     </div>
                     <div style={{ display: 'flex', gap: 10, alignSelf: 'center' }}>
-                        {/* <Button
-                            icon={<ScissorOutlined />}
-                            onClick={() => {
-                                console.log(text);
-                                addressID = text.id;
-                                version = updatingCustomerForDelete.body.version;
-                                // store.removeAddress(version, addressID).then(() => {
-                                //     notifyAddresDelete();
-                                //     const newcustomerJSON = localStorage.getItem('currentCustomer') as string;
-                                //     const customerUpdate = JSON.parse(newcustomerJSON);
-                                //     setState(customerUpdate);
-                                //     const addressforDelete = document.getElementById(`${addressID}`) as HTMLElement;
-                                //     addressforDelete.remove();
-                                // });
-                            }}
-                        >
-                            Delete
-                        </Button> */}
                         <Button
                             icon={<EditOutlined />}
                             onClick={() => {
                                 setIsEdit(true);
-                                console.log(isEdit);
                             }}
                         >
                             Edit

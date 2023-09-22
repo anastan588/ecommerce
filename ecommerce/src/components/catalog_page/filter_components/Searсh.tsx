@@ -20,9 +20,7 @@ const suffix = (
 const SearchCompponent: React.FC = observer(() => {
     const products = useContext(Context);
     const onSearch = async (value: string) => {
-        // console.log(value);
         const search = await searchProd(value);
-        // console.log(search);
         products.products.setProducts(search);
     };
     return (

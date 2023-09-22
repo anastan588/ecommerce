@@ -6,7 +6,6 @@ import { getLocalStorage, projectKey } from './BuildClient';
 export const checkUserState = () => {
     const tokenStore = getLocalStorage();
     const { refreshToken } = tokenStore;
-    console.log(refreshToken);
     const client = getClientWithToken(refreshToken);
     const apiRootToken = createApiBuilderFromCtpClient(client);
 
@@ -15,10 +14,8 @@ export const checkUserState = () => {
     };
     endPointToken()
         /* .then(({ statusCode }) => {
-            console.log(statusCode);
         }) */
         .then(({ body }) => {
-            console.log(body);
         })
         .catch(console.error);
 };

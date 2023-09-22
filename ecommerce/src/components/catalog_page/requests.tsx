@@ -1,17 +1,17 @@
-import { apiRoot } from '../login_page/createClient';
+import { createApiBuilderFromCtpClient } from '@commercetools/platform-sdk';
+import { apiRoot, getClientWithToken } from '../login_page/createClient';
+import { apiRootAnonimusClientCastomer, apiRootCastomer } from './ClientsBuilderCastomer';
 import { TypeProducts, CategoryType, AttributeType } from './productsStore';
 
 export const categories = () => {
     return apiRoot.categories().get().execute();
 };
 categories().then(({ body }) => {
-    console.log(body);
     const arrId: (string | undefined)[] = [];
     // eslint-disable-next-line array-callback-return
     body.results.map((item) => {
         arrId.push(item.key);
     });
-    console.log(arrId);
 });
 
 export const categoriesSet = () => {
@@ -20,25 +20,14 @@ export const categoriesSet = () => {
         .get()
         .execute()
         .then(({ body }) => {
-            console.log(body);
             const category = body.results
                 .filter((item) => item.parent)
                 .map((item) => {
                     return { id: item.id, name: item.name.en };
                 });
-            console.log(category);
             return category;
         });
 };
-/* categories().then(({ body }) => {
-    console.log(body);
-    const arrId: (string | undefined)[] = [];
-    // eslint-disable-next-line array-callback-return
-    body.results.map((item) => {
-        arrId.push(item.key);
-    });
-    console.log(arrId);
-}); */
 
 const subCategoriesOne = () => {
     return apiRoot
@@ -52,33 +41,12 @@ const subCategoriesOne = () => {
 };
 
 subCategoriesOne().then(({ body }) => {
-    console.log(body);
     const arrId: (string | undefined)[] = [];
     // eslint-disable-next-line array-callback-return
     body.results.map((item) => {
         arrId.push(item.key);
     });
-    console.log(arrId);
 });
-
-const url = () => {
-    const product = () => {
-        return apiRoot.products().get().execute();
-    };
-    // eslint-disable-next-line consistent-return
-    product().then(({ body }) => {
-        if (body) {
-            const a = body.results[0].masterData.current.masterVariant.images;
-            // eslint-disable-next-line @typescript-eslint/no-shadow
-            let url;
-            if (a) {
-                // eslint-disable-next-line prefer-destructuring
-                url = a[0];
-            }
-            return url;
-        }
-    });
-};
 
 export const categoryProducts = (id: string) => {
     return apiRoot
@@ -86,79 +54,10 @@ export const categoryProducts = (id: string) => {
         .get({ queryArgs: { where: `categories(id="${id}")` } })
         .execute();
 };
-// eslint-disable-next-line @typescript-eslint/no-shadow
-/* categoryProducts({ id: string }).then(({ body }) => {
-    const names = body.results.map((item) => item.name);
-    console.log(names);
-}); */
 
-/* ATTRIBUTES */
-
-/* const attributesList = () => {
-    return apiRoot.products().get().execute();
+export const getProductById = (id: string) => {
+    return apiRoot.products().withId({ ID: id }).get().execute();
 };
-// eslint-disable-next-line consistent-return
-attributesList().then(({ body }) => {
-    if (body) {
-        const attr = body.results[0].masterData.current.masterVariant.attributes?.map((item) => item.name);
-        console.log(attr);
-    }
-}); */
-/* CATEGORIES */
-/* const categories = () => {
-    return apiRoot.categories().get().execute();
-};
-categories().then(({ body }) => {
-    const arrCat: (string | undefined)[] = [];
-    // eslint-disable-next-line array-callback-return
-    body.results.map((item) => {
-        arrCat.push(item.key);
-    });
-    console.log(arrCat);
-}); */
-
-/* KEY */
-
-/* const keyArr = () => {
-    return apiRoot.products().get().execute();
-};
-keyArr().then(({ body }) => {
-    const arrKey: (string | undefined)[] = [];
-    // eslint-disable-next-line array-callback-return
-    body.results.map((item) => {
-        arrKey.push(item.key);
-    });
-    console.log(arrKey);
-}); */
-
-/* CATEGORY PRODUCTS */
-
-const subCategories = () => {
-    return apiRoot
-        .categories()
-        .get({
-            queryArgs: {
-                expand: ['name'],
-            },
-        })
-        .execute();
-};
-
-subCategories().then(({ body }) => {
-    const { id } = body.results[0];
-    console.log(id);
-    const subProducts = () => {
-        return apiRoot
-            .productProjections()
-            .get({ queryArgs: { where: `categories(id="${id}")` } })
-            .execute();
-    };
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    subProducts().then(({ body }) => {
-        const names = body.results.map((item) => item.name);
-        console.log(names);
-    });
-});
 
 export const attributes = () => {
     return apiRoot
@@ -166,50 +65,12 @@ export const attributes = () => {
         .get({ queryArgs: { where: `masterVariant(attributes(name="flower-color"))` } })
         .execute();
 };
-// eslint-disable-next-line @typescript-eslint/no-shadow
-attributes().then(({ body }) => console.log(body));
 
 /* ATTRIBUTESLIST WITH VALUES */
 
 export const attributesList = () => {
     return apiRoot.products().get().execute();
 };
-// eslint-disable-next-line consistent-return
-/* attributesList().then(async ({ body }) => {
-    if (body) {
-        const attr = body.results[0].masterData.current.masterVariant.attributes?.map((item) => item.name);
-        console.log(attr);
-        // eslint-disable-next-line @typescript-eslint/no-shadow
-        if (attr) {
-            const attrValues = await Promise.all(
-                attr.map(async (item) => {
-                    const res = await apiRoot
-                        .productProjections()
-                        .search()
-                        .get({ queryArgs: { filter: `variants.attributes.${item}:exists` } })
-                        .execute()
-                        // eslint-disable-next-line @typescript-eslint/no-shadow
-                        .then(({ body }) => {
-                            const arr = body.results.map(
-                                (value) =>
-                                    value.masterVariant.attributes
-                                        ?.filter((it) => it.name === `${item}`)
-                                        .map((val) => val.value)
-                            );
-                            const set = new Set();
-                            arr.flat().forEach((i) => set.add(i));
-                            // console.log(set);
-                            // eslint-disable-next-line no-return-assign
-                            return { name: item, value: Array.from(set) };
-                        });
-                    // console.log(res);
-                    return res;
-                })
-            );
-            console.log(attrValues);
-        }
-    }
-}); */
 
 /* FILTER PRODUCTS ATTRIBUTES flower-color value meaning */
 
@@ -221,10 +82,6 @@ export const categoryFilterProductsArr = (id: string) => {
         .execute();
 };
 
-/* categoryFilterProductsArr().then(({ body }) => {
-    console.log(body);
-}); */
-
 export const categoryFilterProductsAndType = (idType: string, id: string) => {
     return apiRoot
         .productProjections()
@@ -234,12 +91,6 @@ export const categoryFilterProductsAndType = (idType: string, id: string) => {
         })
         .execute();
 };
-
-categoryFilterProductsAndType('9f6ed346-e10c-4f24-8b0f-c093dba256ce', '5a4fba3c-405c-4d51-8042-8d8d3dbce795').then(
-    ({ body }) => {
-        console.log(body);
-    }
-);
 
 export const categoryFilterTypeCategory = (idType: string) => {
     return apiRoot
@@ -255,14 +106,9 @@ export const categoryFilterTypeCategory = (idType: string) => {
         });
 };
 
-/* categoryFilterTypeCategory('9f6ed346-e10c-4f24-8b0f-c093dba256ce').then(({ body }) => {
-    const a = body.results.map((item) => item.categories[0].id);
-}); */
-
 export const attrFilterId = (str: string[]) => {
     const args: string[] = [];
     str.forEach((item) => args.push(item));
-    console.log(args);
     return apiRoot
         .productProjections()
         .search()
@@ -282,10 +128,6 @@ export const categoryFilterId = (id: string[]) => {
         .execute();
 };
 
-categoryFilterId(['5a4fba3c-405c-4d51-8042-8d8d3dbce795', '9a394da5-d3f4-44e3-948a-33c5645b2fe1']).then(({ body }) => {
-    console.log(body);
-});
-
 export const subProductsTwo = (name: string, value: string) => {
     return apiRoot
         .productProjections()
@@ -293,31 +135,6 @@ export const subProductsTwo = (name: string, value: string) => {
         .get({ queryArgs: { filter: `variants.attributes.${name}: "${value}"` } })
         .execute();
 };
-// eslint-disable-next-line @typescript-eslint/no-shadow
-/* subProductsTwo().then(({ body }) => {
-    const names = body.results.map((item) => item.name);
-    console.log(names);
-}); */
-
-/* FILTER ATTRIBUTES flower-color values */
-
-/* const attributesValues = () => {
-    return apiRoot
-        .productProjections()
-        .search()
-        .get({ queryArgs: { filter: `variants.attributes.flower-color:exists` } })
-        .execute();
-};
-// eslint-disable-next-line @typescript-eslint/no-shadow
-attributesValues().then(({ body }) => {
-    const arr = body.results.map(
-        (value) =>
-            value.masterVariant.attributes?.filter((item) => item.name === 'flower-color').map((val) => val.value)
-    );
-    const set = new Set();
-    arr.flat().forEach((item) => set.add(item));
-    console.log(set);
-}); */
 
 export const productsRes = () => {
     return apiRoot.products().get().execute();
@@ -379,7 +196,6 @@ export const productsTypeSet = () => {
         .get()
         .execute()
         .then(({ body }) => {
-            console.log(body);
             const arr = body.results.map((item) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 return { id: item.id, name: item.name };
@@ -392,32 +208,12 @@ export const productsTypeSet = () => {
 export const productsType = () => {
     return apiRoot.productTypes().get().execute();
     /* .then(({ body }) => {
-            console.log(body);
             const arr = body.results.map((item) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 return { id: item.id, name: item.name };
             });
-            console.log(arr);
         }); */
 };
-
-/* productsType().then(({ body }) => {
-    console.log(body);
-    const { id } = body.results[0];
-    console.log(body.results);
-    const productsTypeProducts = () => {
-        return apiRoot
-            .productProjections()
-            .search()
-            .get({ queryArgs: { filter: `productType.id: "${id}"` } })
-            .execute();
-    };
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    productsTypeProducts().then(({ body }) => {
-        const names = body.results.map((item) => item.name);
-        console.log(names);
-    });
-}); */
 
 export const productsTypeTwo = (id: string) => {
     return (
@@ -439,7 +235,6 @@ export const productsTypeTwo = (id: string) => {
                         prices: item.masterVariant.prices,
                     };
                 });
-                console.log(names);
                 return names;
             })
     );
@@ -456,11 +251,6 @@ export const sortPricesheight = (attr: string[]) => {
         .get({ queryArgs: { filter: args, sort: `price asc` } })
         .execute();
 };
-// eslint-disable-next-line @typescript-eslint/no-shadow
-/* sortPricesheight().then(({ body }) => {
-    const names = body.results.map((item) => item.name);
-    console.log(names);
-}); */
 
 export const sortPricesDesc = (attr: string[]) => {
     const args: string[] = [];
@@ -471,11 +261,6 @@ export const sortPricesDesc = (attr: string[]) => {
         .get({ queryArgs: { filter: args, sort: `price desc` } })
         .execute();
 };
-// eslint-disable-next-line @typescript-eslint/no-shadow
-/* sortPricesDesc().then(({ body }) => {
-    const names = body.results.map((item) => item.name);
-    console.log(names);
-}); */
 
 export const sortAlfAsc = (attr: string[]) => {
     const args: string[] = [];
@@ -486,11 +271,6 @@ export const sortAlfAsc = (attr: string[]) => {
         .get({ queryArgs: { filter: args, sort: `name.ru asc` } })
         .execute();
 };
-// eslint-disable-next-line @typescript-eslint/no-shadow
-/* sortAlfAsc().then(({ body }) => {
-    const names = body.results.map((item) => item.name);
-    console.log(names);
-}); */
 
 export const sortAlfDesc = (attr: string[]) => {
     const args: string[] = [];
@@ -501,11 +281,6 @@ export const sortAlfDesc = (attr: string[]) => {
         .get({ queryArgs: { filter: args, sort: `name.ru desc` } })
         .execute();
 };
-// eslint-disable-next-line @typescript-eslint/no-shadow
-/* sortAlfDesc().then(({ body }) => {
-    const names = body.results.map((item) => item.name);
-    console.log(names);
-}); */
 
 export const defaultProducts = (attr: string[]) => {
     const args: string[] = [];
@@ -580,8 +355,9 @@ export const searchProd = (text: string) => {
 export const priceFilter = (value?: number[], args?: string[]) => {
     const argum: string[] = [];
     if (value) {
-    const str = `variants.price.centAmount:range(${value[0]} to ${value[1]})`;
-    argum.push(str);} 
+        const str = `variants.price.centAmount:range(${value[0]} to ${value[1]})`;
+        argum.push(str);
+    }
     if (args) {
         args.forEach((item) => argum.push(item));
     }
@@ -603,5 +379,658 @@ export const priceFilter = (value?: number[], args?: string[]) => {
                 };
             });
             return arr;
+        });
+};
+
+/* const reqCarts = () => {
+    return apiRoot.carts().get().execute();
+};
+
+reqCarts().then((body) => {
+});
+
+const reqCart = () => {
+    return apiRootAnonimusClient.me().carts().get().execute();
+};
+
+reqCart().then((body) => {
+}); */
+
+export const createAnonimusCart = (prodId: string) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .carts()
+        .post({ body: { currency: 'EUR' } })
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            localStorage.setItem('cartIdAnonim', cartId);
+            const addProductItemAnonim = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'addLineItem', productId: prodId }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return addProductItemAnonim();
+        });
+};
+
+/* createAnonimusCart().then((body) => {
+    const cartId = body.body.anonymousId;
+    const { version } = body.body;
+    return { cartId, version };
+}); */
+
+/* const addProductItem = (cartId: string, prodId: string, version: number) => {
+    return apiRootAnonimusClient
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({ body: { version, actions: [{ action: 'addLineItem', productId: prodId }] } })
+        .execute()
+        .then((body) => {
+        });
+}; */
+
+export const getCartsAuth = async (token: string) => { // это я добавил для тестирования
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    const answer = await apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            return { cartId, version };
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+
+    return answer;
+};
+
+export const getCartsProduct = (token: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken.withProjectKey({ projectKey: 'rsschool-final-task-stage2' }).me().activeCart().get().execute();
+};
+
+export const createCartAuth = (token: string, prodId: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return (
+        apiRootToken
+            .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+            .me()
+            .carts()
+            .post({ body: { currency: 'EUR' } })
+            .execute()
+            // eslint-disable-next-line @typescript-eslint/no-shadow
+            .then((body) => {
+                const cartId = body.body.id;
+                const { version } = body.body;
+                const addProductItemCastomer = () => {
+                    return (
+                        apiRootToken
+                            .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                            .me()
+                            .carts()
+                            .withId({ ID: cartId })
+                            .post({ body: { version, actions: [{ action: 'addLineItem', productId: prodId }] } })
+                            .execute()
+                            // eslint-disable-next-line @typescript-eslint/no-shadow
+                            .then((body) => {
+                                return body.body.lineItems;
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                            })
+                    );
+                };
+                return addProductItemCastomer();
+            })
+            .catch((e) => {
+                console.log(e);
+            })
+    );
+};
+
+export const checkCartsById = (cartId: string) => {
+    return apiRootCastomer
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .get()
+        .execute()
+        .then((body) => {
+            return body;
+        });
+};
+
+export const getCartsAnonimus = () => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const { id } = body.body;
+            const { version } = body.body;
+            return { id, version };
+        })
+        .catch((e) => console.log(e));
+};
+
+export const getCartsProdAnonimus = () => {
+    return apiRootAnonimusClientCastomer.me().activeCart().get().execute();
+    /* .then((body) => {
+            const { id } = body.body.results[0];
+            const { version } = body.body.results[0];
+            return { id, version };
+        })
+        .catch((e) => console.log(e)); */
+};
+
+export const checkCartsAnonimus = (cartId: string) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .get()
+        .execute()
+        .then((body) => {
+            console.log(body);
+        });
+};
+
+export const addProductItemAnonim = (cartId: string, prodId: string, version: number) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({ body: { version, actions: [{ action: 'addLineItem', productId: prodId }] } })
+        .execute()
+        .then((body) => {
+            return body.body.lineItems;
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const addProductItemCastomer = (token: string, cartId: string, prodId: string, version: number) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({ body: { version, actions: [{ action: 'addLineItem', productId: prodId }] } })
+        .execute()
+        .then((body) => {
+            return body.body.lineItems;
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const checkProduct = (token: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+        });
+};
+
+export const removeProductItemCastomer = (token: string, cartId: string, prodId: string, version: number) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({ body: { version, actions: [{ action: 'removeLineItem', lineItemId: prodId }] } })
+        .execute()
+        .then((body) => {
+            return body.body.lineItems;
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const removeProductItemAnonim = (cartId: string, prodId: string, version: number) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .carts()
+        .withId({ ID: cartId })
+        .post({ body: { version, actions: [{ action: 'removeLineItem', lineItemId: prodId }] } })
+        .execute()
+        .then((body) => {
+            return body.body.lineItems;
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const addCodeAnonim = (code: string) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => console.log(e));
+};
+
+export const deleteAnonim = () => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .delete({ queryArgs: { version } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => console.log(e));
+};
+
+export const addCodeAuth = (token: string, code: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'addDiscountCode', code }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const deleteAuth = (token: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .delete({ queryArgs: { version } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const changeProductAnonim = (prodId: string, quantity: number) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .post({
+                            body: {
+                                version,
+                                actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }],
+                            },
+                        })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            // console.log(arr());
+            return arr();
+        })
+        .catch((e) => console.log(e));
+};
+
+export const changeProductAuth = (token: string, prodId: string, quantity: number) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({
+                            body: {
+                                version,
+                                actions: [{ action: 'changeLineItemQuantity', lineItemId: prodId, quantity }],
+                            },
+                        })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const getQuantityAuth = (token: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const arr = body.body.lineItems;
+            const lengthArr = arr.map((item) => item.quantity);
+            const length = lengthArr.reduce((acc, item) => {
+                return acc + item;
+            }, 0);
+            return length;
+        })
+        .catch((e) => console.log(e));
+};
+
+export const getQuantityAnonimus = () => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const arr = body.body.lineItems;
+            const lengthArr = arr.map((item) => item.quantity);
+            const length = lengthArr.reduce((acc, item) => {
+                return acc + item;
+            }, 0);
+            return length;
+        })
+        .catch((e) => console.log(e));
+};
+
+export const getDiscountCode = () => {
+    return apiRoot
+        .discountCodes()
+        .get()
+        .execute()
+        /* .then((body) => {
+            const { code } = body.body.results[0];
+            return code;
+        }).catch((e) => console.log(e)) */
+};
+
+getDiscountCode();
+
+export const removeCodeAuth = (token: string, codeId: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'removeDiscountCode', discountCode: { typeId: 'discount-code', id: codeId} }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+};
+
+export const removeCodeAnonim = (codeId: string) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const { id } = body.body;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: id })
+                        .post({ body: { version, actions: [{ action: 'removeDiscountCode', discountCode: { typeId: 'discount-code', id: codeId} }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        })
+        .catch((e) => console.log(e));
+};
+
+export const removeItemCastomer = (token: string, prodId: string) => {
+    const client = getClientWithToken(token);
+    const apiRootToken = createApiBuilderFromCtpClient(client);
+    return apiRootToken
+        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootToken
+                        .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'removeLineItem', lineItemId: prodId }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
+        });
+};
+
+export const removeItemAnonim = (prodId: string) => {
+    return apiRootAnonimusClientCastomer
+        .me()
+        .activeCart()
+        .get()
+        .execute()
+        .then((body) => {
+            const cartId = body.body.id;
+            const { version } = body.body;
+            const arr = () => {
+                return (
+                    apiRootAnonimusClientCastomer
+                        .me()
+                        .carts()
+                        .withId({ ID: cartId })
+                        .post({ body: { version, actions: [{ action: 'removeLineItem', lineItemId: prodId }] } })
+                        .execute()
+                        // eslint-disable-next-line @typescript-eslint/no-shadow
+                        .then((body) => {
+                            return body.body.lineItems;
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        })
+                );
+            };
+            return arr();
         });
 };

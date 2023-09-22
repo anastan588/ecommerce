@@ -1,12 +1,17 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useContext } from 'react';
 import axios from 'axios';
 import { isTemplateMiddle } from 'typescript';
 
 import { Avatar, Card, Carousel, Col, Row } from 'antd';
+import { observer } from 'mobx-react-lite';
 import { apiRoot } from '../login_page/createClient';
 import classes from './productPage.module.css';
 import './productStyles.css';
 import ModalWindow, { setStartImageForModalWindow } from '../modal_window/ModalWindow';
+import ButtonProduct from './Button_product';
+import { CategoryType, Obj } from '../catalog_page/productsStore';
+import { Context } from '../..';
+import BackGround from '../../images/backgrounds/background3.jpg';
 
 const { Meta } = Card;
 
@@ -41,6 +46,7 @@ type MasterVariantType = {
 };
 
 type MasterDataCurrent = {
+    categories?: CategoryType[];
     masterVariant: MasterVariantType;
     name: { 'en-US': string; ru: string };
     description: { 'en-US': string; ru: string };
@@ -63,22 +69,16 @@ type AttributesAllObj = {
 let idPlants: string = '37e040f3-3e80-4197-b3fc-64afbbc2dc35';
 let indexPlants: number = 0;
 
-
 export function updateID(id: string) {
-/*     console.log('idPlants');
-    console.log(idPlants); */
     idPlants = id;
-    /* console.log(idPlants); */
-
 }
 
-
-
-const ProductPage = () => {
+const ProductPage: React.FC = observer(() => {
+    const products = useContext(Context);
+    const objItem: Obj = products.products.getProductItem()[0];
     const state = useState({});
     const product: ProductType = state[0];
     const setProduct = state[1];
-
     const attributesObj: AttributesAllObj = {
         'country-of-origin': 'Страна происхождения',
         Group: 'Группа',
@@ -107,34 +107,18 @@ const ProductPage = () => {
             .get()
             .execute()
             .then((body) => {
-                /* console.log('body.body.results')
-                console.log(body.body.results); */
-
-            const productCard = body.body.results.filter((item, index) => {
-                if (item.id === idPlants) {
-                    indexPlants = index;
-                    return item;
-                }
-                return false;
-            });
-                /* console.log('control')
-                console.log(productCard[0]);
-                console.log(body.body.results[0]); */
+                const productCard = body.body.results.filter((item, index) => {
+                    if (item.id === idPlants) {
+                        indexPlants = index;
+                        return item;
+                    }
+                    return false;
+                });
 
                 setProduct(productCard[0]);
 
-
-
-
-
-
-
-
-                /* setProduct(body.body.results[0]); */
             });
     }, []);
-
-    
 
     const pathImage = product.masterData?.current.masterVariant.images[0].url;
     const titlePlants = product.masterData?.current.name.ru;
@@ -157,13 +141,29 @@ const ProductPage = () => {
     function openModal(path: string | undefined) {
         if (path) setStartImageForModalWindow(path, indexPlants);
         setModalActive(true);
-        if(path) pathImageCurrent = path;
-
+        if (path) pathImageCurrent = path;
     }
-
+    /* const objItem = () => {
+        if(product.masterData && product.masterData?.current.categories?.[0]) {
+        return {
+            id: idPlants,
+            name: titlePlants,
+            categoriesId: product.masterData?.current.categories?.[0].id,
+            attributes: product.masterData?.current.masterVariant.attributes,
+            description: product.masterData?.current.description,
+            images: product.masterData?.current.masterVariant.images,
+            prices: product.masterData?.current.masterVariant.prices,
+            };
+        } return undefined;
+    }; */
     return (
         <div>
-            <ModalWindow active={modalActive} setActive={setModalActive} path={pathImageCurrent}/>
+            <img
+                src={BackGround}
+                alt="mainPage"
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0 }}
+            />
+            <ModalWindow active={modalActive} setActive={setModalActive} path={pathImageCurrent} />
             <Row className={classes.productBlock}>
                 <Col className={classes.cardBlock}>
                     <Card
@@ -193,6 +193,7 @@ const ProductPage = () => {
                             </Carousel>
                         }
                     ></Card>
+
                     <Card className={classes.cardElement}>
                         <Meta title={titlePlants} description={descriptionPlants} className={classes.titlePlants} />
                         <div>
@@ -221,11 +222,12 @@ const ProductPage = () => {
                                 <p className={classes.parameterPlants}>EUR</p>
                             </div>
                         </div>
+                        <ButtonProduct key={objItem.id} item={objItem} />
                     </Card>
                 </Col>
             </Row>
         </div>
     );
-};
+});
 
 export default ProductPage;

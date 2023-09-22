@@ -1,0 +1,69 @@
+.basketContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.basketTitleBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.clearBasketBtn {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.totalPrice {
+    padding: 10px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.promoCodeBlock {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-right: 20px;
+    width: 50%;
+}
+
+.inputPromoCode {
+    width: 20%;
+    height: 25px;
+}
+
+.displayBlock{
+    display: block;
+}
+
+.displayNone{
+    display: none;
+}
+
+@media (max-width: 500px) {
+    .basketContainer {
+        gap: 5px;
+    }
+    
+    .basketTitleBlock {
+        padding: 5px;
+    }
+    
+    .clearBasketBtn {
+        padding: 5px;
+    }
+    
+    .totalPrice {
+        padding: 5px;
+    }
+    
+  }

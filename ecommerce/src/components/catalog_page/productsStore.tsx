@@ -54,6 +54,8 @@ export class ProductsStore {
 
     public product: Obj[];
 
+    public productItem: Obj[];
+
     public categoryActive: CategoryType[];
 
     public attributesActive: AttributeType[];
@@ -63,6 +65,7 @@ export class ProductsStore {
         this.category = [];
         this.attributes = [];
         this.product = [];
+        this.productItem = [];
         this.categoryActive = [];
         this.attributesActive = [];
         makeAutoObservable(this);
@@ -102,6 +105,10 @@ export class ProductsStore {
         this.product = product;
     }
 
+    setProductItem(product: Obj[]) {
+        this.productItem = product;
+    }
+
     getTypes() {
         return this.types;
     }
@@ -124,5 +131,9 @@ export class ProductsStore {
 
     getProducts() {
         return this.product;
+    }
+
+    getProductItem() {
+        return this.productItem;
     }
 }

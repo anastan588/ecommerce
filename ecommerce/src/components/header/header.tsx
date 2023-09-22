@@ -1,4 +1,4 @@
-import { Button, Col, Row } from 'antd';
+import { Button, Col, Row, Layout } from 'antd';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { observer } from 'mobx-react-lite';
 import React, { useContext, useEffect } from 'react';
@@ -6,12 +6,38 @@ import { Link } from 'react-router-dom';
 import RegistrationPage from '../registration_page/RegistrationPage';
 import { Context } from '../..';
 import Store from '../login_page/store';
+import BasketImg from '../../images/icon/shopping-cart-solid.svg';
+
+import { getLocalStorage } from '../login_page/BuildClient';
+import { getCartsProduct } from '../catalog_page/requests';
+
+const { Content } = Layout;
 
 const Header = () => {
-    const { store } = useContext(Context);
+    const { store, cart } = useContext(Context);
     useEffect(() => {
         if (localStorage.getItem('token')) {
             store.checkAuth();
+            const tokenStore = getLocalStorage();
+            const { refreshToken } = tokenStore;
+            if (refreshToken)
+                getCartsProduct(refreshToken)
+                    .then((body) => {
+                        const cartId = body.body.id;
+                        const { version } = body.body;
+                        const cartObj = [];
+                        cartObj.push({ cartId, version });
+                        cart.setCart(cartObj);
+                        const arr = body.body.lineItems;
+                        cart.setProducts(arr);
+                        const lengthArr = arr.map((item) => item.quantity);
+                        const length = lengthArr.reduce((acc, item) => { return acc + item}, 0);
+                        cart.setQuantity(length);
+
+                    })
+                    .catch((e) => {
+                        console.log(e);
+                    });
         }
     }, []);
 
@@ -21,8 +47,13 @@ const Header = () => {
 
     // const { authed, logout } = UserAuth();
     return (
-        <Row className="header__container" justify="space-evenly" wrap={false}>
-            <Col className="header__item" onClick={() => console.log('main page')}>
+        <Row
+            className="header__container"
+            justify="space-evenly"
+            wrap={false}
+            style={{ position: 'relative', zIndex: 2 }}
+        >
+            <Col className="header__item" onClick={() => {}}>
                 <Link to="/" className="header__item_link">
                     Main page
                 </Link>
@@ -32,14 +63,18 @@ const Header = () => {
                     Catalog page
                 </Link>
             </Col>
-            <Col className="header__item" onClick={() => console.log('about us page')}>
+            <Col className="header__item" onClick={() => {}}>
                 <Link className="header__item_link" to="/about">
                     About Us
                 </Link>
             </Col>
-            <Col className="header__item" onClick={() => console.log('basket page')}>
-                <Link className="header__item_link" to="/basket">
-                    Basket page
+            <Col className="header__item" onClick={() => {}}>
+                <Link className="header__item_link" to="/basket" style={{ display: 'flex', gap: 5 }}>
+                    <p style={{ fontSize: 18 }}>Basket page</p>
+                    <div style={{ position: 'relative', display: 'flex' }}>
+                        <img src={BasketImg} alt="basket" style={{ maxHeight: 25, minWidth: 40 }} />
+                        <p style={{ position: 'absolute', bottom: 0, right: 0 }}>{cart.getQuantity()}</p>
+                    </div>
                 </Link>
             </Col>
 
@@ -50,6 +85,7 @@ const Header = () => {
                             to="/"
                             onClick={() => {
                                 store.logout();
+                                cart.setProducts([]);
                             }}
                         >
                             Log Out

@@ -1,6 +1,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../../App';
+import Login from './Login';
 import LogInPage from './login_page';
 
 window.matchMedia = (query) => ({
@@ -40,7 +41,7 @@ describe('render input fields', () => {
     });
 });
 
-/* describe('log in input', () => {
+describe('log in input', () => {
     it('input to be in the Log In Page', () => {
         render(<App />);
         const linkElement = screen.getByText('Log In');
@@ -52,7 +53,7 @@ describe('render input fields', () => {
         userEvent.type(screen.getByLabelText('Password'), 'asddfffgg');
         expect(screen.getByLabelText('Password')).toBeValid();
     });
-}); */
+});
 
 describe('email input field', () => {
     it('email input is in the Log In Page', () => {
@@ -79,7 +80,6 @@ describe('events', () => {
         render(<App />);
         const linkElement = screen.getByText('Log In');
         fireEvent.click(linkElement);
-        screen.debug();
         expect(screen.getByText('Log In Page')).toBeInTheDocument();
         const linkReg = screen.getByText('Or register now!');
         expect(linkReg).toBeInTheDocument();

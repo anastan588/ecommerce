@@ -1,23 +1,14 @@
 import React, { ReactElement, useState, useContext, ReactNode } from 'react';
-import { Button, Card, Input, Form, Typography, theme, Layout, Modal, Select } from 'antd';
-import { EditOutlined, ScissorOutlined, PlusOutlined } from '@ant-design/icons';
-import { toast, ToastContainer } from 'react-toastify';
+import { Button, Card, Input, Form, Layout, Modal, Select } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { observer } from 'mobx-react-lite';
 import ReactDOM from 'react-dom';
 import { Context } from '../../..';
-import {
-    countryDetection,
-    shippingAddress,
-    billingAddress,
-    shippingDefaultAddress,
-    billingDefaultAddress,
-    AddressComponent,
-} from './functionsForDisplaingAddresses';
-import AddressComponentEditingForm from './functionsForEditingAddresses';
+import { AddressComponent } from './functionsForDisplaingAddresses';
 
-const { Header, Content, Sider } = Layout;
-const { Title } = Typography;
+const { Header } = Layout;
 let version = 0;
 
 export type Values = {
@@ -43,7 +34,6 @@ type FieldType = {
 
 function AddRessesEdit() {
     const notifyAddressAdd = () => {
-        console.log('notify');
         toast.success('New address was added', {
             position: 'top-center',
             autoClose: 2000,
@@ -209,10 +199,8 @@ function AddRessesEdit() {
                                                 type="text"
                                                 value={text.streetName}
                                                 onChange={(event) => {
-                                                    console.log(event.target.value);
                                                     text.streetName = event.target.value;
                                                     setText(text);
-                                                    console.log(text);
                                                     version = customer.body.version;
                                                 }}
                                             />
@@ -290,10 +278,8 @@ function AddRessesEdit() {
                                                 type="text"
                                                 value={text.city}
                                                 onChange={(event) => {
-                                                    console.log(event.target.value);
                                                     text.city = event.target.value;
                                                     setText(text);
-                                                    console.log(text);
                                                     version = customer.body.version;
                                                 }}
                                             />
@@ -320,10 +306,8 @@ function AddRessesEdit() {
                                                 type="text"
                                                 value={text.postalCode}
                                                 onChange={(event) => {
-                                                    console.log(event.target.value);
                                                     text.postalCode = event.target.value;
                                                     setText(text);
-                                                    console.log(text);
                                                     version = customer.body.version;
                                                 }}
                                             />
@@ -357,10 +341,8 @@ function AddRessesEdit() {
                                                 ]}
                                                 value={text.country}
                                                 onChange={(value) => {
-                                                    console.log(value);
                                                     text.country = value;
                                                     setText(text);
-                                                    console.log(text);
                                                     version = customer.body.version;
                                                 }}
                                             />

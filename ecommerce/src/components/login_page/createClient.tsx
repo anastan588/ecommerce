@@ -8,6 +8,7 @@ import {
     projectKey,
     getPasswordFlowOptions,
     getClientWithTokenOptions,
+    getAnonymousSessionFlow,
 } from './BuildClient';
 
 // Create apiRoot from the imported ClientBuilder and include your Project key
@@ -47,3 +48,19 @@ export const getClientWithToken = (token: string) => {
 
     return ctpClientToken;
 };
+
+export const getAnonimusClient = () => {
+    const strAnonimusClient = new ClientBuilder()
+        .withProjectKey(projectKey) // .withProjectKey() is not required if the projectKey is included in authMiddlewareOptions
+        .withClientCredentialsFlow(authMiddlewareOptions)
+        .withAnonymousSessionFlow(getAnonymousSessionFlow())
+        .withHttpMiddleware(httpMiddlewareOptions)
+        .withLoggerMiddleware() // Include middleware for logging
+        .build();
+
+    return strAnonimusClient;
+};
+
+export const apiRootAnonimusClient = createApiBuilderFromCtpClient(getAnonimusClient()).withProjectKey({
+    projectKey: 'rsschool-final-task-stage2',
+});
