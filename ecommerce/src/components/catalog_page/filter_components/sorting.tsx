@@ -21,15 +21,11 @@ const Sorting: React.FC = observer(() => {
     const [value3, setValue3] = useState('default');
 
     const onChange3 = ({ target: { value } }: RadioChangeEvent) => {
-        console.log('radio3 checked', value);
         setValue3(value);
-        // console.log(value);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         hundleEvent(value);
     };
     const hundleEvent = async (value: string) => {
-        // console.log('click');
-        // console.log(value);
         const types = products.products.getTypes();
         let categories = products.products.getCategory();
         const categoryActive = products.products.getCategoryActive();
@@ -58,7 +54,6 @@ const Sorting: React.FC = observer(() => {
             args.push(strId);
         } */
         if (value === 'по возрастанию') {
-            // console.log(value);
             sortPricesheight(args).then(({ body }) => {
                 const arr = body.results.map((item) => {
                     // const catId = categories.find((i) => i.id === item.categories[0].id);
@@ -72,11 +67,9 @@ const Sorting: React.FC = observer(() => {
                         prices: item.masterVariant.prices,
                     };
                 });
-                console.log(arr);
                 products.products.setProducts(arr);
             });
         } else if (value === 'по убыванию') {
-            console.log(value);
             sortPricesDesc(args).then(({ body }) => {
                 const arr = body.results.map((item) => {
                     return {
@@ -89,7 +82,6 @@ const Sorting: React.FC = observer(() => {
                         prices: item.masterVariant.prices,
                     };
                 });
-                console.log(arr);
                 products.products.setProducts(arr);
             });
         } else if (value === 'default') {
@@ -117,8 +109,6 @@ const Sorting: React.FC = observer(() => {
     /* const [value, setValue] = useState<string | number>('по возрастанию');
     // eslint-disable-next-line @typescript-eslint/no-shadow
     const hundleEvent = () => {
-        console.log('click');
-        console.log(value);
         if (value === 'по возрастанию') {
             sortPricesheight().then(({ body }) => {
                 const arr = body.results.map((item) => {

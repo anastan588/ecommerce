@@ -19,21 +19,16 @@ const Header = () => {
         if (localStorage.getItem('token')) {
             store.checkAuth();
             const tokenStore = getLocalStorage();
-            console.log(tokenStore);
             const { refreshToken } = tokenStore;
             if (refreshToken)
                 getCartsProduct(refreshToken)
                     .then((body) => {
-                        console.log(body);
                         const cartId = body.body.id;
                         const { version } = body.body;
-                        console.log(cartId);
-                        console.log(version);
                         const cartObj = [];
                         cartObj.push({ cartId, version });
                         cart.setCart(cartObj);
                         const arr = body.body.lineItems;
-                        console.log(arr);
                         cart.setProducts(arr);
                         const lengthArr = arr.map((item) => item.quantity);
                         const length = lengthArr.reduce((acc, item) => { return acc + item}, 0);

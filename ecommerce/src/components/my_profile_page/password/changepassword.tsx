@@ -69,11 +69,8 @@ function PasswordChange() {
 
     const onFinish = (values: Values) => {
         version = customer.body.version;
-        console.log(values);
-        console.log(values.currentPassword);
         const previousPassword = values.currentPassword;
         const nextPassword = values.newPassword;
-        console.log(customer);
         const customerUpdate = JSON.stringify(customer);
         localStorage.removeItem('currentCustomer');
         localStorage.setItem('currentCustomer', customerUpdate);

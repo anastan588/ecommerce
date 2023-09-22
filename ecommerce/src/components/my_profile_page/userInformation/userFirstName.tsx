@@ -54,7 +54,6 @@ function FirstNameEdit() {
                     onFinish={() => {
                         setIsEdit(false);
                         sendUpdateCustomerToServer(version).then(() => notifyFirstName());
-                        console.log(customer.body.firstName);
                     }}
                 >
                     <Form.Item
@@ -128,7 +127,6 @@ function FirstNameEdit() {
                             // onClick={() => {
                             //     setIsEdit(false);
                             //     sendUpdateCustomerToServer(version).then(() => notifyFirstName());
-                            //     console.log(customer.body.firstName);
                             // }}
                         >
                             Save
@@ -150,7 +148,6 @@ function FirstNameEdit() {
                     icon={<EditOutlined />}
                     onClick={() => {
                         setIsEdit(true);
-                        console.log(isEdit);
                     }}
                 >
                     Edit

@@ -52,7 +52,6 @@ const Login: React.FC = () => {
             login = store.login(values.email, values.password);
         }
         login.then(() => {
-            console.log('sucsess');
             navigate('/');
             const customer = getPasswordFlowClient(values.email, values.password);
             const apiRootClient = createApiBuilderFromCtpClient(customer);
@@ -63,7 +62,6 @@ const Login: React.FC = () => {
             endPointPassword()
                 // eslint-disable-next-line @typescript-eslint/no-shadow
                 .then(({ body }) => {
-                    console.log(body);
                     localStorage.setItem('id', body.id);
                 })
                 .catch(({ error }) => {

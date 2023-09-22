@@ -21,15 +21,11 @@ const SortingAl: React.FC = observer(() => {
     const [value3, setValue3] = useState('default');
 
     const onChange3 = ({ target: { value } }: RadioChangeEvent) => {
-        console.log('radio3 checked', value);
         setValue3(value);
-        console.log(value);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         hundleEvent(value);
     };
     const hundleEvent = async (value: string) => {
-        console.log('click');
-        console.log(value);
         const types = products.products.getTypes();
         let categories = products.products.getCategory();
         const categoryActive = products.products.getCategoryActive();
@@ -38,9 +34,7 @@ const SortingAl: React.FC = observer(() => {
         }
         const attrActiveA = products.products.getActiveAttributes();
         const args = queryArgsDef(types, categories, attrActiveA);
-        console.log(args);
         if (value === 'от А -> Я') {
-            console.log(value);
             sortAlfAsc(args).then(({ body }) => {
                 const arr = body.results.map((item) => {
                     /* const catId = categories.find((i) => i.id === item.categories[0].id);
@@ -56,7 +50,6 @@ const SortingAl: React.FC = observer(() => {
                     };
                     // return undefined;
                 });
-                console.log(arr);
                 const b = arr.flat().filter((item) => item !== undefined);
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 const c: any = [];
@@ -65,11 +58,9 @@ const SortingAl: React.FC = observer(() => {
                         c.push(item);
                     }
                 });
-                console.log(c);
                 if (arr) products.products.setProducts(arr);
             });
         } else if (value === 'от Я -> А') {
-            console.log(value);
             sortAlfDesc(args).then(({ body }) => {
                 const arr = body.results.map((item) => {
                     /* const catId = categories.find((i) => i.id === item.categories[0].id);
@@ -86,16 +77,15 @@ const SortingAl: React.FC = observer(() => {
                     /* }
                     return undefined; */
                 });
-                console.log(arr);
                 // const b = arr.flat().filter((item) => item !== undefined);
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
                 /* const c: any = [];
-                b.forEach((item) => {
-                    if (item) {
-                        c.push(item);
-                    }
-                });
-                console.log(c); */
+                // b.forEach((item) => {
+                //     if (item) {
+                //         c.push(item);
+                //     }
+                // });
+                */
                 if (arr) products.products.setProducts(arr);
             });
         } else if (value === 'default') {

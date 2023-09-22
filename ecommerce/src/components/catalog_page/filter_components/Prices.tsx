@@ -7,7 +7,6 @@ import { Context } from '../../..';
 const onChange = (value: number | [number, number]) => {
     console.log('onChange: ', value);
     // const filterPrice = priceFilter(value);
-    // console.log(filterPrice);
 };
 
 const PricesFilter: React.FC = observer(() => {
@@ -21,10 +20,8 @@ const PricesFilter: React.FC = observer(() => {
     const attrActiveA = products.products.getActiveAttributes();
     const args = queryArgsDef(types, categories, attrActiveA);
     const onAfterChange = async (value: [number, number]) => {
-        console.log('onAfterChange: ', value);
         // eslint-disable-next-line @typescript-eslint/no-use-before-define
         const filterPrice = await priceFilter(value, args);
-        console.log(filterPrice);
         products.products.setProducts(filterPrice);
     };
     return (

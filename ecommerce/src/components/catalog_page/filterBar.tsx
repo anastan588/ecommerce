@@ -31,7 +31,6 @@ const FilterBar: React.FC = observer(() => {
     ];
     // const itemNest = products.products.attributes.map((item, i) => { return {key: i, label: item, children: }}))
     const onChange = (key: string | string[]) => {
-        // console.log(key);
     };
 
     return (

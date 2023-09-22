@@ -29,7 +29,6 @@ const TypesBar: React.FC = observer(() => {
     const hudleEvent = async (id: string) => {
         // eslint-disable-next-line @typescript-eslint/no-shadow
         const productsType = await productsTypeTwo(id);
-        console.log(productsType);
         products.setProducts(productsType);
         /* const type = products.getTypes().find((item) => item.id === `${id}`);
         const typeArr: TypeProducts[] = [];
@@ -39,7 +38,6 @@ const TypesBar: React.FC = observer(() => {
         } */
         /* productsType().then(({ body }) => {
             // const { id } = body.results[0];
-            console.log(body.results);
             const productsTypeProducts = () => {
                 return apiRoot
                     .productProjections()
@@ -59,20 +57,16 @@ const TypesBar: React.FC = observer(() => {
                         prices: item.masterVariant.prices,
                     };
                 });
-                console.log(names);
                 products.setProducts(names);
             });
         }); */
     };
 
     const onChange3 = async ({ target: { value } }: RadioChangeEvent) => {
-        console.log('radio3 checked', value);
-        console.log(value);
         const activeAttr = products.getActiveAttributes();
         activeAttr.forEach((item) => products.delActiveAttributes(item));
         const sortItem = document.getElementById('sort');
         sortItem?.setAttribute('defaultvalue', 'default');
-        console.log(sortItem);
         if (value === 'All') {
             const defaulProd: Obj[] = await productsResTwo();
             products.setProducts(defaulProd);
@@ -84,14 +78,12 @@ const TypesBar: React.FC = observer(() => {
             const type = products.getTypes().find((item) => item.name === value);
             const typeArr: TypeProducts[] = [];
             if (type) {
-                console.log(type.id);
                 hudleEvent(type.id);
                 typeArr.push(type);
                 products.setTypes(typeArr);
                 const catId: string[] = await categoryFilterTypeCategory(type.id);
                 const catObj = products.getCategory().filter((item) => catId.find((i) => i === item.id));
                 products.setCategory(catObj);
-                console.log(catObj);
             }
         }
         setValue3(value);

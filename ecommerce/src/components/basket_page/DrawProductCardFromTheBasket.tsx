@@ -49,8 +49,6 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
     // price of product
     const priceProduct = props.product.price.discounted?.value.centAmount;
 
-    /* console.log(priceProduct); */
-
     // count in basket
     const countProduct1 = props.product.quantity;
 
@@ -58,20 +56,10 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
 
     let priceAfterPromoCode: number | undefined;
 
-    /* console.log('in object for promoCode'); */
     const arrTemp = props.product.discountedPricePerQuantity;
-    /* console.log(arrTemp);
-    console.log(Array.isArray(arrTemp)); */
     if (arrTemp.length > 0) {
-        /* console.log(arrTemp[0].discountedPrice.value.centAmount);
-        console.log(typeof arrTemp[0].discountedPrice.value.centAmount) */
         priceAfterPromoCode = arrTemp[0].discountedPrice.value.centAmount;
     }
-
-    /* console.log('priceAfterPromoCode');
-    console.log(priceAfterPromoCode); */
-
-    /* console.log(priceProduct); */
 
     // count in basket
     // let countProduct = props.product.quantity;
@@ -82,38 +70,27 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
             const { refreshToken } = tokenStore;
             // const getCartsCastomer = await getCartsAuth(refreshToken);
             const quant = await changeProductAuth(refreshToken, props.product.id, countProduct);
-            /* console.log(quant); */
             if(quant) {cart.setProducts(quant)}
             const quantTotal = await getQuantityAuth(refreshToken);
             if (quantTotal) cart.setQuantity(quantTotal);
         } else {
             const quant = await changeProductAnonim(props.product.id, countProduct);
-            /* console.log(quant); */
             if(quant) {cart.setProducts(quant)}
             const quantTotal = await getQuantityAnonimus();
             if (quantTotal) cart.setQuantity(quantTotal);
         }
     };
 
-    /* console.log(countProduct); */
     const addProduct = () => {
-        /* console.log('add product');
-        console.log(countProduct); */
         countProduct += 1;
-        /* console.log(countProduct); */
         setQuantity(countProduct);
-        /* console.log(quantity); */
         handleEvent();
     };
 
     const deleteProduct = () => {
-        /* console.log('product less');
-        console.log(countProduct); */
         if (countProduct > 0) {
             countProduct -= 1;
-            /* console.log(countProduct); */
             setQuantity(countProduct);
-            /* console.log(quantity); */
             handleEvent();
         }
     };
@@ -124,7 +101,6 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
             const { refreshToken } = tokenStore;
             // const getCartsCastomer = await getCartsAuth(refreshToken);
             const itemProduct = await removeItemCastomer(refreshToken, props.product.id);
-            /* console.log(itemProduct); */
             if (itemProduct) {
                 cart.setProducts(itemProduct);
                 const arr = itemProduct.slice(0);
@@ -136,7 +112,6 @@ const DrawProductCardFromTheBasket: React.FC<{ product: LineItem }> = (props: Pr
             }
         } else {
             const itemProduct = await removeItemAnonim(props.product.id);
-            /* console.log(itemProduct); */
             if (itemProduct) {
                 cart.setProducts(itemProduct);
                 const arr = itemProduct.slice(0);

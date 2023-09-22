@@ -26,11 +26,8 @@ const Categories: React.FC = observer(() => {
     const options = products.products.getCategory().map((item) => {
         return { value: item.name, label: item.name };
     });
-    // console.log(options);
 
     const handleChange = async (value: string) => {
-        console.log(`selected ${value}`);
-        console.log(value);
         const array = value.toString().split(',');
         const types = products.products.getTypes();
         const categoryAct = products.products.getCategoryActive();
@@ -38,11 +35,8 @@ const Categories: React.FC = observer(() => {
             categoryAct.forEach((item) => products.products.delCategoryActive(item));
         }
         let categories: CategoryType[] = [];
-        // console.log(types.length);
         console.log(value.length);
         if (types.length === 2 && value.length === 0) {
-            // console.log(types.length);
-            // console.log(value.length);
             // const defaulProd = await productsResTwo();
             // products.products.setProducts(defaulProd);
             const setCategory = await categoriesSet();
@@ -51,10 +45,7 @@ const Categories: React.FC = observer(() => {
             products.products.setCategory(setCategory);
             categories = products.products.getCategory();
         } else if (types.length === 1 && value.length === 0) {
-            // console.log(types.length);
-            // console.log(value.length);
             // const productsType = await productsTypeTwo(types[0].id);
-            // console.log(productsType);
             // products.products.setProducts(productsType);
             const catSet = await categoriesSet();
             const catId = await categoryFilterTypeCategory(types[0].id);
@@ -75,7 +66,6 @@ const Categories: React.FC = observer(() => {
                     catObj.push(item);
                 }
             });
-            console.log(catObj);
             products.products.setCategory(catObj);
             // const cat: CategoryType[] = [];
             array.forEach((item) => {
@@ -95,10 +85,8 @@ const Categories: React.FC = observer(() => {
                     const category: CategoryType | undefined = products.products
                         .getCategory()
                         .find((item) => item.name === `${val}`);
-                    console.log(category?.id);
                     if (category) {
                         const ar = categoryFilterProductsArr(category.id).then((body) => {
-                            console.log(body);
                             const arr: Obj[] = body.body.results.map((v) => {
                                 return {
                                     id: v.id,
@@ -110,16 +98,13 @@ const Categories: React.FC = observer(() => {
                                     prices: v.masterVariant.prices,
                                 };
                             });
-                            console.log(arr);
                             return arr;
                             // products.products.setProducts(arr);
                         });
-                        console.log(await ar);
                         if (ar) return ar;
                     }
                 })
             );
-            console.log(await a);
             const b = (await a).flat().filter((item) => item !== undefined);
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             const c: any = [];
@@ -128,7 +113,6 @@ const Categories: React.FC = observer(() => {
                     c.push(item);
                 }
             });
-            console.log(c);
             products.products.setProducts(c); */
         /* const arrayT = value.toString().split(',');
             const cat: CategoryType[] = [];
@@ -139,7 +123,6 @@ const Categories: React.FC = observer(() => {
                 }
             });
             // const categorySet = products.products.getCategory().filter((item) => item.name === value);
-            console.log(cat);
             products.products.setCategory(cat);
         } */
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -148,10 +131,8 @@ const Categories: React.FC = observer(() => {
                 const category: CategoryType | undefined = products.products
                     .getCategory()
                     .find((item) => item.name === `${val}`);
-                console.log(category);
                 if (category) {
                     categoryFilterProductsArr(category.id).then((body) => {
-                        console.log(body);
                         const arr: Obj[] = body.body.results.map((v) => {
                             return {
                                 id: v.id,
@@ -162,14 +143,12 @@ const Categories: React.FC = observer(() => {
                                 prices: v.masterVariant.prices,
                             };
                         });
-                        console.log(arr);
                         products.products.setProducts(arr);
                         return arr;
                     });
                 }
             })
         );
-        console.log(await productCat);
         // console.log(await Promise.all(productCat));
         // products.products.setProducts(await Promise.all(productCat)); */
     };

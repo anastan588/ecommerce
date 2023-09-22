@@ -15,12 +15,6 @@ export function UserInformation() {
 
     return (
         <Layout key={'/my-profile/user-information'}>
-            {/* <Header style={{ padding: 0, background: colorBgContainer }}>
-                <div style={{ padding: 24, minHeight: 360, background: colorBgContainer }}>
-                    <Title level={3}>User Information</Title>
-                </div>
-            </Header> */}
-
             <Content
                 style={{
                     margin: '24px 16px 0',

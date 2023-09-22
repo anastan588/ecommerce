@@ -20,7 +20,6 @@ export const Attributeitem: React.FC<{ item: AttributeType }> = (props) => {
             categories = categoryActive;
         }
         if (value.length === 0) {
-            // console.log(array);
             const objInactive: AttributeType | undefined = products.products
                 .getActiveAttributes()
                 .find((i) => i.name === props.item.name);
@@ -45,7 +44,6 @@ export const Attributeitem: React.FC<{ item: AttributeType }> = (props) => {
             a.forEach((v) => c.push(v[0]));
             console.log(c.every((item) => item === ''));
             if (c.every((item) => item === '')) {
-                // console.log(attrActiveA[0].name);
                 attrActiveA = products.products.getAttributes();
             }
             const argsVal = queryArgsDef(types, categories, attrActiveA);
@@ -76,7 +74,6 @@ const AttributesBar: React.FC = observer(() => {
         };
     });
     const onChange = (key: string | string[]) => {
-        console.log(key);
     };
 
     return <Collapse className="filter_bar" onChange={onChange} items={items} />;

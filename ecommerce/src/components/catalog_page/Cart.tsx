@@ -49,7 +49,6 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
                     props.item.id,
                     getCartsCastomer.version
                 ).finally(() => setLoading(false));
-                // console.log(itemsCart);
                 if (itemsCart) {
                     cart.setProducts(itemsCart);
                     const arr = itemsCart.slice(0);
@@ -68,7 +67,6 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
                         return acc + item;
                     }, 0);
                     cart.setQuantity(length); }
-                // console.log(addProd);
                 const getCarts = await getCartsAuth(refreshToken);
                 if (getCarts) {
                     const arr: CartType[] = [];
@@ -86,7 +84,6 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
                     props.item.id,
                     getCartsAnonim.version
                 ).finally(() => setLoading(false));
-                // console.log(itemsCart);
                 if (itemsCart) {
                     cart.setProducts(itemsCart);
                     const arr = itemsCart.slice(0);
@@ -107,7 +104,6 @@ const ButtonCarts: React.FC<{ item: Obj }> = (props) => {
                         return acc + item;
                     }, 0);
                     cart.setQuantity(length); }
-                // console.log(addProd);
                 setValue3('В корзине!');
                 setStyle('button_carts-changed');
             }

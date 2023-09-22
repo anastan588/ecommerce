@@ -34,7 +34,6 @@ type FieldType = {
 
 function AddRessesEdit() {
     const notifyAddressAdd = () => {
-        console.log('notify');
         toast.success('New address was added', {
             position: 'top-center',
             autoClose: 2000,
@@ -200,10 +199,8 @@ function AddRessesEdit() {
                                                 type="text"
                                                 value={text.streetName}
                                                 onChange={(event) => {
-                                                    console.log(event.target.value);
                                                     text.streetName = event.target.value;
                                                     setText(text);
-                                                    console.log(text);
                                                     version = customer.body.version;
                                                 }}
                                             />
@@ -281,10 +278,8 @@ function AddRessesEdit() {
                                                 type="text"
                                                 value={text.city}
                                                 onChange={(event) => {
-                                                    console.log(event.target.value);
                                                     text.city = event.target.value;
                                                     setText(text);
-                                                    console.log(text);
                                                     version = customer.body.version;
                                                 }}
                                             />
@@ -311,10 +306,8 @@ function AddRessesEdit() {
                                                 type="text"
                                                 value={text.postalCode}
                                                 onChange={(event) => {
-                                                    console.log(event.target.value);
                                                     text.postalCode = event.target.value;
                                                     setText(text);
-                                                    console.log(text);
                                                     version = customer.body.version;
                                                 }}
                                             />
@@ -348,10 +341,8 @@ function AddRessesEdit() {
                                                 ]}
                                                 value={text.country}
                                                 onChange={(value) => {
-                                                    console.log(value);
                                                     text.country = value;
                                                     setText(text);
-                                                    console.log(text);
                                                     version = customer.body.version;
                                                 }}
                                             />

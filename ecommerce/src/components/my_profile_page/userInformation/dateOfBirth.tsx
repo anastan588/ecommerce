@@ -9,7 +9,6 @@ let version = 0;
 
 function DateOfBirthEdit() {
     const notifyDateOfBirth = () => {
-        console.log('notify');
         toast.info('Date of birth was updated', {
             position: 'top-center',
             autoClose: 2000,
@@ -26,10 +25,7 @@ function DateOfBirthEdit() {
         return store.updateCustomer(vers);
     }
     const customerJSON = localStorage.getItem('currentCustomer') as string;
-    // console.log(customerJSON);
     const customer = JSON.parse(customerJSON);
-    // console.log(customer);
-    // console.log(customer.body.firstName);
     const [text, setText] = useState(customer);
     const [isEdit, setIsEdit] = useState(false);
     let returnDateOfBirth: ReactElement = <div>{text.body.dateOfBirth}</div>;
@@ -53,7 +49,6 @@ function DateOfBirthEdit() {
                     onFinish={() => {
                         setIsEdit(false);
                         sendUpdateCustomerToServer(version).then(() => notifyDateOfBirth());
-                        console.log(customer.body.dateOfBirth);
                     }}
                 >
                     <Form.Item
@@ -102,11 +97,8 @@ function DateOfBirthEdit() {
                             type="date"
                             value={text.body.dateOfBirth}
                             onChange={(event) => {
-                                console.log(text.body.dateOfBirth);
-                                console.log(event.target.value);
                                 customer.body.dateOfBirth = event.target.value;
                                 version = customer.body.version;
-                                console.log(customer);
                                 const customerUpdate = JSON.stringify(customer);
                                 localStorage.removeItem('currentCustomer');
                                 localStorage.setItem('currentCustomer', customerUpdate);
@@ -135,7 +127,6 @@ function DateOfBirthEdit() {
                     icon={<EditOutlined />}
                     onClick={() => {
                         setIsEdit(true);
-                        console.log(isEdit);
                     }}
                 >
                     Edit

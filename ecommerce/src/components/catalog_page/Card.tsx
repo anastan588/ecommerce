@@ -21,8 +21,6 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
 
     // eslint-disable-next-line @typescript-eslint/no-shadow
     async function openProductPage(idPlants: string) {
-        console.log('open product card');
-        console.log(idPlants);
         const item = getProductById(props.item.id).then((body) => {
             const arr = [];
             arr.push({
@@ -37,7 +35,6 @@ const ProductsItem: React.FC<{ item: Obj }> = (props) => {
             products.setProductItem(arr);
             return arr;
         });
-        console.log(await item);
         updateID(idPlants);
         navigate(`/productpage/${idPlants}`);
     }
