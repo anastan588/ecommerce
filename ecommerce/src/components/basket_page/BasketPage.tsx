@@ -32,16 +32,12 @@ const getProductsFromServerForAnonymUser = async (
     setBasketEmpty: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
     const getCartsAnonym = await getCartsAnonimus();
-    /* console.log('in getProductFromServerForAnonymUser function');
-    console.log(getCartsAnonym); */
     const temp = await apiRootAnonimusClientCastomer
         .me()
         .activeCart()
         .get()
         .execute()
         .then((body) => {
-            console.log('the get Carts anonymousID from');
-            console.log(body.body.lineItems);
             const arr = body.body.lineItems;
 
             setProductInBasket(arr);
@@ -71,18 +67,13 @@ const getProductsFromServer = async (
     const mapToken = getLocalStorage();
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
 
-    console.log('arrayProductInBasket');
-    console.log(arrayProductInBasket);
-
     if (arrayProductInBasket) {
         setProductInBasket(arrayProductInBasket);
         setBasketEmpty(arrayProductInBasket.length === 0);
     }
 };
 
-const clearBasketOnServer = async () => {
-    console.log('clear Basket on server');
-};
+const clearBasketOnServer = async () => {};
 
 const defineCostOfAllFlowers = async (
     setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
@@ -93,8 +84,6 @@ const defineCostOfAllFlowers = async (
     const { token } = getLocalStorage();
     const mapToken = getLocalStorage();
     const arrayProductInBasket = await RequestProductInBasketFromServer(mapToken.refreshToken);
-    console.log('arrayProductCost');
-    console.log(arrayProductInBasket);
 
     if (arrayProductInBasket) {
         arrayProductInBasket.map((item) => {
@@ -114,10 +103,6 @@ const defineCostOfAllFlowers = async (
             return 1;
         });
 
-        console.log('costSummary');
-        console.log(costSummary);
-
-
         setSummaryCost(costSummary);
         setCountProduct(countProduct);
     }
@@ -130,7 +115,7 @@ const clearBasket = async () => {
 const lineItemsDiscountAnonim = async (
     code: string,
     setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
-    setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
+    setSummaryCost: React.Dispatch<React.SetStateAction<number>>
 ) => {
     const arr1 = await addCodeAnonim(code);
 
@@ -140,9 +125,6 @@ const lineItemsDiscountAnonim = async (
         .get()
         .execute()
         .then((body) => {
-            /* console.log(body);
-        console.log(body.body.anonymousId);
-        console.log(code); */
             const { id } = body.body;
             const { version } = body.body;
             const arr = () => {
@@ -155,20 +137,12 @@ const lineItemsDiscountAnonim = async (
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            /* console.log(body);
-                        console.log(body.body.lineItems); */
-
                             const arrayProductAfterPromoCode = body.body.lineItems;
-                            /* console.log('arrayAfterPromoCode');
-                            console.log(body.body.totalPrice.centAmount); */
                             setSummaryCost(body.body.totalPrice.centAmount);
 
                             setProductInBasket(arrayProductAfterPromoCode);
 
                             arrayProductAfterPromoCode.map((item) => {
-                                /* console.log(item);
-                            console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount) */
-
                                 return 1;
                             });
 
@@ -179,7 +153,6 @@ const lineItemsDiscountAnonim = async (
                         })
                 );
             };
-            console.log(arr());
             return arr();
         })
         .catch((e) => console.log(e));
@@ -188,7 +161,7 @@ const lineItemsDiscountAnonim = async (
 const lineItemsDiscountAuth = async (
     code: string,
     setProductInBasket: React.Dispatch<React.SetStateAction<LineItem[]>>,
-    setSummaryCost: React.Dispatch<React.SetStateAction<number>>,
+    setSummaryCost: React.Dispatch<React.SetStateAction<number>>
 ) => {
     const tokenStore = getLocalStorage();
     const { refreshToken } = tokenStore;
@@ -196,7 +169,6 @@ const lineItemsDiscountAuth = async (
 
     const client = getClientWithToken(refreshToken);
     const apiRootToken = createApiBuilderFromCtpClient(client);
-    /* console.log(token); */
     const arrTemp = apiRootToken
         .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
         .me()
@@ -217,17 +189,11 @@ const lineItemsDiscountAuth = async (
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            /* console.log('i am in then of lineItemsDiscountAuth1') */
                             const arrayProductAfterPromoCode = body.body.lineItems;
-                            /* console.log('arrayAfterPromoCode'); */
-
                             setProductInBasket(arrayProductAfterPromoCode);
                             setSummaryCost(body.body.totalPrice.centAmount);
 
                             arrayProductAfterPromoCode.map((item) => {
-                                /* console.log(item);
-                                console.log(item.discountedPricePerQuantity[0].discountedPrice.value.centAmount) */
-
                                 return 1;
                             });
 
@@ -248,7 +214,6 @@ const lineItemsDiscountAuth = async (
 
 const BasketPage = () => {
     const { store, cart } = useContext(Context);
-    /* console.log('start Basket'); */
     const [productsArrayInBasket, setProductInBasket] = useState<LineItem[]>([]);
     const [summaryCost, setSummaryCost] = useState(0);
     const [countOfProduct, setCountProduct] = useState(0);
@@ -278,21 +243,16 @@ const BasketPage = () => {
             /* productsArrayInBasket.forEach(product => DrawProductCardFromTheBasket(product)); */
             defineCostOfAllFlowers(setSummaryCost, setCountProduct);
         } else {
-            /* console.log('unauthorizated1111'); */
             getProductsFromServerForAnonymUser(setProductInBasket, setCountProduct, setSummaryCost, setBasketEmpty);
         }
         products = cart.getProducts();
         quantity = cart.getQuantity();
-        console.log(quantity);
     }, [quantity, products]);
-    console.log('productArrayInBasket');
-    console.log(productsArrayInBasket);
 
     const handleEvent = async () => {
         if (store.isAuth) {
             const tokenStore = getLocalStorage();
             const { refreshToken } = tokenStore;
-            // const getCartsCastomer = await getCartsAuth(refreshToken);
             const arr = await deleteAuth(refreshToken).finally(() => {
                 setLoading(false);
                 notifyEmptyCart();
@@ -310,14 +270,12 @@ const BasketPage = () => {
             });
             if (arr) setProductInBasket(arr);
             setProductInBasket([]);
-            console.log(productsArrayInBasket);
             cart.setQuantity(0);
             cart.setProducts([]);
             setSummaryCost(0);
             setIsModalOpen(false);
         }
 
-        console.log('clear basket');
         setBasketEmpty(true);
     };
 
@@ -342,15 +300,11 @@ const BasketPage = () => {
         }
     };
 
-    
-
     const showModal = () => {
         setIsModalOpen(true);
     };
 
-    const handleOk = () => {
-        
-    };
+    const handleOk = () => {};
 
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -398,7 +352,6 @@ const BasketPage = () => {
                         <Button
                             type="default"
                             onClick={() => {
-                                /* console.log(promoCode); */
                                 if (!store.isAuth) {
                                     lineItemsDiscountAnonim(promoCode, setProductInBasket, setSummaryCost);
                                 } else {

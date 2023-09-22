@@ -547,7 +547,6 @@ export function valiDateBirth() {
     const currentErrorMessage = document.querySelector(`.${registyles.error_birth}`) as HTMLParagraphElement;
     const currentFormInput = document.querySelector(`.${registyles.form_birth}`) as HTMLDivElement;
     const validationValue = currentInput.value.trim();
-    console.log(currentInput.value.trim());
     const todayDate = new Date();
     const dateForValidation = new Date(validationValue);
     // dateForValidation.setFullYear(Number(validationValue.slice(0, 4)));
@@ -679,10 +678,8 @@ export function valiDatePostCodeShip() {
 export function valiDateCountryChangeShip(option: string) {
     setTimeout(() => {
         const currentInput = document.querySelector(`.${registyles.input_country_ship}`) as HTMLElement;
-        console.log(currentInput);
         const selectCountryInput = currentInput.children[0].innerHTML;
         const currentErrorMessage = document.querySelector(`.${registyles.error_country_ship}`) as HTMLParagraphElement;
-        console.log(currentInput.children[1]);
         const input = currentInput.children[1].children[0].children[0] as HTMLInputElement;
 
         const currentFormInput = document.querySelector(`.${registyles.form_country_ship}`) as HTMLDivElement;
@@ -690,8 +687,6 @@ export function valiDateCountryChangeShip(option: string) {
         const postErrorMessage = document.querySelector(`.${registyles.error_postcode_ship}`) as HTMLParagraphElement;
         inputPostCodeShip.removeAttribute('disabled');
         inputPostCodeShip.classList.remove('ant-input-disabled');
-        console.log(selectCountryInput);
-        console.log(input.value.length);
         if (selectCountryInput === 'Select your country' && input.value.length === 0) {
             currentErrorMessage.innerHTML = 'Your need to choose country';
             currentInput.style.border = '1px solid #ff4d4f';

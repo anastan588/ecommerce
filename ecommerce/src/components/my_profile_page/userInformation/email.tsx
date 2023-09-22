@@ -9,7 +9,6 @@ let version = 0;
 
 function EmailEdit() {
     const notifyEmailSuccess = () => {
-        console.log('notify');
         toast.success('Email was updated', {
             position: 'top-center',
             autoClose: 2000,
@@ -22,7 +21,6 @@ function EmailEdit() {
         });
     };
     const notifyEmailError = () => {
-        console.log('notify');
         toast.error(`Current email already exists`, {
             position: 'top-center',
             autoClose: 2000,
@@ -65,7 +63,6 @@ function EmailEdit() {
                         sendUpdateCustomerToServer(version)
                             .then(() => notifyEmailSuccess())
                             .catch(() => notifyEmailError());
-                        console.log(customer.body.dateOfBirth);
                     }}
                 >
                     <Form.Item
@@ -86,11 +83,8 @@ function EmailEdit() {
                             style={{ width: '100%' }}
                             value={text.body.email}
                             onChange={(event) => {
-                                console.log(text.body.email);
-                                console.log(event.target.value);
                                 customer.body.email = event.target.value;
                                 version = customer.body.version;
-                                console.log(customer);
                                 const customerUpdate = JSON.stringify(customer);
                                 localStorage.removeItem('currentCustomer');
                                 localStorage.setItem('currentCustomer', customerUpdate);
@@ -119,7 +113,6 @@ function EmailEdit() {
                     icon={<EditOutlined />}
                     onClick={() => {
                         setIsEdit(true);
-                        console.log(isEdit);
                     }}
                 >
                     Edit

@@ -30,7 +30,7 @@ const AllMembers: React.FC = () => {
                     <Card
                         hoverable
                         style={{
-                            maxWidth: 240,
+                            maxWidth: 300,
                             display: 'flex',
                             flexDirection: 'column',
                             justifyContent: 'center',
@@ -63,7 +63,7 @@ const AllMembers: React.FC = () => {
                             >
                                 <img src={Github} alt="GitHub" style={{ maxHeight: 30 }} />
                             </Link>
-                            <Content style={{ textAlign: 'center', fontSize: 16, lineHeight: '120%' }}>
+                            <Content style={{ textAlign: 'center', fontSize: 13.5, lineHeight: '120%' }}>
                                 Anаstasiya занималась реализацией страницы регистрации пользователя и страницы профиля
                                 пользователя, страницей информации о комманде и дизайном оформления магазина.{' '}
                             </Content>
@@ -79,7 +79,7 @@ const AllMembers: React.FC = () => {
                     <Card
                         hoverable
                         style={{
-                            maxWidth: 240,
+                            maxWidth: 300,
                             display: 'flex',
                             flexDirection: 'column',
                             gap: 5,
@@ -110,10 +110,10 @@ const AllMembers: React.FC = () => {
                             >
                                 <img src={Github} alt="GitHub" style={{ maxHeight: 30 }} />
                             </Link>
-                            <Content style={{ textAlign: 'center', fontSize: 16, lineHeight: '120%' }}>
+                            <Content style={{ textAlign: 'center', fontSize: 13.5, lineHeight: '120%' }}>
                                 Yulia взяла на себя задачу Log In пользователя, а также была очень увлечена реализацией
                                 страницы каталога, всеми возможными видами фильтров и сортировок, улучшениями данной
-                                страницы.
+                                страницы. Боролась с SDK CommerceTools для реализации страницы корзины.
                             </Content>
                         </Col>
                     </Card>
@@ -127,7 +127,7 @@ const AllMembers: React.FC = () => {
                     <Card
                         hoverable
                         style={{
-                            maxWidth: 240,
+                            maxWidth: 300,
                             display: 'flex',
                             flexDirection: 'column',
                             gap: 5,
@@ -158,7 +158,7 @@ const AllMembers: React.FC = () => {
                             >
                                 <img src={Github} alt="GitHub" style={{ maxHeight: 30 }} />
                             </Link>
-                            <Content style={{ textAlign: 'center', fontSize: 16, lineHeight: '120%' }}>
+                            <Content style={{ textAlign: 'center', fontSize: 13.5, lineHeight: '120%' }}>
                                 Наш рыцарь Александр взял на себя задачу роутинга магазина и релизацию страницы продукта
                                 магазина, а также реализацию корзины.
                             </Content>

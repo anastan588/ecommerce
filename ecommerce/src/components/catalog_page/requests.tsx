@@ -7,7 +7,6 @@ export const categories = () => {
     return apiRoot.categories().get().execute();
 };
 categories().then(({ body }) => {
-    console.log(body);
     const arrId: (string | undefined)[] = [];
     // eslint-disable-next-line array-callback-return
     body.results.map((item) => {
@@ -42,7 +41,6 @@ const subCategoriesOne = () => {
 };
 
 subCategoriesOne().then(({ body }) => {
-    console.log(body);
     const arrId: (string | undefined)[] = [];
     // eslint-disable-next-line array-callback-return
     body.results.map((item) => {
@@ -210,12 +208,10 @@ export const productsTypeSet = () => {
 export const productsType = () => {
     return apiRoot.productTypes().get().execute();
     /* .then(({ body }) => {
-            console.log(body);
             const arr = body.results.map((item) => {
                 // eslint-disable-next-line @typescript-eslint/no-unused-expressions
                 return { id: item.id, name: item.name };
             });
-            console.log(arr);
         }); */
 };
 
@@ -391,7 +387,6 @@ export const priceFilter = (value?: number[], args?: string[]) => {
 };
 
 reqCarts().then((body) => {
-    console.log(body);
 });
 
 const reqCart = () => {
@@ -399,7 +394,6 @@ const reqCart = () => {
 };
 
 reqCart().then((body) => {
-    console.log(body);
 }); */
 
 export const createAnonimusCart = (prodId: string) => {
@@ -434,11 +428,8 @@ export const createAnonimusCart = (prodId: string) => {
 };
 
 /* createAnonimusCart().then((body) => {
-    console.log(body);
     const cartId = body.body.anonymousId;
     const { version } = body.body;
-    console.log(cartId);
-    console.log(version);
     return { cartId, version };
 }); */
 
@@ -450,16 +441,12 @@ export const createAnonimusCart = (prodId: string) => {
         .post({ body: { version, actions: [{ action: 'addLineItem', productId: prodId }] } })
         .execute()
         .then((body) => {
-            console.log(body);
         });
 }; */
 
-export const getCartsAuth = async (token: string) => {
-    console.log('getCartsAuth'); // это я добавил для тестирования
+export const getCartsAuth = async (token: string) => { // это я добавил для тестирования
     const client = getClientWithToken(token);
     const apiRootToken = createApiBuilderFromCtpClient(client);
-    console.log('token bin getCartsAuth');
-    console.log(token);
     const answer = await apiRootToken
         .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
         .me()
@@ -475,8 +462,6 @@ export const getCartsAuth = async (token: string) => {
             console.log(e);
         });
 
-    console.log('answer');
-    console.log(answer); // добавил для тесирования сам
     return answer;
 };
 
@@ -534,7 +519,6 @@ export const checkCartsById = (cartId: string) => {
         .get()
         .execute()
         .then((body) => {
-            console.log(body);
             return body;
         });
 };
@@ -546,7 +530,6 @@ export const getCartsAnonimus = () => {
         .get()
         .execute()
         .then((body) => {
-            console.log(body.body.anonymousId);
             const { id } = body.body;
             const { version } = body.body;
             return { id, version };
@@ -557,7 +540,6 @@ export const getCartsAnonimus = () => {
 export const getCartsProdAnonimus = () => {
     return apiRootAnonimusClientCastomer.me().activeCart().get().execute();
     /* .then((body) => {
-            console.log(body.body.results[0]);
             const { id } = body.body.results[0];
             const { version } = body.body.results[0];
             return { id, version };
@@ -620,7 +602,6 @@ export const checkProduct = (token: string) => {
         .get()
         .execute()
         .then((body) => {
-            console.log(body);
         });
 };
 
@@ -664,9 +645,6 @@ export const addCodeAnonim = (code: string) => {
         .get()
         .execute()
         .then((body) => {
-            console.log(body);
-            console.log(body.body.anonymousId);
-            console.log(code);
             const { id } = body.body;
             const { version } = body.body;
             const arr = () => {
@@ -679,8 +657,6 @@ export const addCodeAnonim = (code: string) => {
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            console.log(body);
-                            console.log(body.body.lineItems);
                             return body.body.lineItems;
                         })
                         .catch((e) => {
@@ -700,8 +676,6 @@ export const deleteAnonim = () => {
         .get()
         .execute()
         .then((body) => {
-            console.log(body);
-            console.log(body.body.anonymousId);
             const { id } = body.body;
             const { version } = body.body;
             const arr = () => {
@@ -714,8 +688,6 @@ export const deleteAnonim = () => {
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            console.log(body.statusCode);
-                            console.log(body.body.lineItems);
                             return body.body.lineItems;
                         })
                         .catch((e) => {
@@ -731,7 +703,6 @@ export const deleteAnonim = () => {
 export const addCodeAuth = (token: string, code: string) => {
     const client = getClientWithToken(token);
     const apiRootToken = createApiBuilderFromCtpClient(client);
-    console.log(token);
     return apiRootToken
         .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
         .me()
@@ -769,7 +740,6 @@ export const addCodeAuth = (token: string, code: string) => {
 export const deleteAuth = (token: string) => {
     const client = getClientWithToken(token);
     const apiRootToken = createApiBuilderFromCtpClient(client);
-    console.log(token);
     return apiRootToken
         .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
         .me()
@@ -790,7 +760,6 @@ export const deleteAuth = (token: string) => {
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            console.log(body.body.lineItems);
                             return body.body.lineItems;
                         })
                         .catch((e) => {
@@ -829,8 +798,6 @@ export const changeProductAnonim = (prodId: string, quantity: number) => {
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            console.log(body);
-                            console.log(body.body.lineItems[0].quantity);
                             return body.body.lineItems;
                         })
                         .catch((e) => {
@@ -847,7 +814,6 @@ export const changeProductAnonim = (prodId: string, quantity: number) => {
 export const changeProductAuth = (token: string, prodId: string, quantity: number) => {
     const client = getClientWithToken(token);
     const apiRootToken = createApiBuilderFromCtpClient(client);
-    console.log(token);
     return apiRootToken
         .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
         .me()
@@ -873,7 +839,6 @@ export const changeProductAuth = (token: string, prodId: string, quantity: numbe
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            console.log(body.body.lineItems);
                             return body.body.lineItems;
                         })
                         .catch((e) => {
@@ -931,7 +896,6 @@ export const getDiscountCode = () => {
         .get()
         .execute()
         /* .then((body) => {
-            console.log(body.body.results[0].code);
             const { code } = body.body.results[0];
             return code;
         }).catch((e) => console.log(e)) */
@@ -942,7 +906,6 @@ getDiscountCode();
 export const removeCodeAuth = (token: string, codeId: string) => {
     const client = getClientWithToken(token);
     const apiRootToken = createApiBuilderFromCtpClient(client);
-    console.log(token);
     return apiRootToken
         .withProjectKey({ projectKey: 'rsschool-final-task-stage2' })
         .me()
@@ -984,7 +947,6 @@ export const removeCodeAnonim = (codeId: string) => {
         .get()
         .execute()
         .then((body) => {
-            console.log(body);
             const { id } = body.body;
             const { version } = body.body;
             const arr = () => {
@@ -997,8 +959,6 @@ export const removeCodeAnonim = (codeId: string) => {
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            console.log(body);
-                            console.log(body.body.lineItems);
                             return body.body.lineItems;
                         })
                         .catch((e) => {
@@ -1034,7 +994,6 @@ export const removeItemCastomer = (token: string, prodId: string) => {
                         .execute()
                         // eslint-disable-next-line @typescript-eslint/no-shadow
                         .then((body) => {
-                            console.log(body.body.lineItems);
                             return body.body.lineItems;
                         })
                         .catch((e) => {
@@ -1053,7 +1012,6 @@ export const removeItemAnonim = (prodId: string) => {
         .get()
         .execute()
         .then((body) => {
-            console.log(body);
             const cartId = body.body.id;
             const { version } = body.body;
             const arr = () => {

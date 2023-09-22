@@ -26,9 +26,6 @@ let pathToStartImage: string = 'https://img3.procvetok.com/crop/w520h520/5c/ae/5
 export function setStartImageForModalWindow(pathToImage: string, indexProduct: number ) {
     indexPlants = indexProduct;
     pathToStartImage = pathToImage;
-/*     console.log('setStartModal')
-    console.log(indexPlants);
-    console.log(pathToImage); */
     /* setImageCurrent(pathToStartImage); */
 
 
@@ -38,9 +35,6 @@ export function setStartImageForModalWindow(pathToImage: string, indexProduct: n
 }
 
 const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
-    /* console.log('open modal window from');
-    console.log('path');
-    console.log(path) */
 
     let startValueModal: number = 25;
 
@@ -49,8 +43,6 @@ const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
     const setState = state[1];
 
     function addImage(i: number) {
-        /* console.log('path');
-        console.log(path) */
         const imageObj: ImagesType = arrayImage[i];
         if (imageObj) return imageObj.url;
         return 'https://img3.procvetok.com/crop/w520h520/5c/ae/5caed97990d7c7b29166cfb030880eae.webp';
@@ -60,8 +52,6 @@ const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
     
 
     function changeImage(i: number): void {
-/*         console.log('changeImage');
-        console.log(i); */
 
         setImageCurrent(addImage(i));
     }
@@ -73,21 +63,16 @@ const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
             .get()
             .execute()
             .then(async (body) => {
-                /* console.log('modal');
-                console.log(body.body.results); */
 
                 const bodyProducts = body.body.results;
 
                 const arrayImgTemp = [];
 
                 for (let i = 0; i < bodyProducts.length; i += 1) {
-                    /* console.log(bodyProducts[i].masterData.current.masterVariant.images); */
                     arrayImgTemp.push(bodyProducts[i].masterData.current.masterVariant.images as ImagesType[]);
                 }
 
-                /* console.log(arrayImgTemp.flat()); */
                 setState(arrayImgTemp.flat());
-                /* console.log(arrayImage); */
             });
     }, []);
 
@@ -96,8 +81,6 @@ const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
         const temp = arrayImage.map(item => item.url).indexOf(pathToStartImage);
         if (temp !== -1) startValueModal = temp + 1;
         setImageCurrent(pathToStartImage);
-/*         console.log('start value modal')
-        console.log(startValueModal) */
         changeStartImage(startValueModal);
 
 
@@ -109,10 +92,8 @@ const ModalWindow = ({ active, setActive, path }: ModalActiveType) => {
 
     }, [pathToStartImage, active])
 
-/*     console.log('add image'); */
     
     function closeModalWindow() {
-/*         console.log('close modal window'); */
         setActive(false);
     }
 

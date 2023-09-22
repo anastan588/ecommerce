@@ -27,9 +27,6 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
     const [disabled, setDisabled] = useState(true);
     const [size, setSize] = useState<SizeType>('middle'); // default is 'middle'
     let value = cart.getProducts().find((val) => val.productId === props.item.id);
-    // console.log(props.item.id);
-    // console.log(value?.id);
-    // console.log(value3);
     useEffect(() => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         value = cart.getProducts().find((val) => val.productId === props.item.id);
@@ -52,7 +49,6 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
                     props.item.id,
                     getCartsCastomer.version
                 ).finally(() => setLoading(false));
-                console.log(itemsCart);
                 if (itemsCart) {
                     cart.setProducts(itemsCart);
                     const arr = itemsCart.slice(0);
@@ -65,7 +61,6 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
             } else {
                 const addProd = await createCartAuth(refreshToken, props.item.id).finally(() => setLoading(false));
                 if (addProd) { cart.setProducts(addProd);
-                console.log(addProd);
                 const array = addProd.slice(0);
                     const lengthArr = array.map((item) => item.quantity);
                     const length = lengthArr.reduce((acc, item) => {
@@ -92,7 +87,6 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
                 ).finally(() => setLoading(false));
                 if (itemsCart) {
                     cart.setProducts(itemsCart);
-                    console.log(itemsCart);
                     const arr = itemsCart.slice(0);
                     const lengthArr = arr.map((item) => item.quantity);
                     const length = lengthArr.reduce((acc, item) => {
@@ -112,7 +106,6 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
                         return acc + item;
                     }, 0);
                     cart.setQuantity(length); }
-                console.log(addProd);
                 setValue3('В корзине!');
                 setStyle('button_carts-changed');
                 setDisabled(false);
@@ -137,7 +130,6 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
                             return acc + item;
                         }, 0);
                         cart.setQuantity(length);
-                        console.log(itemsCart);
                     }
                     setValue3('В корзину');
                     setStyle('button_carts');
@@ -150,7 +142,6 @@ const ButtonProduct: React.FC<{ item: Obj }> = (props) => {
                 const id = value?.id;
                 const itemsCart = await removeProductItemAnonim(getCartsAnonim.id, id, getCartsAnonim.version);
                 if (itemsCart) { cart.setProducts(itemsCart);
-                console.log(itemsCart);
                 const arr = itemsCart.slice(0);
                     const lengthArr = arr.map((item) => item.quantity);
                     const length = lengthArr.reduce((acc, item) => {

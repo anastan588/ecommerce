@@ -320,7 +320,6 @@ describe('valiDateStreetForBill', () => {
         checkBillAddressDefaultChild.classList.add('ant-checkbox-checked');
         checkShipAddressDefault.classList.add('input_checkbox_ship_def');
         checkShipAddressDefaultChild.classList.add('ant-checkbox-checked');
-        console.log('hello');
         window.document.body.append(currentErrorMessage);
         window.document.body.append(currentFormInput);
 

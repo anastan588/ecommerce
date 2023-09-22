@@ -26,10 +26,7 @@ function LastNameEdit() {
         return store.updateCustomer(vers);
     }
     const customerJSON = localStorage.getItem('currentCustomer') as string;
-    // console.log(customerJSON);
     const customer = JSON.parse(customerJSON);
-    // console.log(customer);
-    // console.log(customer.body.firstName);
     const [text, setText] = useState(customer);
     const [isEdit, setIsEdit] = useState(false);
     let returnLastname: ReactElement = <div>{text.body.lastName}</div>;
@@ -54,7 +51,6 @@ function LastNameEdit() {
                     onFinish={() => {
                         setIsEdit(false);
                         sendUpdateCustomerToServer(version).then(() => notifyLastName());
-                        console.log(customer.body.lastName);
                     }}
                 >
                     <Form.Item
@@ -109,11 +105,8 @@ function LastNameEdit() {
                             type="text"
                             value={text.body.lastName}
                             onChange={(event) => {
-                                console.log(text.body.lastName);
-                                console.log(event.target.value);
                                 customer.body.lastName = event.target.value;
                                 version = customer.body.version;
-                                console.log(customer);
                                 const customerUpdate = JSON.stringify(customer);
                                 localStorage.removeItem('currentCustomer');
                                 localStorage.setItem('currentCustomer', customerUpdate);
@@ -142,7 +135,6 @@ function LastNameEdit() {
                     icon={<EditOutlined />}
                     onClick={() => {
                         setIsEdit(true);
-                        console.log(isEdit);
                     }}
                 >
                     Edit

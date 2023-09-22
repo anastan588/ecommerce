@@ -70,16 +70,12 @@ let idPlants: string = '37e040f3-3e80-4197-b3fc-64afbbc2dc35';
 let indexPlants: number = 0;
 
 export function updateID(id: string) {
-    /*     console.log('idPlants');
-    console.log(idPlants); */
     idPlants = id;
-    /* console.log(idPlants); */
 }
 
 const ProductPage: React.FC = observer(() => {
     const products = useContext(Context);
     const objItem: Obj = products.products.getProductItem()[0];
-    console.log(objItem);
     const state = useState({});
     const product: ProductType = state[0];
     const setProduct = state[1];
@@ -111,9 +107,6 @@ const ProductPage: React.FC = observer(() => {
             .get()
             .execute()
             .then((body) => {
-                /* console.log('body.body.results')
-                console.log(body.body.results); */
-
                 const productCard = body.body.results.filter((item, index) => {
                     if (item.id === idPlants) {
                         indexPlants = index;
@@ -121,13 +114,9 @@ const ProductPage: React.FC = observer(() => {
                     }
                     return false;
                 });
-                /* console.log('control')
-                console.log(productCard[0]);
-                console.log(body.body.results[0]); */
 
                 setProduct(productCard[0]);
 
-                /* setProduct(body.body.results[0]); */
             });
     }, []);
 

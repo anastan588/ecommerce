@@ -66,13 +66,11 @@ const CatalogPage = observer(() => {
                                     const attributesVal = body.results.map((value) => {
                                         return value.masterVariant.attributes;
                                     });
-                                    // console.log(attributesVal);
                                     const valAttr = attributesVal.map((v) => {
                                         return v?.find((i) => i.name === item);
                                     });
                                     if (valAttr) {
                                         const ar: string[] = valAttr.map((i) => i?.value);
-                                        // console.log(ar);
                                         const s: Set<string> = new Set();
                                         ar.forEach((i) => s.add(i));
                                         return { name: item, value: Array.from(s) };

@@ -14,7 +14,6 @@ const products = new ProductsStore();
 const cart = new BasketStore();
 // eslint-disable-next-line import/prefer-default-export
 export const Context = createContext({ store, products, cart });
-// export const ProductsContext = createContext({ products });
 
 const element = document.querySelector('#root');
 
@@ -28,15 +27,6 @@ if (element) {
         </Context.Provider>
     );
 }
-
-/* const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
-root.render(
-    <Context.Provider value={{ store }}>
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
-    </Context.Provider>
-); */
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
